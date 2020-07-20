@@ -1,0 +1,17 @@
+.headerComponent {
+  span {
+    font-size: 14px;
+    font-weight: 600;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.36;
+    letter-spacing: normal;
+    color: #4a4a4a;
+    float: right;
+    &:hover {
+      cursor: pointer;
+      text-decoration: underline;
+      color: #ff6600;
+    }
+  }
+}

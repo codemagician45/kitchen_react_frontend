@@ -1,0 +1,39 @@
+.componentOfferList {
+  width: 400px;
+  height: 305px;
+  border-radius: 20px;
+  border: solid 1px #0090e3;
+  float: right;
+  margin-top: 5%;
+  @media screen and (max-width: 961px) {
+    float: none;
+    // margin-left: 25%;
+    width: 300px;
+    height: 340px;
+  }
+}
+.listContent {
+  margin: {
+    top: 20px;
+  }
+
+  h2 {
+    color: #0090e3;
+    line-height: 0.58;
+    font-weight: 600;
+    font-size: 24px;
+    padding: 16px;
+  }
+}
+
+.typeCell {
+  width: 122px;
+  font-size: 14px;
+  font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.36;
+  letter-spacing: normal;
+  text-align: left;
+  color: #000000;
+}

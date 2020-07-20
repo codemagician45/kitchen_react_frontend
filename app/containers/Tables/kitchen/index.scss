@@ -1,0 +1,116 @@
+.typeCell {
+  font-size: 14px;
+  font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.36;
+  letter-spacing: normal;
+  text-align: left;
+  color: #000000;
+}
+
+.reactionCell {
+  font-size: 14px;
+  font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.36;
+  letter-spacing: normal;
+  text-align: center;
+  color: #ff6600;
+  cursor: pointer;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+.tableComponent {
+  width: 98%;
+}
+.messagesComponent {
+  padding: 16px;
+}
+.messagesRow {
+  margin-top: 5px;
+}
+
+.companyCell {
+  width: 100%;
+  h3 {
+    font-size: 14px;
+    font-weight: 600;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.36;
+    letter-spacing: normal;
+    text-align: left;
+    color: #000000;
+  }
+  span {
+    font-size: 12px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: italic;
+    line-height: 1.67;
+    letter-spacing: normal;
+    text-align: left;
+    color: #559f00;
+  }
+}
+.multiTableContainer {
+  margin-top: 5px;
+
+  .actifType {
+    background-color: #7ed321;
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+  }
+  .passifType {
+    background-color: #9b9b9b;
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+  }
+}
+
+.buyButton {
+  width: 168px;
+  height: 41px;
+  border-radius: 18px;
+  border: solid 1px #0090e3;
+  background-color: #ffffff;
+  text-align: center;
+  span {
+    font-size: 20px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.35;
+    letter-spacing: normal;
+    text-align: center;
+    color: #0090e3;
+  }
+  img {
+    width: 20.8px;
+    height: 18.1px;
+    object-fit: contain;
+    margin-left: 20px;
+  }
+}
+
+@media (max-width: 959.95px) {
+  .MuiTableCell-root {
+    padding: 25px;
+  }
+
+  .Responsive_pdf {
+    margin-top: -25px;
+    width: 30px;
+  }
+
+  .buyButton {
+    margin-top: -17px;
+    width: 140px;
+    height: 35px;
+  }
+}

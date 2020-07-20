@@ -1,0 +1,54 @@
+.ReactangleConmponent {
+  width: 230px;
+  height: 240px;
+  border-radius: 20px;
+  border: solid 1px #0090e3;
+  background-color: rgba(255, 255, 255, 0.87);
+  text-align: center;
+  float: right;
+  @media screen and (max-width: 961px) {
+    float: none;
+    // margin-left: 25%;
+    margin-left: 15%;
+    margin-top: 30px;
+  }
+  h3 {
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 0.58;
+    letter-spacing: normal;
+    text-align: left;
+    color: #0090e3;
+    text-align: center;
+    margin-top: 10%;
+    &:hover {
+      color: #ff6600;
+    }
+  }
+  h1 {
+    font-size: 130px;
+    font-weight: 800;
+    line-height: 0.11;
+    letter-spacing: normal;
+    text-align: left;
+    color: #0090e3;
+    text-align: center;
+    margin-top: 30%;
+    margin-bottom: 30%;
+    &:hover {
+      color: #ff6600;
+    }
+  }
+  a {
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.36;
+    letter-spacing: normal;
+    text-align: center;
+    color: rgba(100, 181, 246, 0.5);
+    &:hover {
+      color: #ff6600;
+      cursor: pointer;
+    }
+  }
+}
