@@ -26,6 +26,7 @@ import { googleLogin, facebookLogin } from "../../../data/data";
 class LoginV2 extends React.Component {
   state = {
     error: false,
+    errorMessage: "",
   };
 
   componentWillMount() {
@@ -50,13 +51,15 @@ class LoginV2 extends React.Component {
       const { values } = this.props.form.toJS();
       login(values)
         .then((res) => {
-          if (!res.login) {
+          if (!res.data.login) {
             this.setState({ error: true });
+            this.setState({errorMessage: res.data.error})
           } else {
+            console.log(res)
             this.setState({ error: false });
-            const { type } = res.user;
-            localStorage.setItem("user", JSON.stringify(res.user));
-            localStorage.setItem("token", res.token);
+            const { type } = res.data.user;
+            localStorage.setItem("user", JSON.stringify(res.data.user));
+            localStorage.setItem("token", res.data.token);
             this.redirect(type);
           }
         })
@@ -72,6 +75,7 @@ class LoginV2 extends React.Component {
       .then((res) => {
         if (!res.data.login) {
           this.setState({ error: true });
+          this.setState({errorMessage: res.data.error})
         } else {
           this.setState({ error: false });
           const { type } = res.data.user;
@@ -79,10 +83,9 @@ class LoginV2 extends React.Component {
           localStorage.setItem("token", res.data.token);
           this.redirect(type);
         }
-        console.log(res);
       })
       .catch((error) => {
-        console.log(error.message);
+        console.log(error.data.error);
         this.setState({ error: true });
       });
   };
@@ -157,6 +160,7 @@ class LoginV2 extends React.Component {
             <LoginFormV2
               onSubmit={(values) => this.submitForm(values)}
               loginError={error}
+              loginErrorMessage={this.state.errorMessage}
               loginByGoogle={this.loginByGoogle}
               loginByFacebook={this.loginByFacebook}
             />

@@ -12,23 +12,20 @@ const headers = {
 };
 
 function login(data) {
-  return fetch(`${config.fetchLinkUrl}login`, {
+  console.log(data);
+  return axios({
     method: "POST",
+    url: `${config.fetchLinkUrl}login`,
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data),
+    data: data
   })
     .then((res) => {
-      if (res.status === 403) {
-        return { isError: true, shouldLogin: true };
-      }
-
-      return res.json();
-    })
-    .then((res) => {
-      if (res.error) {
-        return Promise.reject(res.error);
-      }
+      console.log(res);
       return res;
+    })
+    .catch((error) => {
+      console.log(error.response.data);
+      return error.response;
     });
 }
 
@@ -39,16 +36,12 @@ function googleLogin(tokenId) {
     data: { tokenId: tokenId },
   })
     .then((res) => {
-      if (res.status === 403) {
-        return { isError: true, shouldLogin: true };
-      }
+      console.log(res);
       return res;
     })
-    .then((res) => {
-      if (res.error) {
-        return Promise.reject(res.error);
-      }
-      return res;
+    .catch((error) => {
+      console.log(error.response.data);
+      return error.response;
     });
 }
 

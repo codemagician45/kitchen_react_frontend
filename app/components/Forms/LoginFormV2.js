@@ -58,8 +58,9 @@ const LoginFormV2 = (props) => {
     submitting,
     deco,
     loginError,
+    loginErrorMessage,
     loginByGoogle,
-    loginByFacebook
+    loginByFacebook,
   } = props;
   const [showPassword, setShowPassword] = useState(false);
 
@@ -99,24 +100,8 @@ const LoginFormV2 = (props) => {
       </div>
       <section className={classes.socmedSideLogin}>
         <div className={classes.btnArea}>
-          {/* <Button
-              variant="contained"
-              className={classes.button}
-              id="facebook"
-              startIcon={<LoginIcon src={facebook} alt="" />}
-            >
-              INLOGGEN MET FACEBOOK
-            </Button>
-            <Button
-              id="gLogin"
-              variant="contained"
-              className={classes.button}
-              startIcon={<LoginIcon src={gIcon} alt="" />}
-            >
-              INLOGGEN MET GMAIL
-            </Button> */}
           <FacebookLogin
-            appId="585553439018015"
+            appId="617787612458000"
             // autoLoad={true}
             fields="name,email,picture"
             callback={responseFacebook}
@@ -125,7 +110,7 @@ const LoginFormV2 = (props) => {
             textButton="&nbsp;&nbsp;INLOGGEN MET FACEBOOK"
           />
           <GoogleLogin
-            clientId="349953809553-4vlf56got9g5p0qb4s2rtmtej6k5itso.apps.googleusercontent.com"
+            clientId="300747581681-p58b4tked146c633es2md8ubfuf1r1un.apps.googleusercontent.com"
             buttonText="INLOGGEN MET GMAIL"
             onSuccess={responseGoogle}
             onFailure={responseGoogle}
@@ -192,7 +177,8 @@ const LoginFormV2 = (props) => {
             </Button>
           </div>
           {loginError && (
-            <div>uw wachtwoord of gebruikersnaam zijn niet correct</div>
+            // <div>uw wachtwoord of gebruikersnaam zijn niet correct</div>
+            <div>{loginErrorMessage}</div>
           )}
           <div className={classes.btnArea}>
             <Button
