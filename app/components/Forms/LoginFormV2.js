@@ -103,6 +103,7 @@ const LoginFormV2 = (props) => {
           <FacebookLogin
             appId="617787612458000"
             // autoLoad={true}
+            isMobile={false}
             fields="name,email,picture"
             callback={responseFacebook}
             cssClass="btnFacebook"
