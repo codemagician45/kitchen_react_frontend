@@ -17,7 +17,7 @@ function login(data) {
     method: "POST",
     url: `${config.fetchLinkUrl}login`,
     headers: { "Content-Type": "application/json" },
-    data: data
+    data: data,
   })
     .then((res) => {
       console.log(res);
@@ -52,16 +52,12 @@ function facebookLogin(accessToken, userID) {
     data: { accessToken: accessToken, userID: userID },
   })
     .then((res) => {
-      if (res.status === 403) {
-        return { isError: true, shouldLogin: true };
-      }
+      console.log(res);
       return res;
     })
-    .then((res) => {
-      if (res.error) {
-        return Promise.reject(res.error);
-      }
-      return res;
+    .catch((error) => {
+      console.log(error.response.data);
+      return error.response;
     });
 }
 

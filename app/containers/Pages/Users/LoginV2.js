@@ -96,6 +96,7 @@ class LoginV2 extends React.Component {
       .then((res) => {
         if (!res.data.login) {
           this.setState({ error: true });
+          this.setState({errorMessage: res.data.error})
         } else {
           this.setState({ error: false });
           const { type } = res.data.user;
@@ -103,7 +104,6 @@ class LoginV2 extends React.Component {
           localStorage.setItem("token", res.data.token);
           this.redirect(type);
         }
-        console.log(res);
       })
       .catch((error) => {
         console.log(error.message);
