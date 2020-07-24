@@ -20,22 +20,22 @@ const AdminDashBoard = () => {
   const [offersData, setOffersData] = useState([]);
   useEffect(() => {
     adminDashBoardCounts().then((res) => {
-      if (res.isError || res.shouldLogin) {
+      if (res.data.isError || res.data.shouldLogin) {
         console.error("errors");
       }
-      if (res.error) {
+      if (res.data.error) {
         console.error("error");
       }
       console.log("I am here", res);
       let card_data = [
-        { number: res.offersCount, title: "Nieuwe offertes", link: "Bekijken" },
-        { number: res.companiesCount, title: "Bedrijven", link: "Bekijken" },
-        { number: res.clientCount, title: "Klanten", link: "Bekijken" },
+        { number: res.data.offersCount, title: "Nieuwe offertes", link: "Bekijken" },
+        { number: res.data.companiesCount, title: "Bedrijven", link: "Bekijken" },
+        { number: res.data.clientCount, title: "Klanten", link: "Bekijken" },
         { number: 45, title: "Reacties", link: "Bekijken" },
       ];
       setRectangleData(card_data);
 
-      setOffersData(res.lastOffers)
+      setOffersData(res.data.lastOffers)
 
     //   res.lastOffers.map(element => {
     //     let element_data = {

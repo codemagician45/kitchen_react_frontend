@@ -42,13 +42,11 @@ class UserMenu extends React.Component {
   };
 
   handleClose = () => {
-    console.log('dawdwa');
     this.setState({ anchorEl: null, openMenu: null });
   };
 
   handleLogout = () => {
-    localStorage.removeItem('user');
-    localStorage.removeItem('token');
+    window.localStorage.clear();
   }
 
   componentDidMount() {

@@ -7,10 +7,6 @@
 import config from "../actions/config";
 import axios from "axios";
 
-const headers = {
-  Authorization: "Bearer " + localStorage.getItem("token"),
-};
-
 function login(data) {
   console.log(data);
   return axios({
@@ -105,28 +101,24 @@ function createOrderFromWidget(data) {
 }
 
 function adminDashBoardCounts() {
-  return fetch(`${config.fetchLinkUrl}admin/dashboard/counts`, {
+  return axios({
     method: "POST",
-    headers: headers,
+    url: `${config.fetchLinkUrl}admin/dashboard/counts`,
+    headers: {Authorization: "Bearer " + localStorage.getItem("token")}
   })
     .then((res) => {
-      if (res.status === 403) {
-        return { isError: true, shouldLogin: true };
-      }
-      return res.json();
-    })
-    .then((res) => {
-      if (res.error) {
-        return Promise.reject(res.error);
-      }
       return res;
+    })
+    .catch((error) => {
+      console.log(error.response.data);
+      return error;
     });
 }
 
 function adminDashBoardOffers() {
   return fetch(`${config.fetchLinkUrl}admin/offers`, {
     method: "POST",
-    headers: headers,
+    headers: {Authorization: "Bearer " + localStorage.getItem("token")}
   })
     .then((res) => {
       if (res.status === 403) {
@@ -145,7 +137,7 @@ function adminDashBoardOffers() {
 function adminDashboardUsers() {
   return fetch(`${config.fetchLinkUrl}admin/dashboard/users`, {
     method: "POST",
-    headers: headers,
+    headers: {Authorization: "Bearer " + localStorage.getItem("token")}
   })
     .then((res) => {
       if (res.status === 403) {
@@ -164,7 +156,7 @@ function adminDashboardUsers() {
 function adminDashBoardCompanies() {
   return fetch(`${config.fetchLinkUrl}admin/dashboard/companies`, {
     method: "POST",
-    headers: headers,
+    headers: {Authorization: "Bearer " + localStorage.getItem("token")}
   })
     .then((res) => {
       if (res.status === 403) {
@@ -181,28 +173,24 @@ function adminDashBoardCompanies() {
 }
 
 function companyOffers() {
-  return fetch(`${config.fetchLinkUrl}companies/offers`, {
+  return axios({
     method: "POST",
-    headers: headers,
+    url: `${config.fetchLinkUrl}companies/offers`,
+    headers: {Authorization: "Bearer " + localStorage.getItem("token")}
   })
     .then((res) => {
-      if (res.status === 403) {
-        return { isError: true, shouldLogin: true };
-      }
-      return res.json();
-    })
-    .then((res) => {
-      if (res.error) {
-        return Promise.reject(res.error);
-      }
       return res;
+    })
+    .catch((error) => {
+      console.log(error.response.data);
+      return error;
     });
 }
 
 function userOffers() {
   return fetch(`${config.fetchLinkUrl}users/offers`, {
     method: "POST",
-    headers: headers,
+    headers: {Authorization: "Bearer " + localStorage.getItem("token")}
   })
     .then((res) => {
       if (res.status === 403) {
@@ -219,9 +207,10 @@ function userOffers() {
 }
 
 function molliePay(amount) {
+  console.log(headers)
   return axios({
     method: "POST",
-    headers: headers,
+    headers: {Authorization: "Bearer " + localStorage.getItem("token")},
     url: `${config.fetchLinkUrl}companies/pay`,
     data: { amount: amount },
   })
