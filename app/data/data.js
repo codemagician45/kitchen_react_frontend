@@ -207,7 +207,6 @@ function userOffers() {
 }
 
 function molliePay(amount) {
-  console.log(headers)
   return axios({
     method: "POST",
     headers: {Authorization: "Bearer " + localStorage.getItem("token")},
