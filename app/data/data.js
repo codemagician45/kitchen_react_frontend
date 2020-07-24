@@ -221,6 +221,7 @@ function userOffers() {
 function molliePay(amount) {
   return axios({
     method: "POST",
+    headers: headers,
     url: `${config.fetchLinkUrl}companies/pay`,
     data: { amount: amount },
   })
