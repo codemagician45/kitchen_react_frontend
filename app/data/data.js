@@ -231,7 +231,7 @@ function molliePay(amount) {
     })
     .catch((error) => {
       console.log(error.response.data);
-      return error.response;
+      return error;
     });
 }
 

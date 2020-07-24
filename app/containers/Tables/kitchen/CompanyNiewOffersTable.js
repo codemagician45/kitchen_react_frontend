@@ -46,7 +46,7 @@ const CompanyNiewOffersTable = (props) => {
     molliePay(50)
       .then((res) => {
         console.log(res.data);
-        window.location.href = res.data;
+        if(res.data) window.location.href = res.data;
       })
       .catch((error) => {
         console.log(error);
