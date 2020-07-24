@@ -218,6 +218,22 @@ function userOffers() {
     });
 }
 
+function molliePay(amount) {
+  return axios({
+    method: "POST",
+    url: `${config.fetchLinkUrl}companies/pay`,
+    data: { amount: amount },
+  })
+    .then((res) => {
+      console.log(res);
+      return res;
+    })
+    .catch((error) => {
+      console.log(error.response.data);
+      return error.response;
+    });
+}
+
 export {
   login,
   googleLogin,
@@ -230,4 +246,5 @@ export {
   adminDashBoardCompanies,
   companyOffers,
   userOffers,
+  molliePay
 };
