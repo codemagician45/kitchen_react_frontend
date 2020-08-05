@@ -8,7 +8,6 @@ import Switch from '@material-ui/core/Switch';
 /* Textfield */
 export const TextFieldRedux = ({ meta: { touched, error }, input, ...rest }) => {
   const [val, setVal] = useState('');
-  console.log(input.value)
   return (
     <TextField
       {...rest}

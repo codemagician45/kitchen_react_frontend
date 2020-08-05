@@ -31,17 +31,12 @@ const AdminDashBoard = () => {
         { number: res.data.offersCount, title: "Nieuwe offertes", link: "Bekijken" },
         { number: res.data.companiesCount, title: "Bedrijven", link: "Bekijken" },
         { number: res.data.clientCount, title: "Klanten", link: "Bekijken" },
-        { number: 45, title: "Reacties", link: "Bekijken" },
+        { number: res.data.reactionCount, title: "Reacties", link: "Bekijken" },
       ];
       setRectangleData(card_data);
 
       setOffersData(res.data.lastOffers)
 
-    //   res.lastOffers.map(element => {
-    //     let element_data = {
-    //         id: 
-    //     }
-    //   })
     });
   }, []);
 
@@ -74,8 +69,6 @@ const AdminDashBoard = () => {
     createUserData("Modernkeuken 23", "18-08-2019", 3),
     createUserData("Modernkeuken 25", "18-08-2019", 3),
   ];
-
-  console.log(UserData)
 
   const messagesData = [
     createData("logo", "Keukenconcurrent", "Tot ziens.."),

@@ -57,7 +57,7 @@ class Users extends React.Component {
           <Route path="/users/offers/:id" component={UserOffersDetails} />
           <Route path="/users/messages" component={Chat} />
           <Route path="/users/newOffer" component={UserNewOfferPage} />
-          <Route path="/users/profiler" component={UsersProfile} />                    
+          <Route path="/users/profiles" component={UsersProfile} />                    
           <Route path="/app/pages/blank-page" component={BlankPage} />
 
           {/* Default */}

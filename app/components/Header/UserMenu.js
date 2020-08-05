@@ -65,9 +65,9 @@ class UserMenu extends React.Component {
       if (user.type === 'admin') {
         linkProfiler = '/admin/profiler'
       } else if (user.type === 'company') {
-        linkProfiler = '/companies/profiler';
+        linkProfiler = '/companies/profiles';
       } else {
-        linkProfiler = '/users/profiler';
+        linkProfiler = '/users/profiles';
       }
     }
 

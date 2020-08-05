@@ -44,6 +44,8 @@ const LinkBtn = React.forwardRef(function LinkBtn(props, ref) {
   https://github.com/gregnb/mui-datatables/blob/master/README.md
 */
 const AdminActifTable = (props) => {
+  const [tableData, setTableData] = useState([]);
+
   useEffect(() => {
     adminDashBoardOffers().then((res) => {
       if (res.isError || res.shouldLogin) {
@@ -53,6 +55,21 @@ const AdminActifTable = (props) => {
         console.error("error");
       }
       console.log("I am here", res);
+      let table_data = [];
+      res.active.map((element) => {
+        let row_data = [
+          element.type,
+          element.createdAt.split("T")[0],
+          element.profile.first_name,
+          element.profile.city,
+          element.answer_one,
+          "€ 12.500",
+          "€ 50",
+          element.id
+        ]
+        table_data.push(row_data);
+      })
+      setTableData(table_data);
     });
   }, []);
   const columns = [
@@ -169,7 +186,7 @@ const AdminActifTable = (props) => {
   };
   return (
     <div className={css2.multiTableContainer}>
-      <MUIDataTable data={data} columns={columns} options={options} />
+      <MUIDataTable data={tableData} columns={columns} options={options} />
     </div>
   );
 };

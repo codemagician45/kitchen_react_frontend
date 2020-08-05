@@ -84,11 +84,11 @@ const AdminConceptTable = (props) => {
       let table_data = [];
       res.concept.map((element) => {
         let row_data = [
-          element.name,
+          element.type,
           element.createdAt.split("T")[0],
           element.profile.first_name,
           element.city,
-          "3 manden",
+          element.answer_one,
           "pdf",
           "link",
         ];

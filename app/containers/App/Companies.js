@@ -50,7 +50,7 @@ class Companies extends React.Component {
           <Route exact path="/companies/offers" component={CompaniesOffersPage} />
           <Route path="/companies/offers/:id" component={CompaniesOffersDetailsPage} />
           <Route path="/companies/messages" component={Chat} />
-          <Route path="/companies/profiler" component={CompaniesProfile} />
+          <Route path="/companies/profiles" component={CompaniesProfile} />
           <Route component={NotFound} />
         </Switch>
       </Dashboard>

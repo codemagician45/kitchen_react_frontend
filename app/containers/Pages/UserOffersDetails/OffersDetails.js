@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import pdfImage from "../../../../images/pdf.svg";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
@@ -36,8 +36,8 @@ const Rectangle = styled.div`
       font-weight: 600;
     }
     .secondDiv {
-        margin-left: 20px !important;
-      }
+      margin-left: 20px !important;
+    }
     .lastDiv {
       span {
         font-weight: 600;
@@ -76,54 +76,53 @@ const DetailsContainer = styled.div`
     }
   }
 `;
-export default class OffersDetails extends Component {
-  state = {
-    file: [],
-  };
+const OffersDetails = (props) => {
+  const offer_data = props.offer_data;
+  console.log(offer_data)
+  return (
+    <div>
+      <DetailsContainer>
+        <div className="list-item">
+          <div>Type:</div>
+          {offer_data.length?offer_data[0].type:""}
+        </div>
+        <div className="list-item">
+          <div>Datum:</div>
+          {offer_data.length?offer_data[0].createdAt.split("T")[0]:""}
+        </div>
+        <div className="list-item">
+          <div>Prijs:</div>
+          {/* € 12.450 ( of n.v.t ) */}
+        </div>
+        <div className="list-item">
+          <div>Item1:</div>
+          Omschrijving van item
+        </div>
+        <div className="list-item">
+          <div>Item2:</div>
+          Omschrijving van item
+        </div>
+        <div className="list-item">
+          <div>Item3:</div>
+          Omschrijving van item
+        </div>
+      </DetailsContainer>
+      <Rectangle>
+        <div className="headerReactangle">Bestanden</div>
+        <div className="offersList">
+          <div className="firstDiv">
+            <img src={pdfImage} />
+          </div>
+          <div className="secondDiv">Offerte 12-02-2019.pdf</div>
+          <div className="lastDiv">
+            <span>Bekijken</span>
+            <span> Vervijderen</span>
+          </div>
+        </div>
+        <div />
+      </Rectangle>
+    </div>
+  );
+};
 
-  render() {
-    return (
-      <div>
-        <DetailsContainer>
-          <div className="list-item">
-            <div>Type:</div>
-            Offete vergelijking
-          </div>
-          <div className="list-item">
-            <div>Datum:</div>
-            18-08-2019
-          </div>
-          <div className="list-item">
-            <div>Prijs:</div>€ 12.450 ( of n.v.t )
-          </div>
-          <div className="list-item">
-            <div>Item1:</div>
-            Omschrijving van item
-          </div>
-          <div className="list-item">
-            <div>Item2:</div>
-            Omschrijving van item
-          </div>
-          <div className="list-item">
-            <div>Item3:</div>
-            Omschrijving van item
-          </div>
-        </DetailsContainer>
-        <Rectangle>
-          <div className="headerReactangle">Bestanden</div>
-          <div className="offersList">
-            <div className="firstDiv">
-              <img src={pdfImage} />
-            </div>
-            <div className="secondDiv">Offerte 12-02-2019.pdf</div>
-            <div className="lastDiv">
-              <span>Bekijken</span>
-              <span> Vervijderen</span>
-            </div>
-          </div>
-          <div />
-        </Rectangle>
-      </div>
-    );
-  }
-}
+export default OffersDetails;

@@ -5,148 +5,159 @@
 /* eslint-disable indent */
 /* eslint-disable react/jsx-indent */
 
+import React, { useState, useEffect } from "react";
+import { withStyles } from "@material-ui/core/styles";
+import PropTypes from "prop-types";
+import LinearProgress from "@material-ui/core/LinearProgress";
+import MUIDataTable from "mui-datatables";
+import css from "dan-styles/Buttons.scss";
+import Button from "@material-ui/core/Button";
 
-import React from 'react';
-import { withStyles } from '@material-ui/core/styles';
-import PropTypes from 'prop-types';
-import LinearProgress from '@material-ui/core/LinearProgress';
-import MUIDataTable from 'mui-datatables';
-import css from 'dan-styles/Buttons.scss';
-import Button from '@material-ui/core/Button';
+import { Link } from "react-router-dom";
+import css2 from "./index.scss";
+import { userOffers } from "../../../data/data"
 
-import { Link } from 'react-router-dom';
-import css2 from './index.scss';
-
-
-
-const styles = theme => ({
-    table: {
-        '& > div': {
-            overflow: 'auto'
+const styles = (theme) => ({
+  table: {
+    "& > div": {
+      overflow: "auto",
+    },
+    "& table": {
+      minWidth: 500,
+      [theme.breakpoints.down("md")]: {
+        "& td": {
+          height: 40,
         },
-        '& table': {
-            minWidth: 500,
-            [theme.breakpoints.down('md')]: {
-                '& td': {
-                    height: 40
-                }
-            }
-        }
-    }
+      },
+    },
+  },
 });
-const LinkBtn = React.forwardRef(function LinkBtn(props, ref) { // eslint-disable-line
-    return <Link to={props.to} {...props} innerRef={ref} />; // eslint-disable-line
+const LinkBtn = React.forwardRef(function LinkBtn(props, ref) {
+  // eslint-disable-line
+  return <Link to={props.to} {...props} innerRef={ref} />; // eslint-disable-line
 });
 /*
   It uses npm mui-datatables. It's easy to use, you just describe columns and data collection.
   Checkout full documentation here :
   https://github.com/gregnb/mui-datatables/blob/master/README.md
 */
-class AdvFilter extends React.Component {
-    state = {
-        columns: [
-            {
-                name: 'Offerte type',
-                options: {
-                    filter: true
-                }
-            },
-            {
-                name: 'Datum',
-                options: {
-                    filter: true,
-                }
-            },
-            {
-                name: 'Reacties',
-                options: {
-                    filter: false,
-                    customBodyRender: (value) => (
-                        <LinearProgress variant="determinate" color="secondary" value={value[0]} />
-                    )
-                }
-            },
-            {
-                name: 'Status',
-                options: {
-                    filter: false,
-                    customBodyRender: (value) => this.renderStatus(value)
-                }
-            },
-            {
-                name: "",
-                options: {
-                    filter: false,
-                    customBodyRender: (value) => this.renderLink(value)
-                }
-            },
-        ],
-        data: [
-            ['Offerte vergelijking 1', '18-08-2019', [100, 2], 'actief', "1"],
-            ['Offerte aanvraag 1', 'Business Consultant', [55, 2], 'concept', "2"],
-            ['3d ontwerp 1 ', 'Attorney', [27, 2], 'afgehandeld', "3"],
-        ]
-    }
+const OffersListKlantTable = (props) => {
+  const { classes } = props;
+  const options = {
+    onRowsDelete: (e) => {
+      console.log(e);
+      console.log("shfeu");
+    },
+    filterType: "dropdown",
+    responsive: "stacked",
+    print: true,
+    rowsPerPage: 10,
+    page: 0,
+  };
+  const columns = [
+    {
+      name: "Offerte type",
+      options: {
+        filter: true,
+      },
+    },
+    {
+      name: "Datum",
+      options: {
+        filter: true,
+      },
+    },
+    {
+      name: "Reacties",
+      options: {
+        filter: false,
+        customBodyRender: (value) => (
+          <LinearProgress
+            variant="determinate"
+            color="secondary"
+            value={value[0]}
+          />
+        ),
+      },
+    },
+    {
+      name: "Status",
+      options: {
+        filter: false,
+        customBodyRender: (value) => renderStatus(value),
+      },
+    },
+    {
+      name: "",
+      options: {
+        filter: false,
+        customBodyRender: (value) => renderLink(value),
+      },
+    },
+  ];
+  const data = [
+    ["Offerte vergelijking 1", "18-08-2019", [100, 2], "actief", "1"],
+    ["Offerte aanvraag 1", "Business Consultant", [55, 2], "concept", "2"],
+    ["3d ontwerp 1 ", "Attorney", [27, 2], "afgehandeld", "3"],
+  ];
 
-    renderLink(link) {
-        return (
-            <Button
-                variant="contained"
-                color=""
-                className={css.seeButton}
-                onClick={() => {
-                    this.props.history.push('/users/offers/' + link)
-                }}
-            >
-                BEKIJKEN &nbsp; &#x279C;
-            </Button>
-        );
-    }
+  const [tableData, setTableData] = useState([]);
 
+  useEffect(() => {
+    userOffers().then((res) => {
+      if (res.isError || res.shouldLogin) {
+        console.error("errors");
+      }
+      if (res.error) {
+        console.error("error");
+      }
+      console.log("I am here", res);
+      let data_array = [];
+      res.data.map(element => {
+        let reactions = [];
+        if(element.status === "concept") reactions = [33, 2];
+        else if(element.status === "active") reactions = [90, 2];
+        else if(element.status === "done") reactions = [100, 2];
+        let raw_array = [element.type, element.createdAt.split("T")[0], reactions, element.status, element.id];
+        data_array.push(raw_array);
+      })
+      setTableData(data_array);
+    });
+  }, []);
 
-    renderStatus(status) {
-        let name = status + 'Button';
-        console.log(css[name]);
-        return (
-            <Button
-                variant="contained"
-                color=""
-                className={css[name]}
-            >
-                {status.toUpperCase()}
-            </Button>
-        );
-    }
+  const renderLink = (id) => {
+    return (
+      <Button
+        variant="contained"
+        color=""
+        className={css.seeButton}
+        onClick={() => {
+          props.history.push("/users/offers/" + id);
+        }}
+      >
+        BEKIJKEN &nbsp; &#x279C;
+      </Button>
+    );
+  };
 
-    render() {
-        const { columns, data } = this.state;
-        const { classes } = this.props;
-        const options = {
-            onRowsDelete:
-                (e) => {
-                    console.log(e);
-                    console.log("shfeu");
-                },
-            filterType: 'dropdown',
-            responsive: 'stacked',
-            print: true,
-            rowsPerPage: 10,
-            page: 0
-        };
-        return (
-            <div className={css2.multiTableContainer}>
-                <MUIDataTable
-                    data={data}
-                    columns={columns}
-                    options={options}
-                />
-            </div>
-        );
-    }
-}
+  const renderStatus = (status) => {
+    let name = status + "Button";
+    return (
+      <Button variant="contained" color="" className={css[name]}>
+        {status.toUpperCase()}
+      </Button>
+    );
+  };
 
-AdvFilter.propTypes = {
-    classes: PropTypes.object.isRequired
+  return (
+    <div className={css2.multiTableContainer}>
+      <MUIDataTable data={tableData} columns={columns} options={options} />
+    </div>
+  );
 };
 
-export default withStyles(styles)(AdvFilter);
+OffersListKlantTable.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(OffersListKlantTable);

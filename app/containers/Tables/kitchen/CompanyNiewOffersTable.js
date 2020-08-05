@@ -5,7 +5,7 @@
 /* eslint-disable indent */
 /* eslint-disable react/jsx-indent */
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { withStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
 import MUIDataTable from "mui-datatables";
@@ -15,7 +15,7 @@ import css2 from "./index.scss";
 
 import pdfImage from "./images/pdf.svg";
 import idealImage from "./images/ideal.svg";
-import { molliePay } from "../../../data/data";
+import { molliePay, companyOffers } from "../../../data/data";
 
 const styles = (theme) => ({
   table: {
@@ -42,16 +42,44 @@ const LinkBtn = React.forwardRef(function LinkBtn(props, ref) {
   https://github.com/gregnb/mui-datatables/blob/master/README.md
 */
 const CompanyNiewOffersTable = (props) => {
+  const [tableData, setTableData] = useState([]);
+
+  useEffect(() => {
+    companyOffers().then((res) => {
+      if (res.isError || res.shouldLogin) {
+        console.error("errors");
+      }
+      if (res.error) {
+        console.error("error");
+      }
+      console.log("I am here", res.data);
+      let table_data = [];
+      res.data.new.map((element) => {
+        let row_data = [
+          element.type,
+          element.createdAt.split("T")[0],
+          element.city,
+          "€ 12.500",
+          "pdf",
+          renderBuy(50),
+        ];
+        table_data.push(row_data);
+      });
+      setTableData(table_data);
+    });
+  }, []);
+
   const payForBid = () => {
     molliePay(50)
       .then((res) => {
         console.log(res.data);
-        if(res.data) window.location.href = res.data;
+        if (res.data) window.location.href = res.data;
       })
       .catch((error) => {
         console.log(error);
       });
   };
+
   const renderBuy = (value) => {
     let name = "€" + value + ",-";
     return (
@@ -61,6 +89,7 @@ const CompanyNiewOffersTable = (props) => {
       </div>
     );
   };
+
   const columns = [
     {
       name: "Offerte type",
@@ -101,6 +130,7 @@ const CompanyNiewOffersTable = (props) => {
       name: "Kopen",
     },
   ];
+
   const data = [
     [
       "Modernkeuken 23 Offerte vergelijken",
@@ -236,7 +266,6 @@ const CompanyNiewOffersTable = (props) => {
   const options = {
     onRowsDelete: (e) => {
       console.log(e);
-      console.log("shfeu");
     },
     filterType: "dropdown",
     responsive: "stacked",
@@ -244,9 +273,10 @@ const CompanyNiewOffersTable = (props) => {
     rowsPerPage: 10,
     page: 0,
   };
+
   return (
     <div className={css2.multiTableContainer}>
-      <MUIDataTable data={data} columns={columns} options={options} />
+      <MUIDataTable data={tableData} columns={columns} options={options} />
     </div>
   );
 };

@@ -78,8 +78,9 @@ function createUser(data) {
 }
 
 function createOrderFromWidget(data) {
-  return fetch(`${config.fetchLinkUrl}widget/offer`, {
+  return axios({
     method: "POST",
+    url: `${config.fetchLinkUrl}widget/offer`,
     headers: {
       Accept: "application/json",
       "Content-Type": "multipart/form-data",
@@ -87,16 +88,11 @@ function createOrderFromWidget(data) {
     data: data,
   })
     .then((res) => {
-      if (res.status === 403) {
-        return { isError: true, shouldLogin: true };
-      }
+      console.log(res);
       return res;
     })
-    .then((res) => {
-      if (res.error) {
-        return Promise.reject(res.error);
-      }
-      return res;
+    .catch((error) => {
+      return error;
     });
 }
 
@@ -104,7 +100,7 @@ function adminDashBoardCounts() {
   return axios({
     method: "POST",
     url: `${config.fetchLinkUrl}admin/dashboard/counts`,
-    headers: {Authorization: "Bearer " + localStorage.getItem("token")}
+    headers: { Authorization: "Bearer " + localStorage.getItem("token") },
   })
     .then((res) => {
       return res;
@@ -118,7 +114,7 @@ function adminDashBoardCounts() {
 function adminDashBoardOffers() {
   return fetch(`${config.fetchLinkUrl}admin/offers`, {
     method: "POST",
-    headers: {Authorization: "Bearer " + localStorage.getItem("token")}
+    headers: { Authorization: "Bearer " + localStorage.getItem("token") },
   })
     .then((res) => {
       if (res.status === 403) {
@@ -137,7 +133,7 @@ function adminDashBoardOffers() {
 function adminDashboardUsers() {
   return fetch(`${config.fetchLinkUrl}admin/dashboard/users`, {
     method: "POST",
-    headers: {Authorization: "Bearer " + localStorage.getItem("token")}
+    headers: { Authorization: "Bearer " + localStorage.getItem("token") },
   })
     .then((res) => {
       if (res.status === 403) {
@@ -156,7 +152,7 @@ function adminDashboardUsers() {
 function adminDashBoardCompanies() {
   return fetch(`${config.fetchLinkUrl}admin/dashboard/companies`, {
     method: "POST",
-    headers: {Authorization: "Bearer " + localStorage.getItem("token")}
+    headers: { Authorization: "Bearer " + localStorage.getItem("token") },
   })
     .then((res) => {
       if (res.status === 403) {
@@ -176,7 +172,7 @@ function companyOffers() {
   return axios({
     method: "POST",
     url: `${config.fetchLinkUrl}companies/offers`,
-    headers: {Authorization: "Bearer " + localStorage.getItem("token")}
+    headers: { Authorization: "Bearer " + localStorage.getItem("token") },
   })
     .then((res) => {
       return res;
@@ -188,30 +184,145 @@ function companyOffers() {
 }
 
 function userOffers() {
-  return fetch(`${config.fetchLinkUrl}users/offers`, {
+  return axios({
     method: "POST",
-    headers: {Authorization: "Bearer " + localStorage.getItem("token")}
+    url: `${config.fetchLinkUrl}users/offers`,
+    headers: { Authorization: "Bearer " + localStorage.getItem("token") },
   })
     .then((res) => {
-      if (res.status === 403) {
-        return { isError: true, shouldLogin: true };
-      }
-      return res.json();
-    })
-    .then((res) => {
-      if (res.error) {
-        return Promise.reject(res.error);
-      }
       return res;
+    })
+    .catch((error) => {
+      console.log(error.response.data);
+      return error;
+    });
+}
+
+function userOfferDetailGet(id) {
+  return axios({
+    method: "POST",
+    headers: { Authorization: "Bearer " + localStorage.getItem("token") },
+    url: `${config.fetchLinkUrl}users/getOffer`,
+    data: { id },
+  })
+    .then((res) => {
+      console.log(res);
+      return res;
+    })
+    .catch((error) => {
+      console.log(error.response.data);
+      return error;
+    });
+}
+
+function userProfileGet(user_id) {
+  return axios({
+    method: "POST",
+    headers: { Authorization: "Bearer " + localStorage.getItem("token") },
+    url: `${config.fetchLinkUrl}users/profiles`,
+    data: { user_id },
+  })
+    .then((res) => {
+      console.log(res);
+      return res;
+    })
+    .catch((error) => {
+      console.log(error.response.data);
+      return error;
+    });
+}
+
+function userProfileDataUpload(data) {
+  return axios({
+    method: "POST",
+    headers: { Authorization: "Bearer " + localStorage.getItem("token") },
+    url: `${config.fetchLinkUrl}users/profile/upload_data`,
+    data: data,
+  })
+    .then((res) => {
+      console.log(res);
+      return res;
+    })
+    .catch((error) => {
+      console.log(error.response.data);
+      return error;
+    });
+}
+
+function userProfilePhotoUpload(data) {
+  return axios({
+    method: "POST",
+    headers: { Authorization: "Bearer " + localStorage.getItem("token") },
+    url: `${config.fetchLinkUrl}users/profile/upload_photo`,
+    data: data,
+  })
+    .then((res) => {
+      console.log(res);
+      return res;
+    })
+    .catch((error) => {
+      console.log(error.response.data);
+      return error;
     });
 }
 
 function molliePay(amount) {
   return axios({
     method: "POST",
-    headers: {Authorization: "Bearer " + localStorage.getItem("token")},
+    headers: { Authorization: "Bearer " + localStorage.getItem("token") },
     url: `${config.fetchLinkUrl}companies/pay`,
     data: { amount: amount },
+  })
+    .then((res) => {
+      console.log(res);
+      return res;
+    })
+    .catch((error) => {
+      console.log(error.response.data);
+      return error;
+    });
+}
+
+function companyProfileGet(user_id) {
+  return axios({
+    method: "POST",
+    headers: { Authorization: "Bearer " + localStorage.getItem("token") },
+    url: `${config.fetchLinkUrl}companies/profiles`,
+    data: { user_id },
+  })
+    .then((res) => {
+      console.log(res);
+      return res;
+    })
+    .catch((error) => {
+      console.log(error.response.data);
+      return error;
+    });
+}
+
+function companyProfileDataUpload(data) {
+  return axios({
+    method: "POST",
+    headers: { Authorization: "Bearer " + localStorage.getItem("token") },
+    url: `${config.fetchLinkUrl}companies/profile/upload_data`,
+    data: data,
+  })
+    .then((res) => {
+      console.log(res);
+      return res;
+    })
+    .catch((error) => {
+      console.log(error.response.data);
+      return error;
+    });
+}
+
+function companyProfilePhotoUpload(data) {
+  return axios({
+    method: "POST",
+    headers: { Authorization: "Bearer " + localStorage.getItem("token") },
+    url: `${config.fetchLinkUrl}companies/profile/upload_photo`,
+    data: data,
   })
     .then((res) => {
       console.log(res);
@@ -234,6 +345,13 @@ export {
   adminDashboardUsers,
   adminDashBoardCompanies,
   companyOffers,
+  userOfferDetailGet,
+  userProfileGet,
   userOffers,
-  molliePay
+  molliePay,
+  userProfileDataUpload,
+  userProfilePhotoUpload,
+  companyProfileGet,
+  companyProfileDataUpload,
+  companyProfilePhotoUpload,
 };

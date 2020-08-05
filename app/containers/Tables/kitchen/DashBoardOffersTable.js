@@ -16,6 +16,7 @@ import css from './index.scss';
 
 function DashBoardOffersTable(props) {
   const { classes, data } = props;
+  console.log(data)
   return (
     <Fragment>
       <div className={css.tableComponent}>

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useEffect, useState } from "react";
 import pdfImage from "../../../../images/pdf.svg";
 import styled from "styled-components";
 
@@ -84,31 +84,31 @@ const Rectangle = styled.div`
     }
   }
 `;
-export default class CompaniesBids extends Component {
-  render() {
-    return (
-      <Rectangle>
-        <h1>Biedingen van bedrijven</h1>
-        <div className="offersList">
-          <div className="firstDiv">
-            <img src={pdfImage} />
-          </div>
-
-          <div className="secondDiv">
-            <span>Keukenconcurrent</span>
-            <span>€ 9.950</span>
-          </div>
-          <div className="lastDiv">
-            <span
-              onClick={() => {
-                this.props.history.push("/users/reactions/1");
-              }}
-            >
-              Bekijken
-            </span>
-          </div>
+const CompaniesBids = () => {
+  return (
+    <Rectangle>
+      <h1>Biedingen van bedrijven</h1>
+      <div className="offersList">
+        <div className="firstDiv">
+          <img src={pdfImage} />
         </div>
-      </Rectangle>
-    );
-  }
-}
+
+        <div className="secondDiv">
+          <span>Keukenconcurrent</span>
+          <span>€ 9.950</span>
+        </div>
+        <div className="lastDiv">
+          <span
+            onClick={() => {
+              this.props.history.push("/users/reactions/1");
+            }}
+          >
+            Bekijken
+          </span>
+        </div>
+      </div>
+    </Rectangle>
+  );
+};
+
+export default CompaniesBids;

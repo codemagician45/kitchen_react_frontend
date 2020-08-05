@@ -23,7 +23,7 @@ const CompaniesList = () => {
       // this.setState({ info: res })
       let table_data = [];
       res.data.map(element => {
-        table_data.push(['', element.email, '', '', '', 'link']);
+        table_data.push([element.profile.name, element.email, element.profile.telephone_number, element.profile.city, '', 'link']);
       })
       setTableData(table_data);
     });

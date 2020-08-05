@@ -20,8 +20,6 @@ const UserList = () => {
       if (res.error) {
         console.error("error");
       }
-      console.log("I am here", res);
-      // setUserData()
       let table_data = [];
       res.data.map(element => {
         table_data.push([element.profile.first_name, element.email, element.profile.telephone_number, element.profile.city, '', 'link']);

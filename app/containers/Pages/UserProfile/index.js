@@ -1,108 +1,148 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { Helmet } from "react-helmet";
 import brand from "dan-api/dummy/brand";
-import Button from "@material-ui/core/Button";
-import Icon from "@material-ui/core/Icon";
 import CreateIcon from "@material-ui/icons/Create";
-//
-//
+
 import dummy from "dan-api/dummy/dummyContents";
 import { withStyles } from "@material-ui/core/styles";
 import styles from "dan-components/SocialMedia/jss/cover-jss";
 // form fields..
-import FormControl from "@material-ui/core/FormControl";
-import InputLabel from "@material-ui/core/InputLabel";
-import { Select, TextField, Grid, Typography, IconButton, InputBase, Divider } from "@material-ui/core";
-import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
-import { ProfileWrapper, useStyles, Figcaption, FormField, ProfilNavBar, ProfilePhotoWrapper, ButtonsContainer } from "./style";
-import cssButtons from 'dan-styles/Buttons.scss'
+import {
+  Select,
+  TextField,
+  Grid,
+  Typography,
+  IconButton,
+  InputBase,
+  Divider,
+  InputLabel,
+  FormControl,
+  Button,
+  Icon,
+} from "@material-ui/core";
+import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
+import {
+  ProfileWrapper,
+  useStyles,
+  Figcaption,
+  FormField,
+  ProfilNavBar,
+  ProfilePhotoWrapper,
+  ButtonsContainer,
+} from "./style";
+import cssButtons from "dan-styles/Buttons.scss";
 import SearchIcons from "../../UiElements/IconGallery/SearchIcons";
 import Dropzone from "react-dropzone";
 import { Link } from "react-router-dom";
+import {
+  userProfileGet,
+  userProfileDataUpload,
+  userProfilePhotoUpload,
+} from "../../../data/data";
+import config from "../../../actions/config";
 
-function TabContainer(props) {
-  const { children } = props;
-  return <div style={{ paddingTop: 8 * 3 }}>{children}</div>;
-}
+const UserProfile = (props) => {
+  const [photo, setPhoto] = useState("");
+  const [salutation, setSalutation] = useState("Dhr.");
+  const [firstName, setFirstName] = useState("");
+  const [surname, setSurname] = useState("");
+  const [companyName, setCompanyName] = useState("");
+  const [telephoneNumber, setTelephoneNumber] = useState("");
+  const [street, setStreet] = useState("");
+  const [houseNumber, setHouseNumber] = useState("");
+  const [postCode, setPostCode] = useState("");
+  const [city, setCity] = useState("");
+  const [land, setLand] = useState("");
+  const [email, setEmail] = useState(
+    JSON.parse(localStorage.getItem("user")).email
+  );
+  const [oldPassword, setOldPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [file, setFile] = useState(null);
 
-TabContainer.propTypes = {
-  children: PropTypes.node.isRequired
-};
-
-class UserProfile extends React.Component {
-  state = {
-    value: 0,
-    photo: null,
-    salutation: '',
-    first_name: '',
-    kvk_number: '',
-    surname: '',
-    company_name: '',
-    telephone_number: '',
-    street: '',
-    house_number: '',
-    postcode: '',
-    city: '',
-    land: '',
-    photo: '',
-    email: '',
-    oldPassword: '',
-    newPassword: '',
-    file: null
-  };
-
-  componentDidMount() {
-
-  }
-
-  handleChange = (event, value) => {
-    this.setState({ value });
-  };
-
-  // todo: implement this to change profile photo
-  profilePhotoChange = () => {
-    this.state.file.click();
-  };
-  handleFile = e => {
-    this.setState({ ...this.state, [e.target.name]: e.target.files[0] });
-  };
+  useEffect(() => {
+    userProfileGet(JSON.parse(localStorage.getItem("user")).id)
+      .then((res) => {
+        console.log(res);
+        let profile = res.data[0];
+        setCompanyName(profile.company_name);
+        setSalutation(profile.salutation);
+        setFirstName(profile.first_name);
+        setStreet(profile.street);
+        setHouseNumber(profile.house_number);
+        setTelephoneNumber(profile.telephone_number);
+        setPostCode(profile.postcode);
+        setCity(profile.city);
+        setLand(profile.land);
+        if (profile.photo) setPhoto(`${config.fetchLinkUrl}${profile.photo}`);
+        else setPhoto(dummy.user.avatar);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
 
   // todo: implement this to change submit new user infos
-  handleSubmit = () => {
+  const handleSubmit = () => {
     console.log("comming soon");
-  };
+    let user = {
+      salutation: salutation,
+      first_name: firstName,
+      surname: surname,
+      company_name: companyName,
+      telephone_number: telephoneNumber,
+      street: street,
+      house_number: houseNumber,
+      postcode: postCode,
+      city: city,
+      land: land,
+    };
+    user = JSON.stringify(user);
+    var data = { user: user };
 
-  render() {
-    const title = brand.name + " - Profile";
-    const description = brand.desc;
-    const { classes } = this.props;
-    const {
-      value,
-      file, salutation,
-      first_name, company_name,
-      telephone_number, street,
-      house_number, postcode, city,
-      land, email, photo, oldPassword,
-      newPassword, kvk_number
-    } = this.state;
-    let base64Img = dummy.user.avatar;
+    userProfileDataUpload(data)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
 
     if (file) {
-      base64Img = URL.createObjectURL(file);
+      let photo_data = new FormData();
+      photo_data.append("photo", file);
+      userProfilePhotoUpload(photo_data)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
+  };
 
-    return (
-      <div>
-        <Helmet>
-          <title>{title}</title>
-          <meta name="description" content={description} />
-          <meta property="og:title" content={title} />
-          <meta property="og:description" content={description} />
-          <meta property="twitter:title" content={title} />
-          <meta property="twitter:description" content={description} />
-        </Helmet>
-        <ProfileWrapper>
+  const title = brand.name + " - Profile";
+  const description = brand.desc;
+  const { classes } = props;
+
+  const set_profile_photo = (data) => {
+    setPhoto(URL.createObjectURL(data));
+    setFile(data);
+  };
+
+  return (
+    <div>
+      <Helmet>
+        <title>{title}</title>
+        <meta name="description" content={description} />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="twitter:title" content={title} />
+        <meta property="twitter:description" content={description} />
+      </Helmet>
+      <ProfileWrapper>
+        <form noValidate>
           <ProfilNavBar>
             <Button
               size="small"
@@ -114,18 +154,15 @@ class UserProfile extends React.Component {
             </Button>
           </ProfilNavBar>
           <ProfilePhotoWrapper>
-            <img src={base64Img} alt="" />
+            <img src={photo} alt="" />
 
             <Figcaption>
               Profielfoto
-              <Button
-                size="small"
-                className={classes.buttonLink}
-                onClick={this.profilePhotoChange}
-              >
-
+              <Button size="small" className={classes.buttonLink}>
                 <Dropzone
-                  onDrop={acceptedFiles => this.setState({ file: acceptedFiles[0] })}
+                  onDrop={(acceptedFiles) =>
+                    set_profile_photo(acceptedFiles[0])
+                  }
                   accept="image/*"
                 >
                   {({ getRootProps, getInputProps }) => (
@@ -142,35 +179,38 @@ class UserProfile extends React.Component {
             </Figcaption>
           </ProfilePhotoWrapper>
           <Grid container spacing={3} style={{ marginTop: "50px" }}>
-            <Grid xs={12} sm={2} className={classes.padding1}>
+            <Grid xs={12} sm={2} className={classes.padding1} item={true}>
               <Typography className={classes.label} variant="button">
                 Aanhef
               </Typography>
               <FormField>
                 <FormControl variant="outlined" className="formControl">
-                  <InputLabel htmlFor="outlined-age-native-simple">Gekozen Item</InputLabel>
+                  <InputLabel htmlFor="outlined-age-native-simple">
+                    Gekozen Item
+                  </InputLabel>
                   <Select
                     native
                     value={salutation}
                     className={"formControl selectView "}
                     placeholder="Dhr."
-                    onChange={(e) => {
-                      let salutation = e.target.value;
-                      this.setState({ salutation });
-                    }}
+                    onChange={(e) => setSalutation(e.target.value)}
                     label="Gekozen Item"
                     inputProps={{
-                      name: 'age',
-                      id: 'outlined-age-native-simple',
+                      name: "age",
+                      id: "outlined-age-native-simple",
                     }}
                   >
-                    <option className='option' value="Dhr.">Dhr.</option>
-                    <option className='option' value="Mvr.">Mvr.</option>
+                    <option className="option" value="Dhr.">
+                      Dhr.
+                    </option>
+                    <option className="option" value="Mvr.">
+                      Mvr.
+                    </option>
                   </Select>
                 </FormControl>
               </FormField>
             </Grid>
-            <Grid sm={3} xs={12} >
+            <Grid sm={3} xs={12} item={true}>
               <Typography className={classes.label} variant="button">
                 Naam
               </Typography>
@@ -184,16 +224,13 @@ class UserProfile extends React.Component {
                 InputLabelProps={{
                   shrink: true,
                 }}
-                value={first_name}
-                onChange={(e) => {
-                  let first_name = e.target.value;
-                  this.setState({ first_name });
-                }}
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
               />
             </Grid>
 
-            <Grid sm={5} xs={12} className={classes.margin2Left}>
-            <Typography className={classes.label} variant="button">
+            <Grid sm={5} xs={12} className={classes.margin2Left} item={true}>
+              <Typography className={classes.label} variant="button">
                 Bedrijfsnaam
               </Typography>
               <TextField
@@ -206,14 +243,11 @@ class UserProfile extends React.Component {
                 InputLabelProps={{
                   shrink: true,
                 }}
-                value={company_name}
-                onChange={(e) => {
-                  let company_name = e.target.value;
-                  this.setState({ company_name });
-                }}
+                value={companyName}
+                onChange={(e) => setCompanyName(e.target.value)}
               />
             </Grid>
-            <Grid sm={4} xs={12} className={classes.padding1}>
+            <Grid sm={4} xs={12} className={classes.padding1} item={true}>
               <Typography className={classes.label} variant="button">
                 Adres
               </Typography>
@@ -228,13 +262,10 @@ class UserProfile extends React.Component {
                   shrink: true,
                 }}
                 value={street}
-                onChange={(e) => {
-                  let street = e.target.value;
-                  this.setState({ street });
-                }}
+                onChange={(e) => setStreet(e.target.value)}
               />
             </Grid>
-            <Grid sm={1} xs={12}>
+            <Grid sm={1} xs={12} item={true}>
               <Typography className={classes.label} variant="button">
                 Huisnur.
               </Typography>
@@ -248,14 +279,11 @@ class UserProfile extends React.Component {
                 InputLabelProps={{
                   shrink: true,
                 }}
-                value={house_number}
-                onChange={(e) => {
-                  let house_number = e.target.value;
-                  this.setState({ house_number });
-                }}
+                value={houseNumber}
+                onChange={(e) => setHouseNumber(e.target.value)}
               />
             </Grid>
-            <Grid sm={5} xs={12} className={classes.margin2Left}>
+            <Grid sm={5} xs={12} className={classes.margin2Left} item={true}>
               <Typography className={classes.label} variant="button">
                 Telefon
               </Typography>
@@ -269,14 +297,11 @@ class UserProfile extends React.Component {
                 InputLabelProps={{
                   shrink: true,
                 }}
-                value={telephone_number}
-                onChange={(e) => {
-                  let telephone_number = e.target.value;
-                  this.setState({ telephone_number });
-                }}
+                value={telephoneNumber}
+                onChange={(e) => setTelephoneNumber(e.target.value)}
               />
             </Grid>
-            <Grid sm={2} xs={12} className={classes.padding1}>
+            <Grid sm={2} xs={12} className={classes.padding1} item={true}>
               <Typography className={classes.label} variant="button">
                 Postcode
               </Typography>
@@ -290,15 +315,12 @@ class UserProfile extends React.Component {
                 InputLabelProps={{
                   shrink: true,
                 }}
-                value={postcode}
-                onChange={(e) => {
-                  let postcode = e.target.value;
-                  this.setState({ postcode });
-                }}
+                value={postCode}
+                onChange={(e) => setPostCode(e.target.value)}
               />
             </Grid>
 
-            <Grid sm={3} xs={12}>
+            <Grid sm={3} xs={12} item={true}>
               <Typography className={classes.label} variant="button">
                 Woonplaats
               </Typography>
@@ -313,14 +335,11 @@ class UserProfile extends React.Component {
                   shrink: true,
                 }}
                 value={city}
-                onChange={(e) => {
-                  let city = e.target.value;
-                  this.setState({ city });
-                }}
+                onChange={(e) => setCity(e.target.value)}
               />
             </Grid>
 
-            <Grid sm={4} xs={12} className={classes.margin1Left}>
+            <Grid sm={4} xs={12} className={classes.margin1Left} item={true}>
               <Typography className={classes.label} variant="button">
                 Land
               </Typography>
@@ -335,16 +354,17 @@ class UserProfile extends React.Component {
                   shrink: true,
                 }}
                 value={land}
-                onChange={(e) => {
-                  let land = e.target.value;
-                  this.setState({ land });
-                }}
+                onChange={(e) => setLand(e.target.value)}
               />
             </Grid>
           </Grid>
-          <Divider className={classes.divider} variant='fullWidth' component='hr' />
-          <Grid container spacing={3} style={{ marginTop: '20px' }}>
-            <Grid sm={5} xs={12}>
+          <Divider
+            className={classes.divider}
+            variant="fullWidth"
+            component="hr"
+          />
+          <Grid container spacing={3} style={{ marginTop: "20px" }}>
+            <Grid sm={5} xs={12} item={true}>
               <Typography className={classes.label} variant="button">
                 E-mail
               </Typography>
@@ -359,15 +379,11 @@ class UserProfile extends React.Component {
                   shrink: true,
                 }}
                 value={email}
-                onChange={(e) => {
-                  let email = e.target.value;
-                  this.setState({ email });
-                }}
               />
             </Grid>
-            <Grid sm={7} xs={0} />
+            <Grid sm={7} xs={0} item={true} />
 
-            <Grid sm={5} xs={12}>
+            <Grid sm={5} xs={12} item={true}>
               <Typography className={classes.label} variant="button">
                 Huidige wachtwoord
               </Typography>
@@ -382,13 +398,15 @@ class UserProfile extends React.Component {
                   shrink: true,
                 }}
                 value={oldPassword}
-                onChange={(e) => {
-                  let oldPassword = e.target.value;
-                  this.setState({ oldPassword });
-                }}
+                onChange={(e) => setOldPassword(e.target.value)}
               />
             </Grid>
-            <Grid sm={5} xs={12} className={classes.marginLeftNormal}>
+            <Grid
+              sm={5}
+              xs={12}
+              className={classes.marginLeftNormal}
+              item={true}
+            >
               <Typography className={classes.label} variant="button">
                 Nieuwe wachtwoord
               </Typography>
@@ -403,15 +421,14 @@ class UserProfile extends React.Component {
                   shrink: true,
                 }}
                 value={newPassword}
-                onChange={(e) => {
-                  let newPassword = e.target.value;
-                  this.setState({ newPassword });
-                }}
+                onChange={(e) => setNewPassword(e.target.value)}
               />
             </Grid>
           </Grid>
-          <Grid  className={classes.link} >
-            <Link style={{color:'#ff6600'}} to="/reset-password" >Wachtwoord vergeten?</Link>
+          <Grid className={classes.link}>
+            <Link style={{ color: "#ff6600" }} to="/reset-password">
+              Wachtwoord vergeten?
+            </Link>
           </Grid>
           <ButtonsContainer>
             <Button
@@ -420,29 +437,25 @@ class UserProfile extends React.Component {
               className={classes.button + " " + cssButtons.backButton}
             >
               Anulleren
-           </Button>
+            </Button>
             <Button
               variant="contained"
               color="primary"
-              className={classes.button + " " + cssButtons.seeButton}
-              endIcon={<ArrowForwardIcon></ArrowForwardIcon>}
+              className={classes.button + " " + cssButtons.saveButton}
+              endIcon={<ArrowForwardIcon />}
+              onClick={handleSubmit}
             >
               OPSLAAN
             </Button>
           </ButtonsContainer>
-        </ProfileWrapper>
-
-
-
-      </div>
-    );
-  }
-}
+        </form>
+      </ProfileWrapper>
+    </div>
+  );
+};
 
 UserProfile.propTypes = {
   classes: PropTypes.object.isRequired,
 };
-
-
 
 export default withStyles(useStyles)(UserProfile);
