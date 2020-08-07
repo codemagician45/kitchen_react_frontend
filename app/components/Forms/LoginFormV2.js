@@ -27,6 +27,7 @@ import GoogleLogin from "react-google-login";
 import FacebookLogin from "react-facebook-login";
 
 import { googleLogin } from "../../data/data";
+import color from "@material-ui/core/colors/amber";
 
 // style
 const LoginIcon = styled.img`
@@ -121,6 +122,7 @@ const LoginFormV2 = (props) => {
         </div>
         <ContentDivider content="of met een e-mail" />
       </section>
+      {loginError && <div className={classes.login_alert}>{loginErrorMessage}</div>}
       <section className={classes.pageFormSideWrap}>
         <form onSubmit={handleSubmit}>
           <div>
@@ -177,10 +179,6 @@ const LoginFormV2 = (props) => {
               Wachtwoord vergeten
             </Button>
           </div>
-          {loginError && (
-            // <div>uw wachtwoord of gebruikersnaam zijn niet correct</div>
-            <div>{loginErrorMessage}</div>
-          )}
           <div className={classes.btnArea}>
             <Button
               id="continue"

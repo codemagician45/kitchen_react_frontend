@@ -36,6 +36,13 @@ class SidebarContent extends React.Component {
     });
   };
 
+  toMainPage = () => {
+    let type = JSON.parse(localStorage.getItem("user")).type;
+    if(type === "admin") return "/admin";
+    else if(type === "client") return "/users";
+    else if(type === "company") return "/companies";
+  }
+
   render() {
     const {
       classes,
@@ -75,7 +82,7 @@ class SidebarContent extends React.Component {
       >
         <div className={classes.drawerHeader}>
           <NavLink
-            to="/app"
+            to={this.toMainPage}
             className={classNames(
               classes.brand,
               classes.brandBar,

@@ -168,6 +168,23 @@ function adminDashBoardCompanies() {
     });
 }
 
+function userToCompany(data) {
+  return axios({
+    method: "POST",
+    headers: { Authorization: "Bearer " + localStorage.getItem("token") },
+    url: `${config.fetchLinkUrl}admin/dashboard/changeToCompany`,
+    data: data,
+  })
+    .then((res) => {
+      console.log(res);
+      return res;
+    })
+    .catch((error) => {
+      console.log(error.response.data);
+      return error;
+    });
+}
+
 function companyOffers() {
   return axios({
     method: "POST",
@@ -266,6 +283,23 @@ function userProfilePhotoUpload(data) {
     });
 }
 
+function userProfilePassword(data) {
+  return axios({
+    method: "POST",
+    headers: { Authorization: "Bearer " + localStorage.getItem("token") },
+    url: `${config.fetchLinkUrl}users/profile/password`,
+    data: data,
+  })
+    .then((res) => {
+      console.log(res);
+      return res;
+    })
+    .catch((error) => {
+      console.log(error.response.data);
+      return error;
+    });
+}
+
 function molliePay(amount) {
   return axios({
     method: "POST",
@@ -334,6 +368,24 @@ function companyProfilePhotoUpload(data) {
     });
 }
 
+function companyProfilePassword(data) {
+  console.log(data);
+  return axios({
+    method: "POST",
+    headers: { Authorization: "Bearer " + localStorage.getItem("token") },
+    url: `${config.fetchLinkUrl}companies/profile/password`,
+    data: data,
+  })
+    .then((res) => {
+      console.log(res);
+      return res;
+    })
+    .catch((error) => {
+      console.log(error.response.data);
+      return error;
+    });
+}
+
 export {
   login,
   googleLogin,
@@ -344,6 +396,7 @@ export {
   adminDashBoardOffers,
   adminDashboardUsers,
   adminDashBoardCompanies,
+  userToCompany,
   companyOffers,
   userOfferDetailGet,
   userProfileGet,
@@ -351,7 +404,9 @@ export {
   molliePay,
   userProfileDataUpload,
   userProfilePhotoUpload,
+  userProfilePassword,
   companyProfileGet,
   companyProfileDataUpload,
   companyProfilePhotoUpload,
+  companyProfilePassword,
 };

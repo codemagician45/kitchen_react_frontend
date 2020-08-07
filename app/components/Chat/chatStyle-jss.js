@@ -5,7 +5,8 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     position: 'relative',
-    color: theme.palette.text.primary
+    color: theme.palette.text.primary,
+    height: '710px'
   },
   chatList: {
     padding: `${theme.spacing(6)}px ${theme.spacing(3)}px`,

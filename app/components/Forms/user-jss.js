@@ -454,6 +454,10 @@ const styles = theme => ({
   google_login_button: {
     padding: '10px!important',
     borderRadius: '50px!important'
+  },
+  login_alert: {
+    textAlign: 'center',
+    color: 'red'
   }
 });
 

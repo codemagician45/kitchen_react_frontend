@@ -20,6 +20,10 @@ import {
   Typography,
   Toolbar,
   Grid,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
 } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import css from "dan-styles/Buttons.scss";
@@ -67,9 +71,9 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 */
 const AdminConceptTable = (props) => {
   const [open, setOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
   const [files, setFiles] = useState([]);
   const [classes, setClasses] = useState(props.classes);
-  // const [conceptData, setConceptData] = useState(p);
   const [tableData, setTableData] = useState([]);
 
   useEffect(() => {
@@ -86,15 +90,14 @@ const AdminConceptTable = (props) => {
         let row_data = [
           element.type,
           element.createdAt.split("T")[0],
-          element.profile.first_name,
+          element.profile?element.profile.first_name:"",
           element.city,
           element.answer_one,
           "pdf",
-          "link",
+          element.id,
         ];
         table_data.push(row_data);
       });
-      console.log(table_data);
       setTableData(table_data);
     });
   }, []);
@@ -135,7 +138,7 @@ const AdminConceptTable = (props) => {
       options: {
         filter: false,
         customBodyRender: () => (
-          <Link to="">
+          <Link onClick={handleClickOpen}>
             <img className={css2.Responsive_pdf} src={pdfImage} alt="pdf" />
           </Link>
         ),
@@ -149,26 +152,6 @@ const AdminConceptTable = (props) => {
       },
     },
   ];
-  // const data = [
-  //   [
-  //     "Offerte vergelijkiing",
-  //     "18-08-2019",
-  //     "Ali Oz",
-  //     "Amsterdam",
-  //     "3 manden",
-  //     "pdf",
-  //     "link",
-  //   ],
-  //   [
-  //     "3d ontwerp offerte ",
-  //     "18-08-2019",
-  //     "Ali Oz",
-  //     "Amsterdam",
-  //     "6 manden",
-  //     "pdf",
-  //     "link",
-  //   ],
-  // ];
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -182,13 +165,21 @@ const AdminConceptTable = (props) => {
     setFiles(files);
   };
 
-  const renderLink = (link) => {
+  const handleModalOpen = () => {
+    setModalOpen(true);
+  };
+
+  const handleModalClose = () => {
+    setModalOpen(false);
+  };
+
+  const renderLink = (id) => {
     return (
       <Button
         variant="contained"
         color=""
         className={css.seeButton}
-        onClick={handleClickOpen}
+        onClick={handleModalOpen}
       >
         BEWERKEN &nbsp; &#x279C;
       </Button>
@@ -305,6 +296,30 @@ const AdminConceptTable = (props) => {
             />
           </Grid>
         </Grid>
+      </Dialog>
+      <Dialog
+        open={modalOpen}
+        onClose={handleModalClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        {/* <DialogTitle id="alert-dialog-title">
+          {'Use Google\'s location service?'}
+        </DialogTitle> */}
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            heb u de nodige veranderingen aangebracht? u kunt geen wijzigingen
+            meer aanbrengen.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleModalClose} color="primary">
+            Nee
+          </Button>
+          <Button onClick={handleModalClose} color="primary" autoFocus>
+            ja
+          </Button>
+        </DialogActions>
       </Dialog>
       <MUIDataTable
         title=""

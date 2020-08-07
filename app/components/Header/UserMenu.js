@@ -87,7 +87,7 @@ class UserMenu extends React.Component {
             <Ionicon icon="ios-notifications-outline" />
           </Badge>
         </IconButton>
-        <Menu
+        {/* <Menu
           id="menu-notification"
           anchorEl={anchorEl}
           anchorOrigin={{
@@ -106,8 +106,8 @@ class UserMenu extends React.Component {
           }}
           open={openMenu === "notification"}
           onClose={this.handleClose}
-        >
-          <MenuItem onClick={this.handleClose}>
+        > */}
+          {/* <MenuItem onClick={this.handleClose}>
             <div className={messageStyles.messageInfo}>
               <ListItemAvatar>
                 <Avatar alt="User Name" src={avatarApi[0]} />
@@ -177,8 +177,8 @@ class UserMenu extends React.Component {
                 secondary="Jan 9, 2016"
               />
             </div>
-          </MenuItem>
-        </Menu>
+          </MenuItem> */}
+        {/* </Menu> */}
         <Button onClick={this.handleMenu("user-setting")}>
           <Avatar alt={dummy.user.name} src={dummy.user.avatar} />
         </Button>

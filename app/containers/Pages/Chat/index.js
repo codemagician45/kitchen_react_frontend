@@ -51,7 +51,7 @@ class Chat extends React.Component {
           <meta property="twitter:title" content={title} />
           <meta property="twitter:description" content={description} />
         </Helmet>
-        <div className={classes.root}>
+        <div>
           <StreamApiChat />
           {/* <ContactList
             total={dataContact.size}

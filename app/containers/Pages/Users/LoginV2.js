@@ -47,6 +47,8 @@ class LoginV2 extends React.Component {
   }
 
   submitForm(value) {
+    this.setState({ error: true });
+    this.setState({errorMessage: "One Second..."})
     setTimeout(() => {
       const { values } = this.props.form.toJS();
       login(values)
@@ -71,6 +73,8 @@ class LoginV2 extends React.Component {
 
   loginByGoogle = (response) => {
     console.log(response);
+    this.setState({ error: true });
+    this.setState({errorMessage: "One Second..."})
     googleLogin(response.tokenId)
       .then((res) => {
         if (!res.data.login) {
@@ -92,6 +96,8 @@ class LoginV2 extends React.Component {
 
   loginByFacebook = (response) => {
     console.log(response);
+    this.setState({ error: true });
+    this.setState({errorMessage: "One Second..."})
     facebookLogin(response.accessToken, response.userID)
       .then((res) => {
         if (!res.data.login) {

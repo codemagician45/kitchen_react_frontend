@@ -62,6 +62,12 @@ const OffersListKlantTable = (props) => {
       },
     },
     {
+      name: "Offerte name",
+      options: {
+        filter: true,
+      },
+    },
+    {
       name: "Datum",
       options: {
         filter: true,
@@ -118,7 +124,7 @@ const OffersListKlantTable = (props) => {
         if(element.status === "concept") reactions = [33, 2];
         else if(element.status === "active") reactions = [90, 2];
         else if(element.status === "done") reactions = [100, 2];
-        let raw_array = [element.type, element.createdAt.split("T")[0], reactions, element.status, element.id];
+        let raw_array = [element.type, element.name, element.createdAt.split("T")[0], reactions, element.status, element.id];
         data_array.push(raw_array);
       })
       setTableData(data_array);

@@ -39,6 +39,7 @@ import {
   userProfileGet,
   userProfileDataUpload,
   userProfilePhotoUpload,
+  userProfilePassword,
 } from "../../../data/data";
 import config from "../../../actions/config";
 
@@ -60,6 +61,7 @@ const UserProfile = (props) => {
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [file, setFile] = useState(null);
+  const [passwordResult, setPasswordResult] = useState("");
 
   useEffect(() => {
     userProfileGet(JSON.parse(localStorage.getItem("user")).id)
@@ -115,6 +117,28 @@ const UserProfile = (props) => {
       userProfilePhotoUpload(photo_data)
         .then((res) => {
           console.log(res);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+
+    if (newPassword) {
+      let password_data = {
+        oldPassword: oldPassword,
+        newPassword: newPassword,
+      };
+      userProfilePassword(password_data)
+        .then((res) => {
+          console.log(res);
+          if (res.data.success === true)
+            setPasswordResult(
+              `<span style="color: green">Password Updated Successfully</span>`
+            );
+          else
+            setPasswordResult(
+              `<span style="color: red">Please input correct old password</span>`
+            );
         })
         .catch((error) => {
           console.log(error);
@@ -362,6 +386,12 @@ const UserProfile = (props) => {
             className={classes.divider}
             variant="fullWidth"
             component="hr"
+          />
+          <div
+            className="text-center text-success"
+            dangerouslySetInnerHTML={{
+              __html: passwordResult,
+            }}
           />
           <Grid container spacing={3} style={{ marginTop: "20px" }}>
             <Grid sm={5} xs={12} item={true}>

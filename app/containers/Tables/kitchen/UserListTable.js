@@ -6,14 +6,22 @@
 /* eslint-disable indent */
 /* eslint-disable react/jsx-indent */
 
-import React from "react";
-import { withStyles } from "@material-ui/core/styles";
+import React, { useState } from "react";
+import {
+  withStyles,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Dialog,
+} from "@material-ui/core";
 import PropTypes from "prop-types";
 import MUIDataTable from "mui-datatables";
 import { Link } from "react-router-dom";
 import { Button } from "@material-ui/core";
 import css from "dan-styles/Buttons.scss";
 import css2 from "./index.scss";
+import { userToCompany } from "../../../data/data";
 
 const styles = (theme) => ({
   table: {
@@ -85,13 +93,47 @@ const UserListTable = (props) => {
     ["Ali Oz", "alioz@mail.com", "0612345678", "Amsterdam", "passive", "link"],
   ];
 
-  const renderLink = (link) => {
+  const [modalOpen, setModalOpen] = useState(false);
+  const [changeUserId, setChangeUserId] = useState("");
+  const [tableData, setTableData] = useState(props.tableData);
+
+  const handleModalOpen = (id) => {
+    setModalOpen(true);
+    setChangeUserId(id);
+  };
+
+  const handleModalClose = () => {
+    setModalOpen(false);
+  };
+
+  const handleChangeUser = () => {
+    setModalOpen(false);
+    let data = {
+      user_id: changeUserId,
+    };
+    userToCompany(data).then((res) => {
+      if (res.isError || res.shouldLogin) {
+        console.error("errors");
+      }
+      if (res.error) {
+        console.error("error");
+      }
+      console.log(res.data);
+      if(res.data === "success") {
+        let new_tableData = tableData.filter(function(item){ return item[5] != changeUserId});
+        setTableData(new_tableData);
+        setChangeUserId("");
+      }
+    });
+  };
+
+  const renderLink = (id) => {
     return (
       <Button
         variant="contained"
         color=""
         className={css.seeButton}
-        onClick={() => viewDetail(link)}
+        onClick={() => handleModalOpen(id)}
       >
         BEKIJKEN &nbsp; &#x279C;
       </Button>
@@ -127,7 +169,34 @@ const UserListTable = (props) => {
   };
   return (
     <div className={css2.multiTableContainer}>
-      <MUIDataTable data={props.tableData} columns={columns} options={options} />
+      <MUIDataTable
+        data={tableData}
+        columns={columns}
+        options={options}
+      />
+      <Dialog
+        open={modalOpen}
+        onClose={handleModalClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        {/* <DialogTitle id="alert-dialog-title">
+          {'Use Google\'s location service?'}
+        </DialogTitle> */}
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Weet u het zeker? De Klant, wordt als bedrijf gewijzigd.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleModalClose} color="primary">
+            Nee
+          </Button>
+          <Button onClick={handleChangeUser} color="primary" autoFocus>
+            ja
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };

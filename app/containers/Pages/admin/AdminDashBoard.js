@@ -28,10 +28,10 @@ const AdminDashBoard = () => {
       }
       console.log("I am here", res);
       let card_data = [
-        { number: res.data.offersCount, title: "Nieuwe offertes", link: "Bekijken" },
-        { number: res.data.companiesCount, title: "Bedrijven", link: "Bekijken" },
-        { number: res.data.clientCount, title: "Klanten", link: "Bekijken" },
-        { number: res.data.reactionCount, title: "Reacties", link: "Bekijken" },
+        { number: res.data.offersCount, title: "Nieuwe offertes", link: "Bekijken", url: "/admin/offers" },
+        { number: res.data.companiesCount, title: "Bedrijven", link: "Bekijken", url: "/admin/companies" },
+        { number: res.data.clientCount, title: "Klanten", link: "Bekijken", url: "/admin/users" },
+        { number: res.data.reactionCount, title: "Reacties", link: "Bekijken", url: "/admin" },
       ];
       setRectangleData(card_data);
 
@@ -99,7 +99,7 @@ const AdminDashBoard = () => {
           </Grid>
           <Grid item xs={1} />
         </Grid>
-        <Grid container spacing={3}>
+        {/* <Grid container spacing={3}>
           <Grid item xs={0} md={1} />
           <Grid item xs={0} md={10}>
             <Grid container>
@@ -114,7 +114,7 @@ const AdminDashBoard = () => {
             </Grid>
           </Grid>
           <Grid item xs={1} />
-        </Grid>
+        </Grid> */}
       </BlankPage>
     </div>
   );

@@ -14,6 +14,7 @@ import {
   InputLabel,
   Button,
   Icon,
+  Box,
 } from "@material-ui/core";
 import {
   Figcaption,
@@ -31,6 +32,7 @@ import {
   companyProfileGet,
   companyProfileDataUpload,
   companyProfilePhotoUpload,
+  companyProfilePassword,
 } from "../../../data/data";
 import config from "../../../actions/config";
 
@@ -55,6 +57,7 @@ const FirstComponent = (props) => {
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [file, setFile] = useState(null);
+  const [passwordResult, setPasswordResult] = useState("");
 
   useEffect(() => {
     companyProfileGet(JSON.parse(localStorage.getItem("user")).id)
@@ -110,6 +113,29 @@ const FirstComponent = (props) => {
       companyProfilePhotoUpload(photo_data)
         .then((res) => {
           console.log(res);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+    console.log(newPassword);
+
+    if (newPassword) {
+      let password_data = {
+        oldPassword: oldPassword,
+        newPassword: newPassword,
+      };
+      companyProfilePassword(password_data)
+        .then((res) => {
+          console.log(res);
+          if (res.data.success === true)
+            setPasswordResult(
+              `<span style="color: green">Password Updated Successfully</span>`
+            );
+          else
+            setPasswordResult(
+              `<span style="color: red">Please input correct old password</span>`
+            );
         })
         .catch((error) => {
           console.log(error);
@@ -361,6 +387,12 @@ const FirstComponent = (props) => {
         </Grid>
       </Grid>
       <Divider className={classes.divider} variant="fullWidth" component="hr" />
+      <div
+        className="text-center text-success"
+        dangerouslySetInnerHTML={{
+          __html: passwordResult,
+        }}
+      />
       <Grid container spacing={3} style={{ marginTop: "20px" }}>
         <Grid sm={5} xs={12} item={true}>
           <Typography className={classes.label} variant="button">
