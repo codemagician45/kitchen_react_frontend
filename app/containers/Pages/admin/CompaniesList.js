@@ -6,28 +6,9 @@ import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
 import brand from "dan-api/dummy/brand";
 import BlankPage from "../BlankPage";
-import UserListTable from "../../Tables/kitchen/UserListTable";
-import { adminDashBoardCompanies } from "../../../data/data";
+import CompanyListTable from "../../Tables/kitchen/CompanyListTable";
 
 const CompaniesList = () => {
-  const [tableData, setTableData] = useState([]);
-  useEffect(() => {
-    adminDashBoardCompanies().then((res) => {
-      if (res.isError || res.shouldLogin) {
-        console.error("errors");
-      }
-      if (res.error) {
-        console.error("error");
-      }
-      console.log("I am here", res);
-      // this.setState({ info: res })
-      let table_data = [];
-      res.data.map(element => {
-        table_data.push([element.profile.name, element.email, element.profile.telephone_number, element.profile.city, '', 'link']);
-      })
-      setTableData(table_data);
-    });
-  }, []);
   const title = brand.name + " - Blank Page";
   const description = brand.desc;
   return (
@@ -41,7 +22,7 @@ const CompaniesList = () => {
         <meta property="twitter:description" content={description} />
       </Helmet>
       <BlankPage desc="Some text description">
-        <UserListTable tableData={tableData} />
+        <CompanyListTable />
       </BlankPage>
     </div>
   );

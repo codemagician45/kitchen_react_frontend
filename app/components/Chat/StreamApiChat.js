@@ -79,8 +79,7 @@ const StreamApiChat = (props) => {
           <Window>
             <ChannelHeader />
             <MessageList className={classes.messageList} />
-            {/* {JSON.parse(localStorage.getItem('user')).type==='admin'?'':<MessageInput />} */}
-            <MessageInput />
+            {JSON.parse(localStorage.getItem('user')).type==='admin'?'':<MessageInput />}
           </Window>
           <Thread />
         </Channel>

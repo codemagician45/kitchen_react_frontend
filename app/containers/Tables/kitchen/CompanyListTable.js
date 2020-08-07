@@ -21,7 +21,7 @@ import { Link } from "react-router-dom";
 import { Button } from "@material-ui/core";
 import css from "dan-styles/Buttons.scss";
 import css2 from "./index.scss";
-import { userToCompany, adminDashboardUsers } from "../../../data/data";
+import { adminDashBoardCompanies } from "../../../data/data";
 
 const styles = (theme) => ({
   table: {
@@ -47,7 +47,7 @@ const LinkBtn = React.forwardRef(function LinkBtn(props, ref) {
   Checkout full documentation here :
   https://github.com/gregnb/mui-datatables/blob/master/README.md
 */
-const UserListTable = (props) => {
+const CompanyListTable = (props) => {
   const columns = [
     {
       name: "Naam",
@@ -98,20 +98,20 @@ const UserListTable = (props) => {
   const [tableData, setTableData] = useState([]);
 
   useEffect(() => {
-    adminDashboardUsers().then((res) => {
+    adminDashBoardCompanies().then((res) => {
       if (res.isError || res.shouldLogin) {
         console.error("errors");
       }
       if (res.error) {
         console.error("error");
       }
-      console.log(res.data);
+      console.log("I am here", res);
+      // this.setState({ info: res })
       let table_data = [];
       res.data.map(element => {
-        table_data.push([element.profile.first_name, element.email, element.profile.telephone_number, element.profile.city, '', element.id]);
+        table_data.push([element.profile.name, element.email, element.profile.telephone_number, element.profile.city, '', 'link']);
       })
-      console.log("table", table_data);
-      setTableData(table_data)
+      setTableData(table_data);
     });
   }, []);
 
@@ -129,21 +129,21 @@ const UserListTable = (props) => {
     let data = {
       user_id: changeUserId,
     };
-    userToCompany(data).then((res) => {
-      if (res.isError || res.shouldLogin) {
-        console.error("errors");
-      }
-      if (res.error) {
-        console.error("error");
-      }
-      console.log(res.data);
-      if(res.data.success) {
-        let new_tableData = tableData.filter(function(item){ return item[5] != changeUserId});
-        console.log(new_tableData);
-        setTableData(new_tableData);
-        setChangeUserId("");
-      }
-    });
+    // userToCompany(data).then((res) => {
+    //   if (res.isError || res.shouldLogin) {
+    //     console.error("errors");
+    //   }
+    //   if (res.error) {
+    //     console.error("error");
+    //   }
+    //   console.log(res.data);
+    //   if(res.data.success) {
+    //     let new_tableData = tableData.filter(function(item){ return item[5] != changeUserId});
+    //     console.log(new_tableData);
+    //     setTableData(new_tableData);
+    //     setChangeUserId("");
+    //   }
+    // });
   };
 
   const renderLink = (id) => {
@@ -220,8 +220,8 @@ const UserListTable = (props) => {
   );
 };
 
-UserListTable.propTypes = {
+CompanyListTable.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(UserListTable);
+export default withStyles(styles)(CompanyListTable);
