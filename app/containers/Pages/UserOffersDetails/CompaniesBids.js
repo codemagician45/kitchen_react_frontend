@@ -84,11 +84,38 @@ const Rectangle = styled.div`
     }
   }
 `;
-const CompaniesBids = () => {
+const CompaniesBids = (props) => {
+  console.log("props", props.offer_data);
+  let offer_data = props.offer_data;
   return (
     <Rectangle>
       <h1>Biedingen van bedrijven</h1>
-      <div className="offersList">
+      {offer_data.length
+        ? offer_data[0].bid.map((element, index) => {
+            return (
+              <div className="offersList">
+                <div className="firstDiv">
+                  <img src={pdfImage} />
+                </div>
+
+                <div className="secondDiv">
+                  <span>Keukenconcurrent</span>
+                  <span>€ 9.950</span>
+                </div>
+                <div className="lastDiv">
+                  <span
+                    onClick={() => {
+                      this.props.history.push("/users/reactions/1");
+                    }}
+                  >
+                    Bekijken
+                  </span>
+                </div>
+              </div>
+            );
+          })
+        : ""}
+      {/* <div className="offersList">
         <div className="firstDiv">
           <img src={pdfImage} />
         </div>
@@ -106,7 +133,7 @@ const CompaniesBids = () => {
             Bekijken
           </span>
         </div>
-      </div>
+      </div> */}
     </Rectangle>
   );
 };

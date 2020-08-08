@@ -78,38 +78,71 @@ const DetailsContainer = styled.div`
 `;
 const OffersDetails = (props) => {
   const offer_data = props.offer_data;
-  console.log(offer_data)
+  // const item_list = (files) => {
+  //   console.log("item list", files);
+  //   if (files.length) {
+  //     let file_array = JSON.parse(files);
+  //     console.log(file_array);
+  //     file_array.map((element, index) => {
+  //       console.log("asfdsf", index);
+  //       return (
+  //         <div className="list-item">
+  //           <div>Item{index + 1}:</div>
+  //           Omschrijving van item
+  //         </div>
+  //       );
+  //     });
+  //   }
+  // };
   return (
     <div>
       <DetailsContainer>
         <div className="list-item">
           <div>Type:</div>
-          {offer_data.length?offer_data[0].type:""}
+          {offer_data.length ? offer_data[0].type : ""}
         </div>
         <div className="list-item">
           <div>Datum:</div>
-          {offer_data.length?offer_data[0].createdAt.split("T")[0]:""}
+          {offer_data.length ? offer_data[0].createdAt.split("T")[0] : ""}
         </div>
         <div className="list-item">
           <div>Prijs:</div>
           {/* € 12.450 ( of n.v.t ) */}
         </div>
-        <div className="list-item">
+        {offer_data.length
+          ? JSON.parse(offer_data[0].files).map((element, index) => {
+              return (
+                <div className="list-item" key={index}>
+                  <div>Item{index + 1}:</div>
+                  {element.split("/")[3]}
+                </div>
+              );
+            })
+          : ""}
+        {/* <div className="list-item">
           <div>Item1:</div>
           Omschrijving van item
-        </div>
-        <div className="list-item">
-          <div>Item2:</div>
-          Omschrijving van item
-        </div>
-        <div className="list-item">
-          <div>Item3:</div>
-          Omschrijving van item
-        </div>
+        </div> */}
       </DetailsContainer>
       <Rectangle>
         <div className="headerReactangle">Bestanden</div>
-        <div className="offersList">
+        {offer_data.length
+          ? JSON.parse(offer_data[0].files).map((element, index) => {
+              return (
+                <div className="offersList">
+                  <div className="firstDiv">
+                    <img src={pdfImage} />
+                  </div>
+                  <div className="secondDiv">{element.split("/")[3]}</div>
+                  <div className="lastDiv">
+                    <span>Bekijken</span>
+                    <span> Vervijderen</span>
+                  </div>
+                </div>
+              );
+            })
+          : ""}
+        {/* <div className="offersList">
           <div className="firstDiv">
             <img src={pdfImage} />
           </div>
@@ -118,7 +151,7 @@ const OffersDetails = (props) => {
             <span>Bekijken</span>
             <span> Vervijderen</span>
           </div>
-        </div>
+        </div> */}
         <div />
       </Rectangle>
     </div>

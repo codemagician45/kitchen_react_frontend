@@ -116,7 +116,7 @@ const CompanyArrangedTable = (props) => {
         let row_data = [
           element.type,
           element.createdAt.split("T")[0],
-          element.city,
+          element.offerDetail.city,
           3,
           element.id
         ];
