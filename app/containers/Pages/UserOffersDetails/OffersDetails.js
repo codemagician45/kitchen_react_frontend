@@ -115,7 +115,7 @@ const OffersDetails = (props) => {
               return (
                 <div className="list-item" key={index}>
                   <div>Item{index + 1}:</div>
-                  {element.split("/")[3]}
+                  file{index+1}
                 </div>
               );
             })
@@ -134,7 +134,7 @@ const OffersDetails = (props) => {
                   <div className="firstDiv">
                     <img src={pdfImage} />
                   </div>
-                  <div className="secondDiv">{element.split("/")[3]}</div>
+                  <div className="secondDiv">file{index+1}</div>
                   <div className="lastDiv">
                     <span>Bekijken</span>
                     <span> Vervijderen</span>

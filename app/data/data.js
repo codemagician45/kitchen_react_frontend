@@ -386,6 +386,41 @@ function companyProfilePassword(data) {
     });
 }
 
+function fileDownload(data) {
+  console.log(data);
+  return axios({
+    method: "POST",
+    url: `${config.fetchLinkUrl}download`,
+    data: data,
+    responseType: "blob",
+  })
+    .then((res) => {
+      console.log(res);
+      return res;
+    })
+    .catch((error) => {
+      console.log(error.response.data);
+      return error;
+    });
+}
+
+function uploadDocuments(data) {
+  return axios({
+    method: "POST",
+    headers: { Authorization: "Bearer " + localStorage.getItem("token") },
+    url: `${config.fetchLinkUrl}admin/dashboard/uploadDocuments`,
+    data: data,
+  })
+    .then((res) => {
+      console.log(res);
+      return res;
+    })
+    .catch((error) => {
+      console.log(error.response.data);
+      return error;
+    });
+}
+
 export {
   login,
   googleLogin,
@@ -409,4 +444,6 @@ export {
   companyProfileDataUpload,
   companyProfilePhotoUpload,
   companyProfilePassword,
+  fileDownload,
+  uploadDocuments,
 };

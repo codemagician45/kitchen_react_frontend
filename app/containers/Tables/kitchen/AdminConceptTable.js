@@ -31,9 +31,12 @@ import css2 from "./index.scss";
 import { MaterialDropZone } from "dan-components";
 
 import pdfImage from "./images/pdf.svg";
-import Axios from "axios";
 
-import { adminDashBoardOffers } from "../../../data/data";
+import {
+  adminDashBoardOffers,
+  fileDownload,
+  uploadDocuments,
+} from "../../../data/data";
 
 const styles = (theme) => ({
   table: {
@@ -75,6 +78,8 @@ const AdminConceptTable = (props) => {
   const [files, setFiles] = useState([]);
   const [classes, setClasses] = useState(props.classes);
   const [tableData, setTableData] = useState([]);
+  const [oldFile, setOldFile] = useState([]);
+  const [offerIdForUpload, setOfferIdForUpload] = useState("");
 
   useEffect(() => {
     adminDashBoardOffers().then((res) => {
@@ -90,17 +95,20 @@ const AdminConceptTable = (props) => {
         let row_data = [
           element.type,
           element.createdAt.split("T")[0],
-          element.profile?element.profile.first_name:"",
+          element.profile ? element.profile.first_name : "",
           element.city,
           element.answer_one,
-          "pdf",
+          {
+            old_files: element.old_files,
+            id: element.id,
+          },
           element.id,
         ];
         table_data.push(row_data);
       });
       setTableData(table_data);
     });
-  }, []);
+  }, [open]);
   const columns = [
     {
       name: "Offerte type",
@@ -153,16 +161,43 @@ const AdminConceptTable = (props) => {
     },
   ];
 
-  const handleClickOpen = (file) => {
+  const handleClickOpen = (value) => {
     setOpen(true);
-    console.log("I am", file);
+    let old_file = JSON.parse(value.old_files);
+    setOldFile(old_file);
+    setOfferIdForUpload(value.id);
   };
 
   const handleClose = () => {
     setOpen(false);
   };
 
+  const fileSave = () => {
+    let data = new FormData();
+    let offer = {
+      offer_id: offerIdForUpload,
+    };
+    files.forEach((file) => {
+      data.append("files[]", file, file.name);
+    });
+    data.append("offer", JSON.stringify(offer));
+
+    uploadDocuments(data).then((res) => {
+      if (res.isError || res.shouldLogin) {
+        console.error("errors");
+      }
+      if (res.error) {
+        console.error("error");
+      }
+      console.log("I am here", res);
+      setOpen(false);
+      setOldFile([]);
+      setOfferIdForUpload("");
+    });
+  };
+
   const getFiles = (files) => {
+    console.log(files);
     setFiles(files);
   };
 
@@ -191,44 +226,51 @@ const AdminConceptTable = (props) => {
     return <div>{value}</div>;
   };
 
-  const download = (url) => {
-    // fake server request, getting the file url as response
-    setTimeout(() => {
-      const response = {
-        file: url,
+  // const download = (url) => {
+  //   // fake server request, getting the file url as response
+  //   setTimeout(() => {
+  //     const response = {
+  //       file: url,
+  //     };
+  //     // server sent the url to the file!
+  //     // now, let's download:
+  //     window.open(response.file);
+  //     // you could also do:
+  //     // window.location.href = response.file;
+  //   }, 100);
+  // };
+
+  const download = () => {
+    oldFile.map((element) => {
+      console.log(element, typeof element);
+      let data = {
+        file: element,
       };
-      // server sent the url to the file!
-      // now, let's download:
-      window.open(response.file);
-      // you could also do:
-      // window.location.href = response.file;
-    }, 100);
-  };
+      fileDownload(data).then((res) => {
+        if (res.isError || res.shouldLogin) {
+          console.error("errors");
+        }
+        if (res.error) {
+          console.error("error");
+        }
+        console.log("I am download", res);
+        const url = window.URL.createObjectURL(
+          new Blob([res.data], {
+            type: "image/pdf",
+          })
+        );
+        console.log("link", url);
 
-  const handleClick1 = (urls) => {
-    Axios({
-      url: urls,
+        const link = document.createElement("a");
 
-      method: "GET",
+        link.href = url;
 
-      responseType: "blob", // important
-    }).then((response) => {
-      const url = window.URL.createObjectURL(
-        new Blob([response.data], {
-          type: "application/octet-stream",
-          responseType: "arraybuffer",
-        })
-      );
+        link.setAttribute("download", element.split("/")[3]);
 
-      const link = document.createElement("a");
+        // document.body.appendChild(link);
 
-      link.href = url;
-
-      link.setAttribute("download", "JSONSearchResultsData.zip");
-
-      document.body.appendChild(link);
-
-      link.click();
+        link.click();
+      });
     });
   };
   const options = {
@@ -263,7 +305,7 @@ const AdminConceptTable = (props) => {
             <Typography variant="h6" className={classes.title}>
               Sound
             </Typography>
-            <Button autoFocus color="inherit" onClick={handleClose}>
+            <Button autoFocus color="inherit" onClick={fileSave}>
               save
             </Button>
           </Toolbar>
@@ -272,15 +314,7 @@ const AdminConceptTable = (props) => {
         <Grid container>
           <Grid xs={6}>
             <ul>
-              <li
-                onClick={() =>
-                  handleClick1(
-                    "https://is1-ssl.mzstatic.com/image/thumb/Purple113/v4/ac/b2/be/acb2beec-515f-96e4-8041-c779b44fc0b0/AppIcon-0-1x_U007emarketing-0-7-0-0-85-220.png/1200x630wa.png"
-                  )
-                }
-              >
-                file to download
-              </li>
+              <li onClick={download}>file to download</li>
             </ul>
           </Grid>
           <Grid xs={6}>
