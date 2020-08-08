@@ -61,7 +61,7 @@ const CompanyNiewOffersTable = (props) => {
           element.city,
           "€ 12.500",
           "pdf",
-          renderBuy(50),
+          renderBuy(element.id),
         ];
         table_data.push(row_data);
       });
@@ -69,8 +69,12 @@ const CompanyNiewOffersTable = (props) => {
     });
   }, []);
 
-  const payForBid = () => {
-    molliePay(50)
+  const payForBid = (offer_id) => {
+    let data = {
+      offer_id: offer_id,
+      amount: 50
+    }
+    molliePay(data)
       .then((res) => {
         console.log(res.data);
         if (res.data) window.location.href = res.data;
@@ -81,9 +85,9 @@ const CompanyNiewOffersTable = (props) => {
   };
 
   const renderBuy = (value) => {
-    let name = "€" + value + ",-";
+    let name = "€" + 50 + ",-";
     return (
-      <div className={css2.buyButton} onClick={payForBid}>
+      <div className={css2.buyButton} onClick={() => payForBid(value)}>
         <span>{name}</span> &nbsp;
         <img src={idealImage} alt="" />
       </div>

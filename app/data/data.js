@@ -300,12 +300,12 @@ function userProfilePassword(data) {
     });
 }
 
-function molliePay(amount) {
+function molliePay(data) {
   return axios({
     method: "POST",
     headers: { Authorization: "Bearer " + localStorage.getItem("token") },
     url: `${config.fetchLinkUrl}companies/pay`,
-    data: { amount: amount },
+    data: data,
   })
     .then((res) => {
       console.log(res);

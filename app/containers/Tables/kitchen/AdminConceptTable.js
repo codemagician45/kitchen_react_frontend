@@ -137,8 +137,8 @@ const AdminConceptTable = (props) => {
       name: "Bijlage",
       options: {
         filter: false,
-        customBodyRender: () => (
-          <Link onClick={handleClickOpen}>
+        customBodyRender: (value) => (
+          <Link onClick={() => handleClickOpen(value)}>
             <img className={css2.Responsive_pdf} src={pdfImage} alt="pdf" />
           </Link>
         ),
@@ -153,8 +153,9 @@ const AdminConceptTable = (props) => {
     },
   ];
 
-  const handleClickOpen = () => {
+  const handleClickOpen = (file) => {
     setOpen(true);
+    console.log("I am", file);
   };
 
   const handleClose = () => {
