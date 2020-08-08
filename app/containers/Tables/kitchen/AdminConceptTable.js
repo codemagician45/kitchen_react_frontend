@@ -36,6 +36,7 @@ import {
   adminDashBoardOffers,
   fileDownload,
   uploadDocuments,
+  updateStatusOffer,
 } from "../../../data/data";
 
 const styles = (theme) => ({
@@ -80,6 +81,7 @@ const AdminConceptTable = (props) => {
   const [tableData, setTableData] = useState([]);
   const [oldFile, setOldFile] = useState([]);
   const [offerIdForUpload, setOfferIdForUpload] = useState("");
+  const [offerIdForStatus, setOfferIdForStatus] = useState("");
 
   useEffect(() => {
     adminDashBoardOffers().then((res) => {
@@ -108,7 +110,7 @@ const AdminConceptTable = (props) => {
       });
       setTableData(table_data);
     });
-  }, [open]);
+  }, [open, modalOpen]);
   const columns = [
     {
       name: "Offerte type",
@@ -170,6 +172,8 @@ const AdminConceptTable = (props) => {
 
   const handleClose = () => {
     setOpen(false);
+    setOldFile([]);
+    setOfferIdForUpload("");
   };
 
   const fileSave = () => {
@@ -201,12 +205,32 @@ const AdminConceptTable = (props) => {
     setFiles(files);
   };
 
-  const handleModalOpen = () => {
+  const handleModalOpen = (id) => {
     setModalOpen(true);
+    setOfferIdForStatus(id);
   };
 
   const handleModalClose = () => {
     setModalOpen(false);
+    setOfferIdForStatus("");
+  };
+
+  const changeStatus = () => {
+    let data = {
+      offerid: offerIdForStatus,
+      status: "active",
+    };
+    updateStatusOffer(data).then((res) => {
+      if (res.isError || res.shouldLogin) {
+        console.error("errors");
+      }
+      if (res.error) {
+        console.error("error");
+      }
+      console.log("I am here", res);
+      setModalOpen(false);
+      setOfferIdForStatus("");
+    });
   };
 
   const renderLink = (id) => {
@@ -215,7 +239,7 @@ const AdminConceptTable = (props) => {
         variant="contained"
         color=""
         className={css.seeButton}
-        onClick={handleModalOpen}
+        onClick={() => handleModalOpen(id)}
       >
         BEWERKEN &nbsp; &#x279C;
       </Button>
@@ -225,20 +249,6 @@ const AdminConceptTable = (props) => {
   const renderType = (value) => {
     return <div>{value}</div>;
   };
-
-  // const download = (url) => {
-  //   // fake server request, getting the file url as response
-  //   setTimeout(() => {
-  //     const response = {
-  //       file: url,
-  //     };
-  //     // server sent the url to the file!
-  //     // now, let's download:
-  //     window.open(response.file);
-  //     // you could also do:
-  //     // window.location.href = response.file;
-  //   }, 100);
-  // };
 
   const download = () => {
     oldFile.map((element) => {
@@ -351,7 +361,7 @@ const AdminConceptTable = (props) => {
           <Button onClick={handleModalClose} color="primary">
             Nee
           </Button>
-          <Button onClick={handleModalClose} color="primary" autoFocus>
+          <Button onClick={changeStatus} color="primary" autoFocus>
             ja
           </Button>
         </DialogActions>

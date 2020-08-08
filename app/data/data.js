@@ -421,6 +421,23 @@ function uploadDocuments(data) {
     });
 }
 
+function updateStatusOffer(data) {
+  return axios({
+    method: "POST",
+    headers: { Authorization: "Bearer " + localStorage.getItem("token") },
+    url: `${config.fetchLinkUrl}admin/dashboard/updateStatusOffer`,
+    data: data,
+  })
+    .then((res) => {
+      console.log(res);
+      return res;
+    })
+    .catch((error) => {
+      console.log(error.response.data);
+      return error;
+    });
+}
+
 export {
   login,
   googleLogin,
@@ -446,4 +463,5 @@ export {
   companyProfilePassword,
   fileDownload,
   uploadDocuments,
+  updateStatusOffer,
 };
