@@ -78,6 +78,7 @@ const DetailsContainer = styled.div`
 `;
 const OffersDetails = (props) => {
   const offer_data = props.offer_data;
+  console.log("offer_data", offer_data)
   // const item_list = (files) => {
   //   console.log("item list", files);
   //   if (files.length) {
@@ -110,7 +111,7 @@ const OffersDetails = (props) => {
           {/* € 12.450 ( of n.v.t ) */}
         </div>
         {offer_data.length
-          ? JSON.parse(offer_data[0].files).map((element, index) => {
+          ? JSON.parse(offer_data[0].old_files).map((element, index) => {
               return (
                 <div className="list-item" key={index}>
                   <div>Item{index + 1}:</div>
@@ -127,7 +128,7 @@ const OffersDetails = (props) => {
       <Rectangle>
         <div className="headerReactangle">Bestanden</div>
         {offer_data.length
-          ? JSON.parse(offer_data[0].files).map((element, index) => {
+          ? JSON.parse(offer_data[0].old_files).map((element, index) => {
               return (
                 <div className="offersList">
                   <div className="firstDiv">
