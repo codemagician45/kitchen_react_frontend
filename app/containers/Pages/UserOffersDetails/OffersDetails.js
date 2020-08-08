@@ -6,7 +6,7 @@ import { Button } from "@material-ui/core";
 import Dropzone from "react-dropzone";
 
 const Rectangle = styled.div`
-  height: 228px;
+  // height: 228px;
   border-radius: 20px;
   border: solid 1px #0090e3;
   background-color: #ffffff;
