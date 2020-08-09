@@ -112,13 +112,13 @@ const CompanyArrangedTable = (props) => {
       }
       console.log("I am here", res.data);
       let table_data = [];
-      res.data.meineOffers.map(element => {
+      res.data.meineOffers.map((element) => {
         let row_data = [
           element.type,
           element.createdAt.split("T")[0],
           element.offerDetail.city,
           3,
-          element.id
+          element.offerDetail.id,
         ];
         table_data.push(row_data);
       });

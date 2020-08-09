@@ -438,6 +438,23 @@ function updateStatusOffer(data) {
     });
 }
 
+function becomeBidder(data) {
+  return axios({
+    method: "POST",
+    headers: { Authorization: "Bearer " + localStorage.getItem("token") },
+    url: `${config.fetchLinkUrl}companies/becomeBidder`,
+    data: data,
+  })
+    .then((res) => {
+      console.log(res);
+      return res;
+    })
+    .catch((error) => {
+      console.log(error.response.data);
+      return error;
+    });
+}
+
 export {
   login,
   googleLogin,
@@ -464,4 +481,5 @@ export {
   fileDownload,
   uploadDocuments,
   updateStatusOffer,
+  becomeBidder,
 };
