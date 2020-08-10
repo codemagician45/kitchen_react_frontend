@@ -117,11 +117,11 @@ const CompanyOffersTable = (props) => {
       }
       console.log("I am here", res.data);
       let table_data = [];
-      res.data.attendedOffers.map(element => {
+      res.data.meineOffers.map(element => {
         let row_data = [
-          element.type,
+          element.offerDetail.type,
           element.createdAt.split("T")[0],
-          element.city,
+          element.offerDetail.city,
           "€ 11.500'",
           3,
           element.id

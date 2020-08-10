@@ -120,10 +120,6 @@ const OffersDetails = (props) => {
               );
             })
           : ""}
-        {/* <div className="list-item">
-          <div>Item1:</div>
-          Omschrijving van item
-        </div> */}
       </DetailsContainer>
       <Rectangle>
         <div className="headerReactangle">Bestanden</div>

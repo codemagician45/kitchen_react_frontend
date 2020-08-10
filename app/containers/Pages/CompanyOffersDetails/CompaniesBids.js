@@ -1,8 +1,9 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import pdfImage from "../../../../images/pdf.svg";
 import styled from "styled-components";
 import { Button } from "@material-ui/core";
 import MessageIcon from "@material-ui/icons/Message";
+import { fileDownload } from "../../../data/data";
 
 const Rectangle = styled.div`
   height: 170px;
@@ -74,8 +75,8 @@ const Sentemail = styled.div`
     margin-right: 5%;
 
     @media screen and (max-width: 450px) {
-        padding-left: 0px !important;
-        padding-right: 0px !important;
+      padding-left: 0px !important;
+      padding-right: 0px !important;
     }
 
     @media screen and (max-width: 1261px) {
@@ -104,38 +105,77 @@ const Sentemail = styled.div`
   }
 `;
 
-export default class CompaniesBids extends Component {
-  render() {
-    return (
-      <>
-        <Rectangle>
-          <div className="headerReactangle">Bestanden</div>
-          <div className="offersList">
-            <div className="firstDiv">
-              <img src={pdfImage} />
+const CompaniesBids = (props) => {
+  console.log(props.offer_data);
+  let files = props.offer_data ? JSON.parse(props.offer_data.files) : [];
+
+  const download = (element) => {
+    console.log(element, typeof element);
+    let data = {
+      file: element,
+    };
+    fileDownload(data).then((res) => {
+      if (res.isError || res.shouldLogin) {
+        console.error("errors");
+      }
+      if (res.error) {
+        console.error("error");
+      }
+      console.log("I am download", res);
+      const url = window.URL.createObjectURL(
+        new Blob([res.data], {
+          type: "image/pdf",
+        })
+      );
+      console.log("link", url);
+
+      const link = document.createElement("a");
+
+      link.href = url;
+
+      link.setAttribute("download", element.split("/")[3]);
+
+      // document.body.appendChild(link);
+
+      link.click();
+    });
+  };
+  return (
+    <div>
+      <Rectangle>
+        <div className="headerReactangle">Bestanden</div>
+        {files.map((element, index) => {
+          return (
+            <div className="offersList" key={index}>
+              <div className="firstDiv">
+                <img src={pdfImage} />
+              </div>
+              <div className="secondDiv">file{index + 1}</div>
+              <div className="lastDiv">
+                <span onClick={() => download(element)}>Download</span>
+                {/* <span>Bekijken</span> */}
+                {/* <span> Vervijderen</span> */}
+              </div>
             </div>
-            <div className="secondDiv">Offerte 12-02-2019.pdf</div>
-            <div className="lastDiv">
-              <span>Bekijken</span>
-              <span> Vervijderen</span>
-            </div>
-          </div>
-          <div />
-        </Rectangle>
-        <Sentemail>
-          <div className="middleContainer">
-            <span>Heeft u een vraag of wilt u meer informatie?</span>
-            <Button
-              variant="outlined"
-              color="primary"
-              className="button"
-              endIcon={<MessageIcon />}
-            >
-              STUUR EEN BERICHT
-            </Button>
-          </div>
-        </Sentemail>
-      </>
-    );
-  }
-}
+          );
+        })}
+        <div />
+      </Rectangle>
+      <Sentemail>
+        <div className="middleContainer">
+          <span>Heeft u een vraag of wilt u meer informatie?</span>
+          <Button
+            variant="outlined"
+            color="primary"
+            className="button"
+            endIcon={<MessageIcon />}
+          >
+            STUUR EEN BERICHT
+          </Button>
+        </div>
+      </Sentemail>
+    </div>
+  );
+};
+
+export default CompaniesBids;

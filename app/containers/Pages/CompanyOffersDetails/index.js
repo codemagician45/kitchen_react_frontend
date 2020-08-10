@@ -72,7 +72,7 @@ const CompanyOffersDetails = (props) => {
             <OffersDetails history={props.history} offer_data={offerData} />
           </Grid>
           <Grid xs={12} md={6} item>
-            <CompaniesBids history={props.history} />
+            <CompaniesBids history={props.history} offer_data={offerData} />
           </Grid>
         </Grid>
         <HedearText1>
@@ -80,7 +80,7 @@ const CompanyOffersDetails = (props) => {
         </HedearText1>
         <Grid container spacing={3}>
           <Grid xs={12} md={5} item>
-            <NewOffer offer_id = {offerData?offerData.id:""} />
+            <NewOffer history={props.history} offer_id = {offerData?offerData.id:""} />
           </Grid>
         </Grid>
       </div>

@@ -116,6 +116,7 @@ const NewOffer = (props) => {
         console.error("error");
       }
       console.log("I am here", res.data);
+      props.history.push("/companies/offers")
     });
   };
   return (
