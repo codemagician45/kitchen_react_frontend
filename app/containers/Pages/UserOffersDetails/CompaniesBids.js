@@ -93,19 +93,19 @@ const CompaniesBids = (props) => {
       {offer_data.length
         ? offer_data[0].bid.map((element, index) => {
             return (
-              <div className="offersList">
+              <div className="offersList" key={index}>
                 <div className="firstDiv">
                   <img src={pdfImage} />
                 </div>
 
                 <div className="secondDiv">
                   <span>Keukenconcurrent</span>
-                  <span>€ 9.950</span>
+                  <span>€ {element.bid}</span>
                 </div>
                 <div className="lastDiv">
                   <span
                     onClick={() => {
-                      this.props.history.push("/users/reactions/1");
+                      props.history.push(`/users/reactions/${element.id}`);
                     }}
                   >
                     Bekijken
