@@ -8,112 +8,115 @@ import { Header, Sidebar, BreadCrumb } from "dan-components";
 import Decoration from "../Decoration";
 import styles from "../appStyles-jss";
 
-class LeftSidebarLayout extends React.Component {
-  render() {
-    const {
-      classes,
-      children,
-      toggleDrawer,
-      sidebarOpen,
-      loadTransition,
-      pageLoaded,
-      mode,
-      gradient,
-      deco,
-      history,
-      bgPosition,
-      changeMode,
-      place,
-      titleException,
-      handleOpenGuide,
-      dataMenu
-    } = this.props;
-    return (
-      <Fragment>
-        <Header
-          toggleDrawerOpen={toggleDrawer}
-          margin={sidebarOpen}
-          gradient={gradient}
-          position="left-sidebar"
-          changeMode={changeMode}
+const LeftSidebarLayout = (props) => {
+  const {
+    classes,
+    children,
+    toggleDrawer,
+    sidebarOpen,
+    loadTransition,
+    pageLoaded,
+    mode,
+    gradient,
+    deco,
+    history,
+    bgPosition,
+    changeMode,
+    place,
+    titleException,
+    handleOpenGuide,
+    dataMenu,
+  } = props;
+  console.log(props.history.location.pathname, dataMenu);
+  let title = dataMenu.filter(function(element) {
+    return element.link === props.history.location.pathname;
+  });
+  console.log(title);
+  return (
+    <Fragment>
+      <Header
+        toggleDrawerOpen={toggleDrawer}
+        margin={sidebarOpen}
+        gradient={gradient}
+        position="left-sidebar"
+        changeMode={changeMode}
+        mode={mode}
+        title={place}
+        history={history}
+        openGuide={handleOpenGuide}
+      />
+
+      <Sidebar
+        open={sidebarOpen}
+        toggleDrawerOpen={toggleDrawer}
+        loadTransition={loadTransition}
+        dataMenu={dataMenu}
+        leftSidebar
+      />
+      <main
+        className={classNames(
+          classes.content,
+          !sidebarOpen ? classes.contentPaddingLeft : ""
+        )}
+        id="mainContent"
+      >
+        <Decoration
           mode={mode}
-          title={place}
-          history={history}
-          openGuide={handleOpenGuide}
+          gradient={gradient}
+          decoration={deco}
+          bgPosition={bgPosition}
+          horizontalMenu={false}
         />
 
-        <Sidebar
-          open={sidebarOpen}
-          toggleDrawerOpen={toggleDrawer}
-          loadTransition={loadTransition}
-          dataMenu={dataMenu}
-          leftSidebar
-        />
-        <main
-          className={classNames(
-            classes.content,
-            !sidebarOpen ? classes.contentPaddingLeft : ""
-          )}
-          id="mainContent"
+        <section
+          className={classNames(classes.mainWrap, classes.sidebarLayout)}
         >
-          <Decoration
-            mode={mode}
-            gradient={gradient}
-            decoration={deco}
-            bgPosition={bgPosition}
-            horizontalMenu={false}
-          />
-
-          <section
-            className={classNames(classes.mainWrap, classes.sidebarLayout)}
+          <Typography
+            component="h4"
+            className={
+              bgPosition === "header" ? classes.darkTitle : classes.lightTitle
+            }
+            variant="h4"
+            style={{
+              marginTop: "-70px",
+              marginBottom: "140px",
+              marginLeft: "20px",
+            }}
           >
-            <Typography
-              component="h4"
-              className={
-                bgPosition === "header" ? classes.darkTitle : classes.lightTitle
-              }
-              variant="h4"
-              style={{
-                marginTop: "-70px",
-                marginBottom: "140px",
-                marginLeft: "20px"
-              }}
-            >
-              {place}
-            </Typography>
-            {titleException.indexOf(history.location.pathname) < 0 && (
-              <div className={classes.pageTitle}>
-                <BreadCrumb
-                  separator=" / "
-                  theme={bgPosition === "header" ? "dark" : "light"}
-                  location={history.location}
-                />
-              </div>
-            )}
-            {!pageLoaded && (
-              <img
-                src="/images/spinner.gif"
-                alt="spinner"
-                className={classes.circularProgress}
+            {title[0]?title[0].name:<br />}
+          </Typography>
+          {titleException.indexOf(history.location.pathname) < 0 && (
+            <div className={classes.pageTitle}>
+              <BreadCrumb
+                separator=" / "
+                theme={bgPosition === "header" ? "dark" : "light"}
+                location={history.location}
               />
-            )}
-            <Fade
-              in={pageLoaded}
-              mountOnEnter
-              unmountOnExit
-              {...(pageLoaded ? { timeout: 700 } : {})}
-            >
-              <div className={!pageLoaded ? classes.hideApp : ""}>
-                {/* Application content will load here */}
-                {children}
-              </div>
-            </Fade>
-          </section>
-        </main>
-      </Fragment>
-    );
-  }
-}
+            </div>
+          )}
+          {!pageLoaded && (
+            <img
+              src="/images/spinner.gif"
+              alt="spinner"
+              className={classes.circularProgress}
+            />
+          )}
+          <Fade
+            in={pageLoaded}
+            mountOnEnter
+            unmountOnExit
+            {...(pageLoaded ? { timeout: 700 } : {})}
+          >
+            <div className={!pageLoaded ? classes.hideApp : ""}>
+              {/* Application content will load here */}
+              {children}
+            </div>
+          </Fade>
+        </section>
+      </main>
+    </Fragment>
+  );
+};
 
 LeftSidebarLayout.propTypes = {
   classes: PropTypes.object.isRequired,
@@ -130,7 +133,7 @@ LeftSidebarLayout.propTypes = {
   bgPosition: PropTypes.string.isRequired,
   place: PropTypes.string.isRequired,
   titleException: PropTypes.array.isRequired,
-  handleOpenGuide: PropTypes.func.isRequired
+  handleOpenGuide: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(LeftSidebarLayout);

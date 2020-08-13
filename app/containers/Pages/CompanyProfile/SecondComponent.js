@@ -4,12 +4,34 @@ import Button from "@material-ui/core/Button";
 import { ButtonsContainer } from "./style";
 import cssButtons from "dan-styles/Buttons.scss";
 import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
+import { companyProfileSetting } from "../../../data/data";
 
 const SecondComponent = (props) => {
   const { classes } = props;
-  const [services, setServices] = useState([]);
   const [website, setWebsite] = useState("");
+  const [services, setServices] = useState("");
+  const [aboutCompany, setAboutCompany] = useState("");
+  const [openingHours, setOpeningHours] = useState("");
+  const [reviews, setReviews] = useState("");
 
+  const send_data = () => {
+    let data = {
+      website: website,
+      services: services,
+      about_company: aboutCompany,
+      opening_hours: openingHours,
+      reviews: reviews,
+    };
+    companyProfileSetting(data).then((res) => {
+      if (res.isError || res.shouldLogin) {
+        console.error("errors");
+      }
+      if (res.error) {
+        console.error("error");
+      }
+      console.log("I am here", res.data);
+    });
+  };
   return (
     <>
       <Grid container spacing={3} style={{ marginTop: "50px" }}>
@@ -45,11 +67,8 @@ const SecondComponent = (props) => {
             InputLabelProps={{
               shrink: true,
             }}
-            value={services[0]}
-            onChange={(e) => {
-              services[0] = e.target.value;
-              setServices(services);
-            }}
+            value={services}
+            onChange={(e) => setServices(e.target.value)}
           />
         </Grid>
         <Grid sm={2} xs={12} className={classes.margin1Left} item={true}>
@@ -67,11 +86,6 @@ const SecondComponent = (props) => {
             InputLabelProps={{
               shrink: true,
             }}
-            value={services[1]}
-            onChange={(e) => {
-              services[1] = e.target.value;
-              setServices(services);
-            }}
           />
         </Grid>
         <Grid sm={2} xs={12} className={classes.margin1Left} item={true}>
@@ -88,11 +102,6 @@ const SecondComponent = (props) => {
             className={classes.paper}
             InputLabelProps={{
               shrink: true,
-            }}
-            value={services[2]}
-            onChange={(e) => {
-              services[2] = e.target.value;
-              setServices(services);
             }}
           />
         </Grid>
@@ -114,8 +123,8 @@ const SecondComponent = (props) => {
             InputLabelProps={{
               shrink: true,
             }}
-            value={website}
-            onChange={(e) => setWebsite(e.target.value)}
+            value={aboutCompany}
+            onChange={(e) => setAboutCompany(e.target.value)}
           />
         </Grid>
         <Grid sm={3} xs={12} className={classes.margin1Left} item={true}>
@@ -133,11 +142,8 @@ const SecondComponent = (props) => {
             multiline
             rows={9}
             className={classes.paper}
-            value={services[0]}
-            onChange={(e) => {
-              services[0] = e.target.value;
-              setServices(services);
-            }}
+            value={openingHours}
+            onChange={(e) => setOpeningHours(e.target.value)}
           />
         </Grid>
         <Grid sm={3} xs={12} className={classes.margin1Left} item={true}>
@@ -156,11 +162,8 @@ const SecondComponent = (props) => {
             InputLabelProps={{
               shrink: true,
             }}
-            value={services[1]}
-            onChange={(e) => {
-              services[1] = e.target.value;
-              setServices(services);
-            }}
+            value={reviews}
+            onChange={(e) => setReviews(e.target.value)}
           />
         </Grid>
       </Grid>
@@ -177,6 +180,7 @@ const SecondComponent = (props) => {
           color="primary"
           className={classes.button + " " + cssButtons.saveButton}
           endIcon={<ArrowForwardIcon />}
+          onClick={send_data}
         >
           OPSLAAN
         </Button>

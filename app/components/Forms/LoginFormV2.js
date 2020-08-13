@@ -96,7 +96,7 @@ const LoginFormV2 = (props) => {
           to="/register"
         >
           <Icon className={classes.icon}>arrow_forward</Icon>
-          Create new account
+          Maak een nieuw account aan
         </Button>
       </div>
       <section className={classes.socmedSideLogin}>

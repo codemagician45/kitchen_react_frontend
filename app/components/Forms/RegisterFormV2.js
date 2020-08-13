@@ -18,13 +18,13 @@ import Brightness5 from "@material-ui/icons/Brightness5";
 import People from "@material-ui/icons/People";
 import Icon from "@material-ui/core/Icon";
 import brand from "dan-api/dummy/brand";
-import logo from "dan-images/logo.svg";
+import logo from "dan-images/companyLogo.png";
 import { TextFieldRedux, CheckboxRedux } from "./ReduxFormMUI";
 import styles from "./user-jss";
 
 // validation functions
-const required = value => (value == null ? "Required" : undefined);
-const email = value =>
+const required = (value) => (value == null ? "Required" : undefined);
+const email = (value) =>
   value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)
     ? "Invalid email"
     : undefined;
@@ -44,7 +44,7 @@ const LinkBtn = React.forwardRef(function LinkBtn(props, ref) {
 // eslint-disable-next-line
 class RegisterFormV2 extends React.Component {
   state = {
-    tab: 0
+    tab: 0,
   };
 
   handleClickShowPassword = () => {
@@ -52,7 +52,7 @@ class RegisterFormV2 extends React.Component {
     this.setState({ showPassword: !showPassword });
   };
 
-  handleMouseDownPassword = event => {
+  handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
 
@@ -67,8 +67,8 @@ class RegisterFormV2 extends React.Component {
       <Paper className={classNames(classes.sideWrap, deco && classes.petal)}>
         <div className={classes.topBar}>
           <NavLink to="/" className={classes.brand}>
-            <img src={logo} alt={brand.name} />
-            bedrijfslogo
+            <img src={logo} alt={brand.name} className={classes.companyLogo} />
+            {/* bedrijfslogo */}
           </NavLink>
           <Button
             size="small"
@@ -77,7 +77,7 @@ class RegisterFormV2 extends React.Component {
             to="/login"
           >
             <Icon className={classes.icon}>arrow_forward</Icon>
-            Already have account ?
+            Heeft u al een account?
           </Button>
         </div>
         <Typography variant="h4" className={classes.title} gutterBottom>
@@ -88,8 +88,7 @@ class RegisterFormV2 extends React.Component {
           className={classes.subtitle}
           gutterBottom
           align="center"
-        >
-        </Typography>
+        />
         {tab === 0 && (
           <section>
             <form onSubmit={handleSubmit}>
@@ -98,8 +97,8 @@ class RegisterFormV2 extends React.Component {
                   <Field
                     name="email"
                     component={TextFieldRedux}
-                    placeholder="Your Email"
-                    label="Your Email"
+                    placeholder="Uw Email"
+                    label="Uw Email"
                     required
                     validate={[required, email]}
                     className={classes.field}
@@ -111,8 +110,8 @@ class RegisterFormV2 extends React.Component {
                   <Field
                     name="password"
                     component={TextFieldRedux}
-                    type="password"
-                    label="Your Password"
+                    type="Uw wachtwoord"
+                    label="Uw wachtwoord"
                     required
                     validate={[required, passwordsMatch]}
                     className={classes.field}
@@ -124,8 +123,8 @@ class RegisterFormV2 extends React.Component {
                   <Field
                     name="passwordConfirm"
                     component={TextFieldRedux}
-                    type="password"
-                    label="Re-type Password"
+                    type="Wachtwoord opnieuw invoeren"
+                    label="Wachtwoord opnieuw invoeren"
                     required
                     validate={[required, passwordsMatch]}
                     className={classes.field}
@@ -142,10 +141,10 @@ class RegisterFormV2 extends React.Component {
                       className={classes.agree}
                     />
                   }
-                  label="Agree with"
+                  label="Het eens zijn met"
                 />
                 <a href="#" className={classes.link}>
-                  Terms &amp; Condition
+                  Regels en voorwaarden
                 </a>
               </div>
               <div className={classes.btnArea}>
@@ -155,7 +154,7 @@ class RegisterFormV2 extends React.Component {
                   color="primary"
                   type="submit"
                 >
-                  Continue
+                  DOORGAAN MET
                   <ArrowForward
                     className={classNames(classes.rightIcon, classes.iconSmall)}
                     disabled={submitting || pristine}
@@ -215,18 +214,18 @@ RegisterFormV2.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   pristine: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
-  deco: PropTypes.bool.isRequired
+  deco: PropTypes.bool.isRequired,
 };
 
 const RegisterFormReduxed = reduxForm({
   form: "immutableExample",
-  enableReinitialize: true
+  enableReinitialize: true,
 })(RegisterFormV2);
 
 const reducer = "ui";
-const RegisterFormMapped = connect(state => ({
+const RegisterFormMapped = connect((state) => ({
   force: state,
-  deco: state.getIn([reducer, "decoration"])
+  deco: state.getIn([reducer, "decoration"]),
 }))(RegisterFormReduxed);
 
 export default withStyles(styles)(RegisterFormMapped);

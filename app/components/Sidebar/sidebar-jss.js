@@ -5,9 +5,12 @@ import amber from "@material-ui/core/colors/amber";
 import grey from "@material-ui/core/colors/grey";
 
 const drawerWidth = 240;
-const styles = theme => ({
+const styles = (theme) => ({
   user: {
-    justifyContent: "center"
+    justifyContent: "center",
+  },
+  companyLogo: {
+    width: "190px !important",
   },
   drawerPaper: {
     position: "relative",
@@ -19,15 +22,15 @@ const styles = theme => ({
     width: drawerWidth,
     transition: theme.transitions.create("width", {
       easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen
-    })
+      duration: theme.transitions.duration.enteringScreen,
+    }),
   },
   swipeDrawerPaper: {
-    width: drawerWidth
+    width: drawerWidth,
   },
   opened: {
     "& $primary, & $icon": {
-      color: theme.palette.primary.main
+      color: theme.palette.primary.main,
     },
     "&:before": {
       content: '""',
@@ -36,8 +39,8 @@ const styles = theme => ({
       height: theme.spacing(5),
       top: 0,
       left: 0,
-      background: fade(theme.palette.primary.main, 0.5)
-    }
+      background: fade(theme.palette.primary.main, 0.5),
+    },
   },
   drawerPaperClose: {
     width: theme.spacing(8),
@@ -46,27 +49,27 @@ const styles = theme => ({
     background: theme.palette.background.paper,
     transition: theme.transitions.create("width", {
       easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen
+      duration: theme.transitions.duration.leavingScreen,
     }),
     "& $user": {
-      justifyContent: "flex-start"
+      justifyContent: "flex-start",
     },
     "& $bigAvatar": {
       width: 40,
-      height: 40
+      height: 40,
     },
     "& nav": {
-      display: "none"
+      display: "none",
     },
     "&:hover": {
       width: drawerWidth,
       boxShadow: theme.shadows[6],
       "& nav": {
-        display: "block"
-      }
+        display: "block",
+      },
     },
     "& $brand": {
-      display: "none"
+      display: "none",
     },
     "& $profile": {
       flexDirection: "row",
@@ -74,18 +77,18 @@ const styles = theme => ({
       padding: theme.spacing(0.5),
       textAlign: "left",
       "& button": {
-        width: "auto"
-      }
+        width: "auto",
+      },
     },
     "& $avatar": {
-      marginRight: theme.spacing(3)
+      marginRight: theme.spacing(3),
     },
     "& $menuContainer": {
       "&$menuContainer": {
         paddingTop: theme.spacing(10),
-        paddingBottom: 0
-      }
-    }
+        paddingBottom: 0,
+      },
+    },
   },
   drawerInner: {
     // Make the items inside not wrap when transitioning:
@@ -95,7 +98,7 @@ const styles = theme => ({
       theme.palette.type === "dark"
         ? fade(theme.palette.background.paper, 0.75)
         : fade(theme.palette.background.paper, 0.95),
-    boxShadow: theme.shade.light
+    boxShadow: theme.shade.light,
   },
   drawerInnerMobile: {
     // Make the items inside not wrap when transitioning:
@@ -103,49 +106,49 @@ const styles = theme => ({
     backgroundColor:
       theme.palette.type === "dark"
         ? fade(theme.palette.background.paper, 0.75)
-        : fade(theme.palette.background.paper, 0.95)
+        : fade(theme.palette.background.paper, 0.95),
   },
   drawerHeader: {
     padding: "0",
     zIndex: 1,
     position: "relative",
-    ...theme.mixins.toolbar
+    ...theme.mixins.toolbar,
   },
   avatar: {
-    margin: 10
+    margin: 10,
   },
   bigAvatar: {
     width: 80,
     height: 80,
-    boxShadow: theme.glow.light
+    boxShadow: theme.glow.light,
   },
   brandBar: {
     transition: theme.transitions.create(["width", "margin", "background"], {
       easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen
+      duration: theme.transitions.duration.enteringScreen,
     }),
     "&:after": {
       transition: theme.transitions.create(["box-shadow"], {
         easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.enteringScreen
-      })
-    }
+        duration: theme.transitions.duration.enteringScreen,
+      }),
+    },
   },
   darker: {
-    background: "none"
+    background: "none",
   },
   nested: {
     paddingTop: theme.spacing(0.5),
     paddingBottom: theme.spacing(0.5),
     margin: `${theme.spacing(0.5)}px 0`,
     [theme.breakpoints.down("lg")]: {
-      paddingLeft: theme.spacing(3)
-    }
+      paddingLeft: theme.spacing(3),
+    },
   },
   child: {
     "& a": {
-      paddingLeft: theme.spacing(6)
-    }
+      paddingLeft: theme.spacing(6),
+    },
   },
   title: {
     fontSize: 10,
@@ -155,16 +158,16 @@ const styles = theme => ({
     display: "block",
     color: theme.palette.secondary.main,
     lineHeight: "28px",
-    fontWeight: "bold"
+    fontWeight: "bold",
   },
   dense: {
     marginLeft: -15,
     "& > $title:first-child": {
-      margin: "0"
+      margin: "0",
     },
     "& $head": {
-      paddingLeft: theme.spacing(10)
-    }
+      paddingLeft: theme.spacing(10),
+    },
   },
   active: {
     backgroundColor:
@@ -175,30 +178,30 @@ const styles = theme => ({
       color:
         theme.palette.type === "dark"
           ? theme.palette.common.white
-          : theme.palette.primary.dark
+          : theme.palette.primary.dark,
     },
     "& $icon svg": {
-      fill: theme.palette.primary.dark
+      fill: theme.palette.primary.dark,
     },
     "&:hover, &:focus": {
       backgroundColor:
         theme.palette.type === "dark"
           ? fade(theme.palette.primary.main, 0.24)
-          : theme.palette.primary.light
-    }
+          : theme.palette.primary.light,
+    },
   },
   nolist: {
-    listStyle: "none"
+    listStyle: "none",
   },
   primary: {
-    whiteSpace: "nowrap"
+    whiteSpace: "nowrap",
   },
   icon: {
     minWidth: theme.spacing(5),
     fill:
       theme.palette.type === "dark"
         ? theme.palette.primary.light
-        : theme.palette.primary.dark
+        : theme.palette.primary.dark,
   },
   iconed: {},
   head: {
@@ -207,12 +210,12 @@ const styles = theme => ({
     borderRadius: `0 ${theme.spacing(3)}px ${theme.spacing(3)}px 0`,
     paddingLeft: theme.spacing(3),
     "&$iconed": {
-      paddingLeft: theme.spacing(3)
+      paddingLeft: theme.spacing(3),
     },
     '& svg[class^="MuiSvgIcon"]': {
       left: -10,
-      position: "relative"
-    }
+      position: "relative",
+    },
   },
   headCapital: {
     padding: `${theme.spacing(1)}px 0 ${theme.spacing(1)}px ${theme.spacing(
@@ -224,8 +227,8 @@ const styles = theme => ({
     borderRadius: `0 ${theme.spacing(3)}px ${theme.spacing(3)}px 0`,
     margin: `${theme.spacing(1)}px`,
     "& span": {
-      fontSize: 14
-    }
+      fontSize: 14,
+    },
   },
   copyright: {
     color: theme.palette.text.secondary,
@@ -234,10 +237,10 @@ const styles = theme => ({
     position: "fixed",
     [theme.breakpoints.up("lg")]: {
       background: "none",
-      position: "absolute"
+      position: "absolute",
     },
     left: theme.spacing(3),
-    lineHeight: "24px"
+    lineHeight: "24px",
   },
   brand: {
     display: "flex",
@@ -253,22 +256,22 @@ const styles = theme => ({
     color: theme.palette.text.primary,
     "& img": {
       width: 30,
-      marginRight: 10
-    }
+      marginRight: 10,
+    },
   },
   brandBig: {
     paddingTop: theme.spacing(4),
     position: "relative",
     textAlign: "center",
     "& img": {
-      width: 68
+      width: 68,
     },
     "& h3": {
       fontSize: 18,
       marginTop: theme.spacing(2),
       fontWeight: 500,
-      color: theme.palette.text.primary
-    }
+      color: theme.palette.text.primary,
+    },
   },
   profile: {
     height: 120,
@@ -288,7 +291,7 @@ const styles = theme => ({
       textOverflow: "ellipsis",
       overflow: "hidden",
       whiteSpace: "nowrap",
-      width: 110
+      width: 110,
     },
     "& button": {
       fontSize: 12,
@@ -300,32 +303,32 @@ const styles = theme => ({
       textTransform: "capitalize",
       padding: 0,
       minHeight: 20,
-      marginTop: 4
-    }
+      marginTop: 4,
+    },
   },
   statusMenu: {
     "& li": {
-      width: 100
-    }
+      width: 100,
+    },
   },
   dotStatus: {
     width: theme.spacing(1),
     height: theme.spacing(1),
     display: "inline-block",
     borderRadius: "50%",
-    marginRight: theme.spacing(0.5)
+    marginRight: theme.spacing(0.5),
   },
   online: {
-    backgroundColor: lightGreen[500]
+    backgroundColor: lightGreen[500],
   },
   bussy: {
-    backgroundColor: red[500]
+    backgroundColor: red[500],
   },
   idle: {
-    backgroundColor: amber[500]
+    backgroundColor: amber[500],
   },
   offline: {
-    backgroundColor: grey[500]
+    backgroundColor: grey[500],
   },
   rounded: {},
   landingNav: {},
@@ -338,48 +341,48 @@ const styles = theme => ({
     display: "block",
     padding: `${theme.spacing(5)}px 0`,
     "&$withProfile": {
-      paddingTop: theme.spacing(18)
+      paddingTop: theme.spacing(18),
     },
     "&$landingNav": {
       [theme.breakpoints.up("lg")]: {
-        paddingTop: theme.spacing(5)
+        paddingTop: theme.spacing(5),
       },
       [theme.breakpoints.down("lg")]: {
         height: "calc(100% - 164px)",
-        paddingTop: theme.spacing(5)
-      }
+        paddingTop: theme.spacing(5),
+      },
     },
     "&$rounded": {
       paddingRight: theme.spacing(1.5),
       "& a": {
-        borderRadius: `0 ${theme.spacing(3)}px ${theme.spacing(3)}px 0`
+        borderRadius: `0 ${theme.spacing(3)}px ${theme.spacing(3)}px 0`,
       },
       "& $opened": {
         "&:before": {
-          background: theme.palette.primary.main
-        }
-      }
+          background: theme.palette.primary.main,
+        },
+      },
     },
     "&::-webkit-scrollbar": {
-      width: 8
+      width: 8,
     },
     "&::-webkit-scrollbar-thumb": {
       borderRadius: 12,
-      backgroundColor: "rgba(0,0,0,0)"
+      backgroundColor: "rgba(0,0,0,0)",
     },
     "&:hover": {
       "&::-webkit-scrollbar-thumb": {
         backgroundColor: "rgba(0,0,0,0.3)",
-        border: "1px solid rgba(255,255,255,0.4)"
-      }
-    }
+        border: "1px solid rgba(255,255,255,0.4)",
+      },
+    },
   },
   divider: {
-    marginTop: theme.spacing(1)
+    marginTop: theme.spacing(1),
   },
   badge: {
-    height: "auto"
-  }
+    height: "auto",
+  },
 });
 
 export default styles;

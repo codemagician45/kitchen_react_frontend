@@ -9,13 +9,14 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Avatar from "@material-ui/core/Avatar";
 import brand from "dan-api/dummy/brand";
 import dummy from "dan-api/dummy/dummyContents";
-import logo from "dan-images/logo.svg";
+// import logo from "dan-images/logo.svg";
 import MainMenu from "./MainMenu";
 import styles from "./sidebar-jss";
+import logo from "dan-images/companyLogo.png";
 
 class SidebarContent extends React.Component {
   state = {
-    transform: 0
+    transform: 0,
   };
 
   componentDidMount = () => {
@@ -29,19 +30,19 @@ class SidebarContent extends React.Component {
     mainContent.removeEventListener("scroll", this.handleScroll);
   }
 
-  handleScroll = event => {
+  handleScroll = (event) => {
     const scroll = event.target.scrollTop;
     this.setState({
-      transform: scroll
+      transform: scroll,
     });
   };
 
   toMainPage = () => {
     let type = JSON.parse(localStorage.getItem("user")).type;
-    if(type === "admin") return "/admin";
-    else if(type === "client") return "/users";
-    else if(type === "company") return "/companies";
-  }
+    if (type === "admin") return "/admin";
+    else if (type === "client") return "/users";
+    else if (type === "company") return "/companies";
+  };
 
   render() {
     const {
@@ -57,11 +58,11 @@ class SidebarContent extends React.Component {
       openMenuStatus,
       closeMenuStatus,
       changeStatus,
-      isLogin
+      isLogin,
     } = this.props;
     const { transform } = this.state;
 
-    const setStatus = st => {
+    const setStatus = (st) => {
       switch (st) {
         case "online":
           return classes.online;
@@ -90,7 +91,12 @@ class SidebarContent extends React.Component {
             )}
           >
             <h3 style={{ color: "#0090e3", fontSize: "17px" }}>
-              Keukenvergelijking.nl
+              <img
+                src={logo}
+                alt={brand.name}
+                className={classes.companyLogo}
+              />
+              {/* Keukenvergelijking.nl */}
             </h3>
           </NavLink>
         </div>
@@ -126,7 +132,7 @@ SidebarContent.propTypes = {
   openMenuStatus: PropTypes.func.isRequired,
   closeMenuStatus: PropTypes.func.isRequired,
   changeStatus: PropTypes.func.isRequired,
-  isLogin: PropTypes.bool
+  isLogin: PropTypes.bool,
 };
 
 SidebarContent.defaultProps = {
@@ -134,7 +140,7 @@ SidebarContent.defaultProps = {
   toggleDrawerOpen: () => {},
   loadTransition: () => {},
   anchorEl: null,
-  isLogin: true
+  isLogin: true,
 };
 
 export default withStyles(styles)(SidebarContent);

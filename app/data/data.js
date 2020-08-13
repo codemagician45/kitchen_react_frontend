@@ -369,11 +369,28 @@ function companyProfilePhotoUpload(data) {
 }
 
 function companyProfilePassword(data) {
-  console.log(data);
   return axios({
     method: "POST",
     headers: { Authorization: "Bearer " + localStorage.getItem("token") },
     url: `${config.fetchLinkUrl}companies/profile/password`,
+    data: data,
+  })
+    .then((res) => {
+      console.log(res);
+      return res;
+    })
+    .catch((error) => {
+      console.log(error.response.data);
+      return error;
+    });
+}
+
+function companyProfileSetting(data) {
+  console.log(data);
+  return axios({
+    method: "POST",
+    headers: { Authorization: "Bearer " + localStorage.getItem("token") },
+    url: `${config.fetchLinkUrl}companies/profile/settings`,
     data: data,
   })
     .then((res) => {
@@ -495,6 +512,7 @@ export {
   companyProfileDataUpload,
   companyProfilePhotoUpload,
   companyProfilePassword,
+  companyProfileSetting,
   fileDownload,
   uploadDocuments,
   updateStatusOffer,

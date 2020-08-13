@@ -4,6 +4,7 @@ import pdfImage from "../../../../images/pdf.svg";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import { Button } from "@material-ui/core";
 import Dropzone from "react-dropzone";
+import { fileDownload } from "../../../data/data";
 
 const Rectangle = styled.div`
   // height: 228px;
@@ -78,23 +79,38 @@ const DetailsContainer = styled.div`
 `;
 const OffersDetails = (props) => {
   const offer_data = props.offer_data;
-  console.log("offer_data", offer_data)
-  // const item_list = (files) => {
-  //   console.log("item list", files);
-  //   if (files.length) {
-  //     let file_array = JSON.parse(files);
-  //     console.log(file_array);
-  //     file_array.map((element, index) => {
-  //       console.log("asfdsf", index);
-  //       return (
-  //         <div className="list-item">
-  //           <div>Item{index + 1}:</div>
-  //           Omschrijving van item
-  //         </div>
-  //       );
-  //     });
-  //   }
-  // };
+  console.log("offer_data", offer_data);
+
+  const download = (element) => {
+    let data = {
+      file: element,
+    };
+    fileDownload(data).then((res) => {
+      if (res.isError || res.shouldLogin) {
+        console.error("errors");
+      }
+      if (res.error) {
+        console.error("error");
+      }
+      console.log("I am download", res);
+      const url = window.URL.createObjectURL(
+        new Blob([res.data], {
+          type: "image/pdf",
+        })
+      );
+      console.log("link", url);
+
+      const link = document.createElement("a");
+
+      link.href = url;
+
+      link.setAttribute("download", element.split("/")[3]);
+
+      // document.body.appendChild(link);
+
+      link.click();
+    });
+  };
   return (
     <div>
       <DetailsContainer>
@@ -115,7 +131,7 @@ const OffersDetails = (props) => {
               return (
                 <div className="list-item" key={index}>
                   <div>Item{index + 1}:</div>
-                  file{index+1}
+                  file{index + 1}
                 </div>
               );
             })
@@ -130,10 +146,10 @@ const OffersDetails = (props) => {
                   <div className="firstDiv">
                     <img src={pdfImage} />
                   </div>
-                  <div className="secondDiv">file{index+1}</div>
+                  <div className="secondDiv">file{index + 1}</div>
                   <div className="lastDiv">
-                    <span>Bekijken</span>
-                    <span> Vervijderen</span>
+                    <span onClick={() => download(element)}>Bekijken</span>
+                    {/* <span> Vervijderen</span> */}
                   </div>
                 </div>
               );

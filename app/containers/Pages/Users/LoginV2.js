@@ -20,6 +20,7 @@ import styles from "dan-components/Forms/user-jss";
 import { connect } from "react-redux";
 import { authLogin } from "../../../actions/auth";
 import { login } from "../../../data/data";
+import logo from "dan-images/companyLogo.png";
 
 import { googleLogin, facebookLogin } from "../../../data/data";
 
@@ -135,7 +136,8 @@ class LoginV2 extends React.Component {
           <Hidden smDown>
             <div className={classes.opening}>
               <Typography variant="h4" className={classes.subpening}>
-                Keukenvergelijking.nl
+                {/* Keukenvergelijking.nl */}
+                <img src={logo} alt={brand.name} className={classes.companyLogo1} />
               </Typography>
               <Typography
                 variant="h3"
