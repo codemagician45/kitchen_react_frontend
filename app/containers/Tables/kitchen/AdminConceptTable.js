@@ -97,7 +97,7 @@ const AdminConceptTable = (props) => {
         let row_data = [
           element.type,
           element.createdAt.split("T")[0],
-          element.profile ? element.profile.first_name : "",
+          element.profile ? element.profile.email : "",
           element.city,
           element.answer_one,
           {
@@ -241,7 +241,7 @@ const AdminConceptTable = (props) => {
         className={css.seeButton}
         onClick={() => handleModalOpen(id)}
       >
-        BEWERKEN &nbsp; &#x279C;
+        Publiceren &nbsp; &#x279C;
       </Button>
     );
   };

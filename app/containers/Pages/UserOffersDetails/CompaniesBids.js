@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import pdfImage from "../../../../images/pdf.svg";
 import styled from "styled-components";
+import dummy from "dan-api/dummy/dummyContents";
 
 const Rectangle = styled.div`
   border-radius: 20px;
@@ -95,7 +96,7 @@ const CompaniesBids = (props) => {
             return (
               <div className="offersList" key={index}>
                 <div className="firstDiv">
-                  <img src={pdfImage} />
+                  <img src={element.bid.photo?element.bid.photo:dummy.user.avatar} alt="" style={{borderRadius: "5px"}}/>
                 </div>
 
                 <div className="secondDiv">

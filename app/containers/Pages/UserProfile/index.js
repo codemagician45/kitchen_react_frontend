@@ -55,6 +55,7 @@ const UserProfile = (props) => {
   const [postCode, setPostCode] = useState("");
   const [city, setCity] = useState("");
   const [land, setLand] = useState("");
+  const [birthday, setBirthday] = useState("");
   const [email, setEmail] = useState(
     JSON.parse(localStorage.getItem("user")).email
   );
@@ -77,6 +78,7 @@ const UserProfile = (props) => {
         setPostCode(profile.postcode);
         setCity(profile.city);
         setLand(profile.land);
+        setBirthday(profile.birth_date);
         if (profile.photo) setPhoto(`${config.fetchLinkUrl}${profile.photo}`);
         else setPhoto(dummy.user.avatar);
       })
@@ -99,6 +101,7 @@ const UserProfile = (props) => {
       postcode: postCode,
       city: city,
       land: land,
+      birth_date: birthday
     };
     user = JSON.stringify(user);
     var data = { user: user };
@@ -363,7 +366,7 @@ const UserProfile = (props) => {
               />
             </Grid>
 
-            <Grid sm={4} xs={12} className={classes.margin1Left} item={true}>
+            <Grid sm={3} xs={12} className={classes.margin1Left} item={true}>
               <Typography className={classes.label} variant="button">
                 Land
               </Typography>
@@ -381,7 +384,27 @@ const UserProfile = (props) => {
                 onChange={(e) => setLand(e.target.value)}
               />
             </Grid>
+            <Grid sm={3} xs={12} className={classes.padding1} item={true}>
+              <Typography className={classes.label} variant="button">
+                Birthday
+              </Typography>
+              <TextField
+                type="date"
+                id="outlined-full-width"
+                placeholder="Birthday"
+                fullWidth
+                margin="normal"
+                variant="outlined"
+                className={classes.paper}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                value={birthday}
+                onChange={(e) => setBirthday(e.target.value)}
+              />
+            </Grid>
           </Grid>
+
           <Divider
             className={classes.divider}
             variant="fullWidth"

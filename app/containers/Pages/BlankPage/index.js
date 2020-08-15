@@ -32,7 +32,8 @@ class BlankPage extends React.Component {
           color=""
           className={css.buttonLink}
           component={LinkBtn}
-          to={this.props.link ? this.props.link : '/'}
+          // to={this.props.link ? this.props.link : '/'}
+          to='/widget/newoffer'
         >
           NIEUW OFFERTE &nbsp; &#x279C;
         </Button>

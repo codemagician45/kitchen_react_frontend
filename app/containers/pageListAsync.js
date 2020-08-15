@@ -309,6 +309,10 @@ export const RegisterV2 = loadable(() =>
   import('./Pages/Users/RegisterV2'), {
   fallback: <Loading />,
 });
+export const RegisterCompany = loadable(() =>
+  import('./Pages/CompanyRegister'), {
+  fallback: <Loading />,
+});
 export const RegisterV3 = loadable(() =>
   import('./Pages/Users/RegisterV3'), {
   fallback: <Loading />,
