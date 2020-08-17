@@ -60,7 +60,7 @@ const AdminActifTable = (props) => {
         let row_data = [
           element.type,
           element.createdAt.split("T")[0],
-          element.profile?element.profile.first_name:"",
+          element.profile?element.profile.email:"",
           element.city,
           element.answer_one,
           "€ 12.500",

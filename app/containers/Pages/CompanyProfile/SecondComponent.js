@@ -53,7 +53,7 @@ const SecondComponent = (props) => {
             onChange={(e) => setWebsite(e.target.value)}
           />
         </Grid>
-        <Grid sm={2} xs={12} className={classes.margin1Left} item={true}>
+        <Grid sm={6} xs={12} className={classes.margin1Left} item={true}>
           <Typography className={classes.label} variant="button">
             Services
           </Typography>
@@ -69,40 +69,6 @@ const SecondComponent = (props) => {
             }}
             value={services}
             onChange={(e) => setServices(e.target.value)}
-          />
-        </Grid>
-        <Grid sm={2} xs={12} className={classes.margin1Left} item={true}>
-          <Typography className={classes.label} variant="button">
-            {"  "}
-            <span style={{ visibility: "hidden" }}>ge</span>
-          </Typography>
-          <TextField
-            id="outlined-full-width"
-            placeholder="Superkeukens"
-            fullWidth
-            margin="normal"
-            variant="outlined"
-            className={classes.paper}
-            InputLabelProps={{
-              shrink: true,
-            }}
-          />
-        </Grid>
-        <Grid sm={2} xs={12} className={classes.margin1Left} item={true}>
-          <Typography className={classes.label} variant="button">
-            {"  "}
-            <span style={{ visibility: "hidden" }}>ge</span>
-          </Typography>
-          <TextField
-            id="outlined-full-width"
-            placeholder="Superkeukens"
-            fullWidth
-            margin="normal"
-            variant="outlined"
-            className={classes.paper}
-            InputLabelProps={{
-              shrink: true,
-            }}
           />
         </Grid>
 
