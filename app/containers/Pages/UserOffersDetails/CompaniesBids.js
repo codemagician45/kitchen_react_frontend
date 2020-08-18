@@ -93,10 +93,11 @@ const CompaniesBids = (props) => {
       <h1>Biedingen van bedrijven</h1>
       {offer_data.length
         ? offer_data[0].bid.map((element, index) => {
+          console.log(element)
             return (
               <div className="offersList" key={index}>
                 <div className="firstDiv">
-                  <img src={element.bid.photo?element.bid.photo:dummy.user.avatar} alt="" style={{borderRadius: "5px"}}/>
+                  <img src={element.photo?element.photo:dummy.user.avatar} alt="" style={{borderRadius: "5px"}}/>
                 </div>
 
                 <div className="secondDiv">

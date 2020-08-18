@@ -1,30 +1,62 @@
-import React, { Component } from 'react';
-import Image from './example.png';
-import { Rectangle } from './style';
+import React, { useState, useEffect } from "react";
+import Image from "./example.png";
+import { Rectangle } from "./style";
+import config from "../../../actions/config";
+import { withRouter } from "react-router-dom";
 
-export default class CompaniesProfile extends Component {
-    render() {
-        return (
-            <Rectangle>
-                <h1>Bedrijsprofiel</h1>
-                <img src={Image}></img>
-                <h1>Over Keukenconcurrent</h1>
-                <div className="openWorks">
-                    <span>Maandag t/m Vrijdag 12:00 - 18:00</span><br />
-                    <span>Zaterdag 12:00 - 17:00</span><br />
-                    <span>Zondag gesloten!</span>
-                </div>
-                <h2>www.keukenconcurrent.nl</h2>
-                <div className="ratingBox">
-                    <div className="ratings">8.6</div>
-                    <div className="ratingsText">Beoordeling</div>
-                </div>
-                <div className="bottomFix">
-                    <hr />
-                    <h1>Afspraken</h1>
-                U heeft nog geen afspraken.
-                </div>
-            </Rectangle>
-        )
-    }
-}
+const CompaniesProfile = (props) => {
+  let bid_data = props.bid_data;
+  console.log(props);
+
+  const handleClick = () => {
+    props.history.push("/users/messages");
+  };
+  return (
+    <Rectangle>
+      <h1>Bedrijsprofiel</h1>
+      <img
+        src={
+          bid_data
+            ? bid_data.profile.photo
+              ? config.fetchLinkUrl + bid_data.profile.photo
+              : Image
+            : ""
+        }
+      />
+      {/* <h1>Over Keukenconcurrent</h1> */}
+      <div className="openWorks">
+        <span>
+          {bid_data && bid_data.settings ? bid_data.settings.opening_hours : ""}
+        </span>
+      </div>
+      <h2>
+        {bid_data && bid_data.settings ? bid_data.settings.website : <br />}
+      </h2>
+      <div className="openWorks">
+        <span>
+          {bid_data && bid_data.settings ? bid_data.settings.reviews : <br />}
+        </span>
+      </div>
+      <div className="openWorks">
+        <span>
+          {bid_data && bid_data.settings ? bid_data.settings.services : <br />}
+        </span>
+      </div>
+      <div className="openWorks">
+        <span>
+          {bid_data && bid_data.settings ? (
+            bid_data.settings.about_company
+          ) : (
+            <br />
+          )}
+        </span>
+      </div>
+      <div className="bottomFix">
+        <hr />
+        <h1 onClick={handleClick}>Afspraken</h1>U heeft nog geen afspraken.
+      </div>
+    </Rectangle>
+  );
+};
+
+export default withRouter(CompaniesProfile);

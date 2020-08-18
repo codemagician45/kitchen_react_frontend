@@ -252,7 +252,6 @@ const AdminConceptTable = (props) => {
 
   const download = () => {
     oldFile.map((element) => {
-      console.log(element, typeof element);
       let data = {
         file: element,
       };

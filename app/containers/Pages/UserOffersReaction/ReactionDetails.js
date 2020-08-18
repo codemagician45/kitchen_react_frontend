@@ -21,7 +21,7 @@ const ReactionDetails = (props) => {
           <h1>€ {bidData ? bidData.bid : ""},-</h1>
         </div>
         <div className="lightBlueDiv">
-          {bidData
+          {bidData&&bidData.files
             ? JSON.parse(bidData.files).map((element, index) => {
                 return (
                   <div className="firstDiv" key={index}>

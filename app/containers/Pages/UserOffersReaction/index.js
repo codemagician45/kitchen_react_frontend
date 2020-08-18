@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Grid, Button } from "@material-ui/core";
-import OffersDetails from "./ReactionDetails";
-import CompaniesBids from "./CompaniesProfile";
+import ReactionDetails from "./ReactionDetails";
+import CompaniesProfile from "./CompaniesProfile";
 import BlankPage from "../BlankPage";
 
 import styled from "styled-components";
@@ -48,10 +48,10 @@ const UserOffersReactions = (props) => {
         </HedearText>
         <Grid container spacing={3}>
           <Grid xs={12} md={5} item>
-            <OffersDetails bid_data={bidData} />
+            <ReactionDetails bid_data={bidData} />
           </Grid>
           <Grid xs={12} md={5} item>
-            <CompaniesBids />
+            <CompaniesProfile bid_data={bidData}  />
           </Grid>
         </Grid>
       </div>

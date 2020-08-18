@@ -403,6 +403,41 @@ function companyProfileSetting(data) {
     });
 }
 
+function companyProfileSettingGet(data) {
+  console.log(data);
+  return axios({
+    method: "POST",
+    headers: { Authorization: "Bearer " + localStorage.getItem("token") },
+    url: `${config.fetchLinkUrl}companies/profile/getSettings`,
+    data: data,
+  })
+    .then((res) => {
+      console.log(res);
+      return res;
+    })
+    .catch((error) => {
+      console.log(error.response.data);
+      return error;
+    });
+}
+
+function companyRegister(data) {
+  console.log(data);
+  return axios({
+    method: "POST",
+    url: `${config.fetchLinkUrl}companies_register`,
+    data: data,
+  })
+    .then((res) => {
+      console.log(res);
+      return res;
+    })
+    .catch((error) => {
+      console.log(error.response.data);
+      return error;
+    });
+}
+
 function fileDownload(data) {
   console.log(data);
   return axios({
@@ -513,6 +548,8 @@ export {
   companyProfilePhotoUpload,
   companyProfilePassword,
   companyProfileSetting,
+  companyProfileSettingGet,
+  companyRegister,
   fileDownload,
   uploadDocuments,
   updateStatusOffer,

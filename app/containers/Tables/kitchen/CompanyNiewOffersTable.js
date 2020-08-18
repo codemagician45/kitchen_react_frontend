@@ -15,7 +15,7 @@ import css2 from "./index.scss";
 
 import pdfImage from "./images/pdf.svg";
 import idealImage from "./images/ideal.svg";
-import { molliePay, companyOffers } from "../../../data/data";
+import { molliePay, companyOffers, fileDownload } from "../../../data/data";
 
 const styles = (theme) => ({
   table: {
@@ -59,8 +59,8 @@ const CompanyNiewOffersTable = (props) => {
           element.type,
           element.createdAt.split("T")[0],
           element.city,
-          "€ 12.500",
-          "pdf",
+          "",
+          element.files,
           renderBuy(element.id),
         ];
         table_data.push(row_data);
@@ -72,8 +72,8 @@ const CompanyNiewOffersTable = (props) => {
   const payForBid = (offer_id) => {
     let data = {
       offer_id: offer_id,
-      amount: 50
-    }
+      amount: 50,
+    };
     molliePay(data)
       .then((res) => {
         console.log(res.data);
@@ -124,9 +124,9 @@ const CompanyNiewOffersTable = (props) => {
       options: {
         filter: false,
         customBodyRender: (value) => (
-          <Link to="">
+          <div onClick={() => handleFile(value)}>
             <img className={css2.Responsive_pdf} src={pdfImage} alt="pdf" />
-          </Link>
+          </div>
         ),
       },
     },
@@ -135,138 +135,6 @@ const CompanyNiewOffersTable = (props) => {
     },
   ];
 
-  const data = [
-    [
-      "Modernkeuken 23 Offerte vergelijken",
-      "18-08-2019",
-      "Amsterdam",
-      "€ 12.500",
-      "pdf",
-      renderBuy(50),
-    ],
-    [
-      "Modernkeuken 23 Offerte vergelijken",
-      "18-08-2019",
-      "Amsterdam",
-      "€ 12.500",
-      "pdf",
-      renderBuy(50),
-    ],
-    [
-      "Modernkeuken 23 Offerte vergelijken",
-      "18-08-2019",
-      "Amsterdam",
-      "€ 12.500",
-      "pdf",
-      renderBuy(50),
-    ],
-    [
-      "Modernkeuken 23 Offerte vergelijken",
-      "18-08-2019",
-      "Amsterdam",
-      "€ 12.500",
-      "pdf",
-      renderBuy(50),
-    ],
-    [
-      "Modernkeuken 23 Offerte vergelijken",
-      "18-08-2019",
-      "Amsterdam",
-      "€ 12.500",
-      "pdf",
-      renderBuy(50),
-    ],
-    [
-      "Modernkeuken 23 Offerte vergelijken",
-      "18-08-2019",
-      "Amsterdam",
-      "€ 12.500",
-      "pdf",
-      renderBuy(50),
-    ],
-    [
-      "Modernkeuken 23 Offerte vergelijken",
-      "18-08-2019",
-      "Amsterdam",
-      "€ 12.500",
-      "pdf",
-      renderBuy(50),
-    ],
-    [
-      "Modernkeuken 23 Offerte vergelijken",
-      "18-08-2019",
-      "Amsterdam",
-      "€ 12.500",
-      "pdf",
-      renderBuy(50),
-    ],
-    [
-      "Modernkeuken 23 Offerte vergelijken",
-      "18-08-2019",
-      "Amsterdam",
-      "€ 12.500",
-      "pdf",
-      renderBuy(50),
-    ],
-    [
-      "Modernkeuken 23 Offerte vergelijken",
-      "18-08-2019",
-      "Amsterdam",
-      "€ 12.500",
-      "pdf",
-      renderBuy(50),
-    ],
-    [
-      "Modernkeuken 23 Offerte vergelijken",
-      "18-08-2019",
-      "Amsterdam",
-      "€ 12.500",
-      "pdf",
-      renderBuy(50),
-    ],
-    [
-      "Modernkeuken 23 Offerte vergelijken",
-      "18-08-2019",
-      "Amsterdam",
-      "€ 12.500",
-      "pdf",
-      renderBuy(50),
-    ],
-    [
-      "Modernkeuken 23 Offerte vergelijken",
-      "18-08-2019",
-      "Amsterdam",
-      "€ 12.500",
-      "pdf",
-      renderBuy(50),
-    ],
-    [
-      "Modernkeuken 23 Offerte vergelijken",
-      "18-08-2019",
-      "Amsterdam",
-      "€ 12.500",
-      "pdf",
-      renderBuy(50),
-    ],
-    [
-      "Modernkeuken 23 Offerte vergelijken",
-      "18-08-2019",
-      "Amsterdam",
-      "€ 12.500",
-      "pdf",
-      renderBuy(50),
-    ],
-    [
-      "Modernkeuken 23 Offerte vergelijken",
-      "18-08-2019",
-      "Amsterdam",
-      "€ 12.500",
-      "pdf",
-      renderBuy(50),
-    ],
-  ];
-
-  const { classes } = props;
   const options = {
     onRowsDelete: (e) => {
       console.log(e);
@@ -276,6 +144,40 @@ const CompanyNiewOffersTable = (props) => {
     print: true,
     rowsPerPage: 10,
     page: 0,
+  };
+
+  const handleFile = (file) => {
+    console.log(file);
+    if (file) {
+      JSON.parse(file).map((element) => {
+        let data = {
+          file: element,
+        };
+        fileDownload(data).then((res) => {
+          if (res.isError || res.shouldLogin) {
+            console.error("errors");
+          }
+          if (res.error) {
+            console.error("error");
+          }
+          console.log("I am download", res);
+          const url = window.URL.createObjectURL(
+            new Blob([res.data], {
+              type: "image/pdf",
+            })
+          );
+          console.log("link", url);
+
+          const link = document.createElement("a");
+
+          link.href = url;
+
+          link.setAttribute("download", element.split("/")[3]);
+
+          link.click();
+        });
+      });
+    }
   };
 
   return (

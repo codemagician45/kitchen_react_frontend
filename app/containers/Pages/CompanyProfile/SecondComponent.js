@@ -4,7 +4,10 @@ import Button from "@material-ui/core/Button";
 import { ButtonsContainer } from "./style";
 import cssButtons from "dan-styles/Buttons.scss";
 import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
-import { companyProfileSetting } from "../../../data/data";
+import {
+  companyProfileSetting,
+  companyProfileSettingGet,
+} from "../../../data/data";
 
 const SecondComponent = (props) => {
   const { classes } = props;
@@ -13,6 +16,27 @@ const SecondComponent = (props) => {
   const [aboutCompany, setAboutCompany] = useState("");
   const [openingHours, setOpeningHours] = useState("");
   const [reviews, setReviews] = useState("");
+
+  useEffect(() => {
+    let data = {
+      company_id: JSON.parse(localStorage.getItem("user")).id,
+    };
+    companyProfileSettingGet(data).then((res) => {
+      if (res.isError || res.shouldLogin) {
+        console.error("errors");
+      }
+      if (res.error) {
+        console.error("error");
+      }
+      console.log("I am here", res.data);
+      let response = res.data[0];
+      setWebsite(response.website);
+      setServices(response.services);
+      setAboutCompany(response.about_company);
+      setOpeningHours(response.opening_hours);
+      setReviews(response.reviews);
+    });
+  }, []);
 
   const send_data = () => {
     let data = {
