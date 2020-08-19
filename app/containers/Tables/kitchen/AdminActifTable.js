@@ -10,7 +10,7 @@ import React, { useState, useEffect } from "react";
 import { withStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
 import MUIDataTable from "mui-datatables";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { Button } from "@material-ui/core";
 import css from "dan-styles/Buttons.scss";
 import css2 from "./index.scss";
@@ -60,15 +60,16 @@ const AdminActifTable = (props) => {
         let row_data = [
           element.type,
           element.createdAt.split("T")[0],
-          element.profile?element.profile.email:"",
+          element.profile ? element.profile.email : "",
           element.city,
           element.answer_one,
           "€ 12.500",
           "€ 50",
-          element.id
-        ]
+          "",
+          element.id,
+        ];
         table_data.push(row_data);
-      })
+      });
       setTableData(table_data);
     });
   }, []);
@@ -160,9 +161,14 @@ const AdminActifTable = (props) => {
     ],
   ];
 
-  const renderLink = (link) => {
+  const renderLink = (id) => {
     return (
-      <Button variant="contained" color="" className={css.seeButton}>
+      <Button
+        variant="contained"
+        color=""
+        className={css.seeButton}
+        onClick={() => viewOffer(id)}
+      >
         BIJWERKEN &nbsp; &#x279C;
       </Button>
     );
@@ -172,7 +178,6 @@ const AdminActifTable = (props) => {
     return <div>{value}</div>;
   };
 
-  const { classes } = props;
   const options = {
     onRowsDelete: (e) => {
       console.log(e);
@@ -183,6 +188,11 @@ const AdminActifTable = (props) => {
     print: true,
     rowsPerPage: 10,
     page: 0,
+  };
+
+  const viewOffer = (id) => {
+    console.log(id, props);
+    props.history.push(`/admin/offers/${id}`);
   };
   return (
     <div className={css2.multiTableContainer}>
@@ -195,4 +205,4 @@ AdminActifTable.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(AdminActifTable);
+export default withStyles(styles)(withRouter(AdminActifTable));

@@ -389,6 +389,11 @@ export const AdminOffersPage = loadable(() =>
   fallback: <Loading />,
 });
 
+export const AdminOfferDetailPage = loadable(() =>
+  import('./Pages/admin/AdminOfferDetail'), {
+  fallback: <Loading />,
+});
+
 export const AdminUserList = loadable(() =>
   import('./Pages/admin/UserList'), {
   fallback: <Loading />,
