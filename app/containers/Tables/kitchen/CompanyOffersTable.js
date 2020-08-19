@@ -72,9 +72,9 @@ const CompanyOffersTable = (props) => {
       options: {
         filter: false,
         customBodyRender: (value) => (
-          <Link to="/">
+          <div>
             <div>{value === 0 ? "Nog geen reacties" : value + " reacties"}</div>
-          </Link>
+          </div>
         ),
       },
     },
@@ -85,24 +85,6 @@ const CompanyOffersTable = (props) => {
         customBodyRender: (value) => renderLink(value),
       },
     },
-  ];
-  const data = [
-    [
-      "Modernkeuken 23 Offerte vergelijken",
-      "18-08-2019",
-      "Rotterdam, NL",
-      "€ 12.500'",
-      0,
-      "1",
-    ],
-    [
-      "Modernkeuken 23 Offerte vergelijken",
-      "18-08-2019",
-      "Amsterdam, NL",
-      "€ 11.500'",
-      3,
-      "2",
-    ],
   ];
 
   const [tableData, setTableData] = useState([]);
@@ -117,18 +99,18 @@ const CompanyOffersTable = (props) => {
       }
       console.log("I am here", res.data);
       let table_data = [];
-      res.data.meineOffers.map(element => {
+      res.data.meineOffers.map((element) => {
         let row_data = [
           element.offerDetail.type,
           element.createdAt.split("T")[0],
           element.offerDetail.city,
-          "€ 11.500'",
-          3,
-          element.id
+          `€ ${element.bid}`,
+          element.reactionCount,
+          element.id,
         ];
         table_data.push(row_data);
-      })
-      setTableData(table_data)
+      });
+      setTableData(table_data);
     });
   }, []);
 

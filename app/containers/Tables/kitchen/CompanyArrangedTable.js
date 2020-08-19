@@ -76,9 +76,9 @@ const CompanyArrangedTable = (props) => {
       options: {
         filter: false,
         customBodyRender: (value) => (
-          <Link to="/">
-            <div>{value + " reacties"}</div>
-          </Link>
+          <div>
+            <div>{value === 0 ? "Nog geen reacties" : value + " reacties"}</div>
+          </div>
         ),
       },
     },
@@ -89,15 +89,6 @@ const CompanyArrangedTable = (props) => {
         customBodyRender: (value) => renderLink(value),
       },
     },
-  ];
-  const data = [
-    [
-      "Modernkeuken 25Offerte vergelijken",
-      "18-08-2019",
-      "Rotterdam, NL",
-      3,
-      "1",
-    ],
   ];
 
   const [tableData, setTableData] = useState([]);
@@ -117,7 +108,7 @@ const CompanyArrangedTable = (props) => {
           element.offerDetail.name,
           element.createdAt.split("T")[0],
           element.offerDetail.city,
-          3,
+          element.reactionCount,
           element.offerDetail.id,
         ];
         table_data.push(row_data);
