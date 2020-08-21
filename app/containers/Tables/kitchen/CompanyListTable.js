@@ -108,9 +108,16 @@ const CompanyListTable = (props) => {
       console.log("I am here", res);
       // this.setState({ info: res })
       let table_data = [];
-      res.data.map(element => {
-        table_data.push([element.profile.name, element.email, element.profile.telephone_number, element.profile.city, '', 'link']);
-      })
+      res.data.map((element) => {
+        table_data.push([
+          element.profile ? element.profile.name : "",
+          element.email,
+          element.profile ? element.profile.telephone_number : "",
+          element.profile ? element.profile.city : "",
+          "",
+          "link",
+        ]);
+      });
       setTableData(table_data);
     });
   }, []);
@@ -188,11 +195,7 @@ const CompanyListTable = (props) => {
   };
   return (
     <div className={css2.multiTableContainer}>
-      <MUIDataTable
-        data={tableData}
-        columns={columns}
-        options={options}
-      />
+      <MUIDataTable data={tableData} columns={columns} options={options} />
       <Dialog
         open={modalOpen}
         onClose={handleModalClose}
