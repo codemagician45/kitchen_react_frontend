@@ -87,7 +87,7 @@ const CompaniesDashBoard = () => {
         let element_data = {
           name: element.name,
           date: element.createdAt.split("T")[0],
-          reactions: 0,
+          reactions: element.reactionCount,
         };
         offer_data.push(element_data);
       });
