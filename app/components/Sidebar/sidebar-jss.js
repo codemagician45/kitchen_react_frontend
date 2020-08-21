@@ -383,6 +383,15 @@ const styles = (theme) => ({
   badge: {
     height: "auto",
   },
+  notify_badge: {
+    width: 23,
+    height: 23,
+    backgroundColor: "red",
+    color: "white",
+    borderRadius: "50%",
+    padding: 1,
+    textAlign: "center",
+  },
 });
 
 export default styles;

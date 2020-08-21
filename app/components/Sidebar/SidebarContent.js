@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import classNames from "classnames";
@@ -13,111 +13,123 @@ import dummy from "dan-api/dummy/dummyContents";
 import MainMenu from "./MainMenu";
 import styles from "./sidebar-jss";
 import logo from "dan-images/companyLogo.png";
+import { adminDashBoardCounts } from "../../data/data";
 
-class SidebarContent extends React.Component {
-  state = {
-    transform: 0,
-  };
+const SidebarContent = (props) => {
+  const [transform, setTransform] = useState(0);
+  const [notifyData, setNotifyData] = useState([]);
 
-  componentDidMount = () => {
-    // Scroll content to top
+  // componentDidMount = () => {
+  //   // Scroll content to top
+  //   const mainContent = document.getElementById("sidebar");
+  //   mainContent.addEventListener("scroll", handleScroll);
+  // };
+
+  useEffect(() => {
+    let type = JSON.parse(localStorage.getItem("user")).type;
+    if (type === "admin") {
+      adminDashBoardCounts().then((res) => {
+        if (res.data.isError || res.data.shouldLogin) {
+          console.error("errors");
+        }
+        if (res.data.error) {
+          console.error("error");
+        }
+        console.log("I am here", res.data);
+        let notify_data = [];
+        notify_data["offers"] = res.data.notification.new_offer;
+        notify_data["klanten"] = res.data.notification.new_user;
+        notify_data["bedrijven"] = res.data.notification.new_companies;
+        setNotifyData(notify_data);
+      });
+    }
+  }, []);
+
+  useEffect(() => {
     const mainContent = document.getElementById("sidebar");
-    mainContent.addEventListener("scroll", this.handleScroll);
-  };
+    mainContent.addEventListener("scroll", handleScroll);
+  }, [transform]);
 
-  componentWillUnmount() {
-    const mainContent = document.getElementById("sidebar");
-    mainContent.removeEventListener("scroll", this.handleScroll);
-  }
-
-  handleScroll = (event) => {
+  const handleScroll = (event) => {
     const scroll = event.target.scrollTop;
-    this.setState({
-      transform: scroll,
-    });
+    setTransform(scroll);
   };
 
-  toMainPage = () => {
+  const toMainPage = () => {
     let type = JSON.parse(localStorage.getItem("user")).type;
     if (type === "admin") return "/admin";
     else if (type === "client") return "/users";
     else if (type === "company") return "/companies";
   };
 
-  render() {
-    const {
-      classes,
-      turnDarker,
-      drawerPaper,
-      toggleDrawerOpen,
-      loadTransition,
-      leftSidebar,
-      dataMenu,
-      status,
-      anchorEl,
-      openMenuStatus,
-      closeMenuStatus,
-      changeStatus,
-      isLogin,
-    } = this.props;
-    const { transform } = this.state;
+  const {
+    classes,
+    turnDarker,
+    drawerPaper,
+    toggleDrawerOpen,
+    loadTransition,
+    leftSidebar,
+    dataMenu,
+    status,
+    anchorEl,
+    openMenuStatus,
+    closeMenuStatus,
+    changeStatus,
+    isLogin,
+  } = props;
 
-    const setStatus = (st) => {
-      switch (st) {
-        case "online":
-          return classes.online;
-        case "idle":
-          return classes.idle;
-        case "bussy":
-          return classes.bussy;
-        default:
-          return classes.offline;
-      }
-    };
-    return (
-      <div
-        className={classNames(
-          classes.drawerInner,
-          !drawerPaper ? classes.drawerPaperClose : ""
-        )}
-      >
-        <div className={classes.drawerHeader}>
-          <NavLink
-            to={this.toMainPage}
-            className={classNames(
-              classes.brand,
-              classes.brandBar,
-              turnDarker && classes.darker
-            )}
-          >
-            <h3 style={{ color: "#0090e3", fontSize: "17px" }}>
-              <img
-                src={logo}
-                alt={brand.name}
-                className={classes.companyLogo}
-              />
-              {/* Keukenvergelijking.nl */}
-            </h3>
-          </NavLink>
-        </div>
-        <div
-          id="sidebar"
+  const setStatus = (st) => {
+    switch (st) {
+      case "online":
+        return classes.online;
+      case "idle":
+        return classes.idle;
+      case "bussy":
+        return classes.bussy;
+      default:
+        return classes.offline;
+    }
+  };
+  return (
+    <div
+      className={classNames(
+        classes.drawerInner,
+        !drawerPaper ? classes.drawerPaperClose : ""
+      )}
+    >
+      <div className={classes.drawerHeader}>
+        <NavLink
+          to={toMainPage}
           className={classNames(
-            classes.menuContainer,
-            leftSidebar && classes.rounded,
-            isLogin && classes.withProfile
+            classes.brand,
+            classes.brandBar,
+            turnDarker && classes.darker
           )}
         >
-          <MainMenu
-            loadTransition={loadTransition}
-            dataMenu={dataMenu}
-            toggleDrawerOpen={toggleDrawerOpen}
-          />
-        </div>
+          <h3 style={{ color: "#0090e3", fontSize: "17px" }}>
+            <img src={logo} alt={brand.name} className={classes.companyLogo} />
+            {/* Keukenvergelijking.nl */}
+          </h3>
+        </NavLink>
       </div>
-    );
-  }
-}
+      <div
+        id="sidebar"
+        className={classNames(
+          classes.menuContainer,
+          leftSidebar && classes.rounded,
+          isLogin && classes.withProfile
+        )}
+      >
+        <MainMenu
+          loadTransition={loadTransition}
+          dataMenu={dataMenu}
+          toggleDrawerOpen={toggleDrawerOpen}
+          notify_data={notifyData}
+        />
+      </div>
+    </div>
+  );
+};
 
 SidebarContent.propTypes = {
   classes: PropTypes.object.isRequired,
