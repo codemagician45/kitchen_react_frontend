@@ -200,6 +200,21 @@ function companyOffers() {
     });
 }
 
+function userDashboard() {
+  return axios({
+    method: "POST",
+    url: `${config.fetchLinkUrl}users/dashboard`,
+    headers: { Authorization: "Bearer " + localStorage.getItem("token") },
+  })
+    .then((res) => {
+      return res;
+    })
+    .catch((error) => {
+      console.log(error.response.data);
+      return error;
+    });
+}
+
 function userOffers() {
   return axios({
     method: "POST",
@@ -292,6 +307,21 @@ function userProfilePassword(data) {
   })
     .then((res) => {
       console.log(res);
+      return res;
+    })
+    .catch((error) => {
+      console.log(error.response.data);
+      return error;
+    });
+}
+
+function companyDashboard() {
+  return axios({
+    method: "POST",
+    url: `${config.fetchLinkUrl}companies/dashboard`,
+    headers: { Authorization: "Bearer " + localStorage.getItem("token") },
+  })
+    .then((res) => {
       return res;
     })
     .catch((error) => {
@@ -536,6 +566,7 @@ export {
   adminDashBoardCompanies,
   userToCompany,
   companyOffers,
+  userDashboard,
   userOfferDetailGet,
   userProfileGet,
   userOffers,
@@ -543,6 +574,7 @@ export {
   userProfileDataUpload,
   userProfilePhotoUpload,
   userProfilePassword,
+  companyDashboard,
   companyProfileGet,
   companyProfileDataUpload,
   companyProfilePhotoUpload,

@@ -1,13 +1,14 @@
 /* eslint-disable react/jsx-indent */
 /* eslint-disable indent */
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet";
 import brand from "dan-api/dummy/brand";
 import { Grid } from "@material-ui/core";
 import { RectangleBlock, OffersList, MessagesList } from "dan-components";
 import BlankPage from "../BlankPage";
+import { userDashboard } from "../../../data/data";
 
-const UserDashBoard = () => {
+const UsersDashBoard = () => {
   const title = brand.name + " - Blank Page";
   const description = brand.desc;
   const datas = [
@@ -48,6 +49,47 @@ const UserDashBoard = () => {
     createData("logo", "Superkeukens", "is aan het typen"),
     createData("logo", "Superkeukens", "is aan het typen"),
   ];
+
+  const [countData, setCountData] = useState([]);
+  const [offerData, setOfferData] = useState([]);
+
+  useEffect(() => {
+    userDashboard().then((res) => {
+      if (res.isError || res.shouldLogin) {
+        console.error("errors");
+      }
+      if (res.error) {
+        console.error("error");
+      }
+      console.log("I am here", res.data);
+      let data = [
+        { number: res.data.offersCount, title: "Offerte", link: "Bekijken" },
+        {
+          number: res.data.totalActiveOfferBidsCount,
+          title: "Berichten",
+          link: "Bekijken",
+        },
+        {
+          number: res.data.attendedOffersCount,
+          title: "BEOORDELING",
+          link: "Bekijken",
+        },
+      ];
+
+      setCountData(data);
+
+      let offer_data = [];
+      res.data.lastOffers.map((element) => {
+        let element_data = {
+          name: element.name,
+          date: element.createdAt.split("T")[0],
+          reactions: 0,
+        };
+        offer_data.push(element_data);
+      });
+      setOfferData(offer_data);
+    });
+  }, []);
   return (
     <div>
       <Helmet>
@@ -63,7 +105,7 @@ const UserDashBoard = () => {
           <Grid item xs={0} md={1} />
           <Grid item xs={12} md={9}>
             <Grid container>
-              {datas.map((data, index) => (
+              {countData.map((data, index) => (
                 // eslint-disable-next-line react/no-array-index-key
                 <Grid item xs={12} md={4} key={index}>
                   <RectangleBlock data={data}>Content</RectangleBlock>
@@ -83,7 +125,7 @@ const UserDashBoard = () => {
               </Grid>
               <Grid item xs={0} md={1} />
               <Grid item md={5} xs={12}>
-                <OffersList data={UserData} />
+                <OffersList data={offerData} />
               </Grid>
             </Grid>
           </Grid>
@@ -94,4 +136,4 @@ const UserDashBoard = () => {
   );
 };
 
-export default UserDashBoard;
+export default UsersDashBoard;

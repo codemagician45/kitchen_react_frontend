@@ -144,21 +144,23 @@ const CompaniesBids = (props) => {
     <div>
       <Rectangle>
         <div className="headerReactangle">Bestanden</div>
-        {files.map((element, index) => {
-          return (
-            <div className="offersList" key={index}>
-              <div className="firstDiv">
-                <img src={pdfImage} />
-              </div>
-              <div className="secondDiv">file{index + 1}</div>
-              <div className="lastDiv">
-                <span onClick={() => download(element)}>Download</span>
-                {/* <span>Bekijken</span> */}
-                {/* <span> Vervijderen</span> */}
-              </div>
-            </div>
-          );
-        })}
+        {files
+          ? files.map((element, index) => {
+              return (
+                <div className="offersList" key={index}>
+                  <div className="firstDiv">
+                    <img src={pdfImage} />
+                  </div>
+                  <div className="secondDiv">file{index + 1}</div>
+                  <div className="lastDiv">
+                    <span onClick={() => download(element)}>Download</span>
+                    {/* <span>Bekijken</span> */}
+                    {/* <span> Vervijderen</span> */}
+                  </div>
+                </div>
+              );
+            })
+          : ""}
         <div />
       </Rectangle>
       <Sentemail>

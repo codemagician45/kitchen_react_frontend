@@ -63,9 +63,10 @@ const AdminActifTable = (props) => {
           element.profile ? element.profile.email : "",
           element.city,
           element.answer_one,
-          "€ 12.500",
+          element.files,
           "€ 50",
           "",
+          element.reactionCount,
           element.id,
         ];
         table_data.push(row_data);
@@ -124,6 +125,12 @@ const AdminActifTable = (props) => {
     },
     {
       name: "Offerteprijs",
+      options: {
+        filter: false,
+      },
+    },
+    {
+      name: "Reacties",
       options: {
         filter: false,
       },
