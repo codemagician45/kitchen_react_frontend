@@ -23,19 +23,19 @@ import styles from "./chatStyle-jss";
 const StreamApiChat = (props) => {
   const { classes } = props;
   // const chatClient = new StreamChat("kkzn98xebx9t");
-  const chatClient = new StreamChat("8yzyu9ky2d2d");
-  const userToken =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiYWRtaW4ifQ.fgNRZEGEBrgDxKQpYmrOa6IiEOv22D_5b1FurVagZoQ";
+  const chatClient = new StreamChat("kkkqp86hb87x");
+  // const userToken =
+  //   "4keyfptk88dwz2wp67jj65xugn7xr9349hnsq5wecd3n33w8jpuy43xv2zz669cy";
 
-  // const userToken = JSON.parse(localStorage.getItem("user")).message_token;
+  const userToken = JSON.parse(localStorage.getItem("user")).message_token;
 
   chatClient.setUser(
     {
-      id: "admin",
+      id: JSON.parse(localStorage.getItem("user")).id.toString(),
       // name: "userid_1",
       // role: 'admin',
       image: "https://getstream.io/random_png/?id=userid_1&name=userid_1",
-      favorite_color: 'green'
+      favorite_color: "green",
     },
     userToken
   );
@@ -53,7 +53,7 @@ const StreamApiChat = (props) => {
 
   const filters = {
     type: "messaging",
-    members: { $in: ['userid_1'] },
+    // members: { $in: ['userid_1'] },
   };
 
   const sort = { last_message_at: -1 };
@@ -79,7 +79,11 @@ const StreamApiChat = (props) => {
           <Window>
             <ChannelHeader />
             <MessageList className={classes.messageList} />
-            {JSON.parse(localStorage.getItem('user')).type==='admin'?'':<MessageInput />}
+            {JSON.parse(localStorage.getItem("user")).type === "admin" ? (
+              ""
+            ) : (
+              <MessageInput />
+            )}
           </Window>
           <Thread />
         </Channel>

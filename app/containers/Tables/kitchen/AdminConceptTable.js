@@ -82,6 +82,7 @@ const AdminConceptTable = (props) => {
   const [oldFile, setOldFile] = useState([]);
   const [offerIdForUpload, setOfferIdForUpload] = useState("");
   const [offerIdForStatus, setOfferIdForStatus] = useState("");
+  const [modalAlertOpen, setModalAlertOpen] = useState(false);
 
   useEffect(() => {
     adminDashBoardOffers().then((res) => {
@@ -104,7 +105,7 @@ const AdminConceptTable = (props) => {
             old_files: element.old_files,
             id: element.id,
           },
-          element.id,
+          { id: element.id, files: element.files },
         ];
         table_data.push(row_data);
       });
@@ -205,14 +206,20 @@ const AdminConceptTable = (props) => {
     setFiles(files);
   };
 
-  const handleModalOpen = (id) => {
-    setModalOpen(true);
-    setOfferIdForStatus(id);
+  const handleModalOpen = (value) => {
+    if (value.files) {
+      setModalOpen(true);
+      setOfferIdForStatus(value.id);
+    } else setModalAlertOpen(true);
   };
 
   const handleModalClose = () => {
     setModalOpen(false);
     setOfferIdForStatus("");
+  };
+
+  const handleAlertModalClose = () => {
+    setModalAlertOpen(false);
   };
 
   const changeStatus = () => {
@@ -233,13 +240,13 @@ const AdminConceptTable = (props) => {
     });
   };
 
-  const renderLink = (id) => {
+  const renderLink = (value) => {
     return (
       <Button
         variant="contained"
         color=""
         className={css.seeButton}
-        onClick={() => handleModalOpen(id)}
+        onClick={() => handleModalOpen(value)}
       >
         Publiceren &nbsp; &#x279C;
       </Button>
@@ -361,6 +368,23 @@ const AdminConceptTable = (props) => {
             Nee
           </Button>
           <Button onClick={changeStatus} color="primary" autoFocus>
+            ja
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <Dialog
+        open={modalAlertOpen}
+        onClose={handleAlertModalClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Firstly, upload new files
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleAlertModalClose} color="primary" autoFocus>
             ja
           </Button>
         </DialogActions>
