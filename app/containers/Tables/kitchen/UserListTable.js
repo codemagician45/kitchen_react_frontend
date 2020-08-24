@@ -107,11 +107,18 @@ const UserListTable = (props) => {
       }
       console.log(res.data);
       let table_data = [];
-      res.data.map(element => {
-        table_data.push([element.profile.first_name, element.email, element.profile.telephone_number, element.profile.city, '', element.id]);
-      })
+      res.data.map((element) => {
+        table_data.push([
+          element.profile ? element.profile.first_name : "",
+          element.email,
+          element.profile ? element.profile.telephone_number : "",
+          element.profile ? element.profile.city : "",
+          "",
+          element.id,
+        ]);
+      });
       console.log("table", table_data);
-      setTableData(table_data)
+      setTableData(table_data);
     });
   }, []);
 
@@ -137,8 +144,10 @@ const UserListTable = (props) => {
         console.error("error");
       }
       console.log(res.data);
-      if(res.data.success) {
-        let new_tableData = tableData.filter(function(item){ return item[5] != changeUserId});
+      if (res.data.success) {
+        let new_tableData = tableData.filter(function(item) {
+          return item[5] != changeUserId;
+        });
         console.log(new_tableData);
         setTableData(new_tableData);
         setChangeUserId("");
@@ -188,11 +197,7 @@ const UserListTable = (props) => {
   };
   return (
     <div className={css2.multiTableContainer}>
-      <MUIDataTable
-        data={tableData}
-        columns={columns}
-        options={options}
-      />
+      <MUIDataTable data={tableData} columns={columns} options={options} />
       <Dialog
         open={modalOpen}
         onClose={handleModalClose}
