@@ -36,7 +36,7 @@ const OffersDetails = (props) => {
           {props.offer_data ? props.offer_data.createdAt.split("T")[0] : ""}
         </div>
         <div className="list-item">
-          <div>Prijs:</div>€ 12.450 ( of n.v.t )
+          <div>Prijs:</div>
         </div>
         {props.offer_data
           ? JSON.parse(props.offer_data.old_files).map((element, index) => {
