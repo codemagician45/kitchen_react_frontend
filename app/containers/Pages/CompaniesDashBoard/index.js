@@ -22,32 +22,10 @@ const CompaniesDashBoard = () => {
     };
   }
 
-  let id2 = 0;
-  function createUserData(type, datum, reactions) {
-    id2 += 1;
-    return {
-      id2,
-      type,
-      datum,
-      reactions,
-    };
-  }
-
-  const UserData = [
-    createUserData("Modernkeuken 23", "18-08-2019", 3),
-    createUserData("Modernkeuken 25", "18-08-2019", 3),
-  ];
-
   const MessagesData = [
     createData(false, "Klant A.Brouwer - Offerte 2019 ", "Tot ziens.."),
     createData(false, "Klant A.Brouwer - Offerte 2019 ", "is aan het typen"),
     createData(false, "Klant A.Brouwer - Offerte 2019 ", "is aan het typen"),
-  ];
-
-  const datas = [
-    { number: 22, title: "Nieuwe offertes", link: "Bekijken" },
-    { number: 12, title: "Mijn offertes", link: "Bekijken" },
-    { number: 4, title: "Afspraken", link: "Bekijken" },
   ];
 
   const [countData, setCountData] = useState([]);
@@ -67,16 +45,19 @@ const CompaniesDashBoard = () => {
           number: res.data.activeOffersCount,
           title: "Nieuwe offertes",
           link: "Bekijken",
+          url: "/companies/offers",
         },
         {
           number: res.data.paidBidOfferCount,
           title: "Mijn offertes",
           link: "Bekijken",
+          url: "/companies/offers",
         },
         {
           number: res.data.attendedOfferCount,
           title: "Afspraken",
           link: "Bekijken",
+          url: "/companies",
         },
       ];
 

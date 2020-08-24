@@ -5,20 +5,23 @@ import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import styles from "./papperStyle-jss";
 import css from "dan-styles/Rectangle.scss";
-import { withRouter } from 'react-router-dom';
+import { withRouter } from "react-router-dom";
 
 const RectangleBlock = (props) => {
   const { data } = props;
 
   const goto = () => {
-    props.history.push(data.url)
-  }
+    console.log(data);
+    props.history.push(data.url);
+  };
 
   return (
     <div className={css.ReactangleConmponent}>
       <Typography component="h3">{data.title}</Typography>
       <Typography component="h1">{data.number}</Typography>
-      <Typography component="a" onClick={goto}>{data.link}</Typography>
+      <Typography component="a" onClick={goto}>
+        {data.link}
+      </Typography>
     </div>
   );
 };

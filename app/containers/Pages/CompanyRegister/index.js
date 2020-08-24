@@ -116,14 +116,12 @@ const CompanyRegister = (props) => {
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
-      return;
+      setSnackbarStatus({
+        open: false,
+        color: "",
+        message: "",
+      });
     }
-
-    setSnackbarOpen({
-      open: false,
-      color: "",
-      message: "",
-    });
   };
 
   return (

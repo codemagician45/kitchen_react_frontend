@@ -28,15 +28,34 @@ const AdminDashBoard = () => {
       }
       console.log("I am here", res);
       let card_data = [
-        { number: res.data.offersCount, title: "Nieuwe offertes", link: "Bekijken", url: "/admin/offers" },
-        { number: res.data.companiesCount, title: "Bedrijven", link: "Bekijken", url: "/admin/companies" },
-        { number: res.data.clientCount, title: "Klanten", link: "Bekijken", url: "/admin/users" },
-        { number: res.data.reactionCount, title: "Reacties", link: "Bekijken", url: "/admin" },
+        {
+          number: res.data.offersCount,
+          title: "Nieuwe offertes",
+          link: "Bekijken",
+          url: "/admin/offers",
+        },
+        {
+          number: res.data.companiesCount,
+          title: "Bedrijven",
+          link: "Bekijken",
+          url: "/admin/companies",
+        },
+        {
+          number: res.data.clientCount,
+          title: "Klanten",
+          link: "Bekijken",
+          url: "/admin/users",
+        },
+        {
+          number: res.data.reactionCount,
+          title: "Reacties",
+          link: "Bekijken",
+          url: "/admin",
+        },
       ];
       setRectangleData(card_data);
 
-      setOffersData(res.data.lastOffers)
-
+      setOffersData(res.data.lastOffers);
     });
   }, []);
 

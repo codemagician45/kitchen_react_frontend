@@ -28,22 +28,6 @@ const UsersDashBoard = () => {
     };
   }
 
-  let id2 = 0;
-  function createUserData(type, datum, reactions) {
-    id2 += 1;
-    return {
-      id2,
-      type,
-      datum,
-      reactions,
-    };
-  }
-
-  const UserData = [
-    createUserData("Modernkeuken 23", "18-08-2019", 3),
-    createUserData("Modernkeuken 25", "18-08-2019", 3),
-  ];
-
   const messagesData = [
     createData("logo", "Keukenconcurrent", "Tot ziens.."),
     createData("logo", "Superkeukens", "is aan het typen"),
@@ -63,16 +47,23 @@ const UsersDashBoard = () => {
       }
       console.log("I am here", res.data);
       let data = [
-        { number: res.data.offersCount, title: "Offerte", link: "Bekijken" },
+        {
+          number: res.data.offersCount,
+          title: "Offerte",
+          link: "Bekijken",
+          url: "/users/offers",
+        },
         {
           number: res.data.totalActiveOfferBidsCount,
           title: "Berichten",
           link: "Bekijken",
+          url: "/users/messages",
         },
         {
           number: res.data.attendedOffersCount,
           title: "BEOORDELING",
           link: "Bekijken",
+          url: "/users",
         },
       ];
 

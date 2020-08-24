@@ -27,7 +27,6 @@ const LeftSidebarLayout = (props) => {
     handleOpenGuide,
     dataMenu,
   } = props;
-  console.log(props.history.location.pathname, dataMenu);
   let title = dataMenu.filter(function(element) {
     return element.link === props.history.location.pathname;
   });

@@ -6,6 +6,8 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import { Button, Grid } from "@material-ui/core";
 import PublishIcon from "@material-ui/icons/Publish";
 import { becomeBidder } from "../../../data/data";
+import Snackbar from "@material-ui/core/Snackbar";
+import SnackbarContent from "@material-ui/core/SnackbarContent";
 
 const DetailsContainer = styled.div`
   margin-top: 20px;
@@ -85,6 +87,11 @@ const NewOffer = (props) => {
   const [files, setFiles] = useState([]);
   const [bid, setBid] = useState("");
   const [note, setNote] = useState("");
+  const [snackbarSatus, setSnackbarStatus] = useState({
+    open: false,
+    color: "",
+    message: "",
+  });
 
   const handleBid = (e) => {
     console.log(e.target.value);
@@ -96,31 +103,63 @@ const NewOffer = (props) => {
     setFiles(e.target.files);
   };
 
-  const sendBidder = () => {
-    let bid_data = {
-      bid: bid,
-      note: note,
-      offer_id: props.offer_id,
-    };
-    let data = new FormData();
-    for (let i = 0; i < files.length; i++) {
-      data.append("files[]", files[i], files[i].name);
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      setSnackbarStatus({
+        open: false,
+        color: "",
+        message: "",
+      });
     }
-    data.append("bid", JSON.stringify(bid_data));
-    console.log(data);
-    becomeBidder(data).then((res) => {
-      if (res.isError || res.shouldLogin) {
-        console.error("errors");
+  };
+
+  const sendBidder = () => {
+    if (bid && note && files.length) {
+      let bid_data = {
+        bid: bid,
+        note: note,
+        offer_id: props.offer_id,
+      };
+      let data = new FormData();
+      for (let i = 0; i < files.length; i++) {
+        data.append("files[]", files[i], files[i].name);
       }
-      if (res.error) {
-        console.error("error");
-      }
-      console.log("I am here", res.data);
-      props.history.push("/companies/offers")
-    });
+      data.append("bid", JSON.stringify(bid_data));
+      console.log(data);
+      becomeBidder(data).then((res) => {
+        if (res.isError || res.shouldLogin) {
+          console.error("errors");
+        }
+        if (res.error) {
+          console.error("error");
+        }
+        console.log("I am here", res.data);
+        props.history.push("/companies");
+      });
+    } else
+      setSnackbarStatus({
+        open: true,
+        color: "red",
+        message: "input all bid data",
+      });
   };
   return (
     <div>
+      <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        open={snackbarSatus.open}
+        onClose={handleClose}
+      >
+        <SnackbarContent
+          aria-describedby="message-id2"
+          style={{ backgroundColor: snackbarSatus.color }}
+          message={
+            <span id="message-id2">
+              <div>{snackbarSatus.message}</div>
+            </span>
+          }
+        />
+      </Snackbar>
       <DetailsContainer>
         <form className={classes.root} noValidate autoComplete="off">
           <div className="input-part">

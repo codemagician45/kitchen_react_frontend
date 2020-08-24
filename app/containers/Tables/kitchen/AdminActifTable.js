@@ -17,7 +17,7 @@ import css2 from "./index.scss";
 
 import pdfImage from "./images/pdf.svg";
 
-import { adminDashBoardOffers } from "../../../data/data";
+import { adminDashBoardOffers, fileDownload } from "../../../data/data";
 
 const styles = (theme) => ({
   table: {
@@ -34,10 +34,7 @@ const styles = (theme) => ({
     },
   },
 });
-const LinkBtn = React.forwardRef(function LinkBtn(props, ref) {
-  // eslint-disable-line
-  return <Link to={props.to} {...props} innerRef={ref} />; // eslint-disable-line
-});
+
 /*
   It uses npm mui-datatables. It's easy to use, you just describe columns and data collection.
   Checkout full documentation here :
@@ -110,10 +107,10 @@ const AdminActifTable = (props) => {
       name: "Bijlage",
       options: {
         filter: false,
-        customBodyRender: () => (
-          <Link to="">
-            <img src={pdfImage} alt="pdf" />
-          </Link>
+        customBodyRender: (file) => (
+          <div>
+            <img src={pdfImage} alt="pdf" onClick={() => download(file)} />
+          </div>
         ),
       },
     },
@@ -143,30 +140,43 @@ const AdminActifTable = (props) => {
       },
     },
   ];
-  const data = [
-    [
-      "Modernkeuken 23 Offerte vergelijken",
-      "18-08-2019",
-      "Ali Oz",
-      "Amsterdam",
-      "3 mnd",
-      "pdf",
-      "€ 12.500",
-      "€ 50",
-      "link",
-    ],
-    [
-      "Modernkeuken 23 Offerte vergelijken",
-      "18-08-2019",
-      "Ali Oz",
-      "Amsterdam",
-      "3 mnd",
-      "pdf",
-      "€ 12.500",
-      "€ 50",
-      "link",
-    ],
-  ];
+
+  const download = (file) => {
+    console.log(file);
+    if (file) {
+      let download_files = JSON.parse(file);
+      download_files.map((element) => {
+        let data = {
+          file: element,
+        };
+        fileDownload(data).then((res) => {
+          if (res.isError || res.shouldLogin) {
+            console.error("errors");
+          }
+          if (res.error) {
+            console.error("error");
+          }
+          console.log("I am download", res);
+          const url = window.URL.createObjectURL(
+            new Blob([res.data], {
+              type: "image/pdf",
+            })
+          );
+          console.log("link", url);
+
+          const link = document.createElement("a");
+
+          link.href = url;
+
+          link.setAttribute("download", element.split("/")[3]);
+
+          // document.body.appendChild(link);
+
+          link.click();
+        });
+      });
+    }
+  };
 
   const renderLink = (id) => {
     return (
