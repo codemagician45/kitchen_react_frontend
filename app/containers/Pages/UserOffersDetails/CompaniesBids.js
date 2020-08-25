@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import pdfImage from "../../../../images/pdf.svg";
 import styled from "styled-components";
 import dummy from "dan-api/dummy/dummyContents";
 import config from "../../../actions/config";
+import { fileDownload } from "../../../data/data";
 
 const Rectangle = styled.div`
   border-radius: 20px;
@@ -89,6 +90,49 @@ const Rectangle = styled.div`
 const CompaniesBids = (props) => {
   console.log("props", props.offer_data);
   let offer_data = props.offer_data;
+
+  const download = (file) => {
+    console.log(file);
+    if (file) {
+      let download_files = JSON.parse(file);
+      download_files.map((element) => {
+        let data = {
+          file: element,
+        };
+        fileDownload(data).then((res) => {
+          if (res.isError || res.shouldLogin) {
+            console.error("errors");
+          }
+          if (res.error) {
+            console.error("error");
+          }
+          console.log("I am download", res);
+          const url = window.URL.createObjectURL(
+            new Blob([res.data], {
+              type: "image/pdf",
+            })
+          );
+          console.log("link", url);
+
+          const link = document.createElement("a");
+
+          link.href = url;
+
+          link.setAttribute("download", element.split("/")[4]);
+
+          link.click();
+        });
+      });
+    }
+  };
+
+  let user_type = JSON.parse(localStorage.getItem("user")).type;
+
+  const handleClick = (element) => {
+    console.log(element.files);
+    if (user_type === "admin") download(element.files);
+    else props.history.push(`/users/reactions/${element.id}`);
+  };
   return (
     <Rectangle>
       <h1>Biedingen van bedrijven</h1>
@@ -111,16 +155,12 @@ const CompaniesBids = (props) => {
                   </div>
 
                   <div className="secondDiv">
-                    <span>{offer_data[0].name}</span>
+                    <span>{element.company_name}</span>
                     <span>€ {element.bid}</span>
                   </div>
                   <div className="lastDiv">
-                    <span
-                      onClick={() => {
-                        props.history.push(`/users/reactions/${element.id}`);
-                      }}
-                    >
-                      Bekijken
+                    <span onClick={() => handleClick(element)}>
+                      {user_type === "admin" ? "Download" : "Bekijkens"}
                     </span>
                   </div>
                 </div>
