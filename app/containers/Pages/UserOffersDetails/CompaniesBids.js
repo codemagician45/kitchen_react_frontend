@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import pdfImage from "../../../../images/pdf.svg";
 import styled from "styled-components";
 import dummy from "dan-api/dummy/dummyContents";
+import config from "../../../actions/config";
 
 const Rectangle = styled.div`
   border-radius: 20px;
@@ -93,28 +94,37 @@ const CompaniesBids = (props) => {
       <h1>Biedingen van bedrijven</h1>
       {offer_data.length
         ? offer_data[0].bid.map((element, index) => {
-          console.log(element)
-            return (
-              <div className="offersList" key={index}>
-                <div className="firstDiv">
-                  <img src={element.photo?element.photo:dummy.user.avatar} alt="" style={{borderRadius: "5px"}}/>
-                </div>
+            console.log(element);
+            if (element.bid)
+              return (
+                <div className="offersList" key={index}>
+                  <div className="firstDiv">
+                    <img
+                      src={
+                        element.photo
+                          ? `${config.fetchLinkUrl}${element.photo}`
+                          : dummy.user.avatar
+                      }
+                      alt=""
+                      style={{ borderRadius: "5px" }}
+                    />
+                  </div>
 
-                <div className="secondDiv">
-                  <span>Keukenconcurrent</span>
-                  <span>€ {element.bid}</span>
+                  <div className="secondDiv">
+                    <span>{offer_data[0].name}</span>
+                    <span>€ {element.bid}</span>
+                  </div>
+                  <div className="lastDiv">
+                    <span
+                      onClick={() => {
+                        props.history.push(`/users/reactions/${element.id}`);
+                      }}
+                    >
+                      Bekijken
+                    </span>
+                  </div>
                 </div>
-                <div className="lastDiv">
-                  <span
-                    onClick={() => {
-                      props.history.push(`/users/reactions/${element.id}`);
-                    }}
-                  >
-                    Bekijken
-                  </span>
-                </div>
-              </div>
-            );
+              );
           })
         : ""}
       {/* <div className="offersList">
