@@ -44,14 +44,14 @@ const UserOffersReactions = (props) => {
       <div>
         <HedearText>
           <span className="text-style-1">Offertereactie: </span>
-          Keukenconcurrent
+          {bidData ? bidData.profile.company_name : ""}
         </HedearText>
         <Grid container spacing={3}>
           <Grid xs={12} md={5} item>
             <ReactionDetails bid_data={bidData} />
           </Grid>
           <Grid xs={12} md={5} item>
-            <CompaniesProfile bid_data={bidData}  />
+            <CompaniesProfile bid_data={bidData} />
           </Grid>
         </Grid>
       </div>
