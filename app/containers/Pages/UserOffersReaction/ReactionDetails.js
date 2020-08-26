@@ -5,8 +5,15 @@ import MessageIcon from "@material-ui/icons/Message";
 import { Button } from "@material-ui/core";
 import { DetailsContainer } from "./style";
 import { fileDownload, acceptBid } from "../../../data/data";
+import Snackbar from "@material-ui/core/Snackbar";
+import SnackbarContent from "@material-ui/core/SnackbarContent";
 
 const ReactionDetails = (props) => {
+  const [snackbarSatus, setSnackbarStatus] = useState({
+    open: false,
+    color: "",
+    message: "",
+  });
   let bidData = props.bid_data ? props.bid_data : null;
   console.log(bidData);
 
@@ -46,6 +53,16 @@ const ReactionDetails = (props) => {
     }
   };
 
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      setSnackbarStatus({
+        open: false,
+        color: "",
+        message: "",
+      });
+    }
+  };
+
   const accept_bid = () => {
     let data = {
       company_id: bidData.user_id,
@@ -59,11 +76,32 @@ const ReactionDetails = (props) => {
       if (res.error) {
         console.error("error");
       }
-      console.log("I am accept bid", res);
+      console.log("I am accept bid", res.data);
+      if (res.data.success)
+        setSnackbarStatus({
+          open: true,
+          color: "green",
+          message: "Success",
+        });
     });
   };
   return (
     <div>
+      <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        open={snackbarSatus.open}
+        onClose={handleClose}
+      >
+        <SnackbarContent
+          aria-describedby="message-id2"
+          style={{ backgroundColor: snackbarSatus.color }}
+          message={
+            <span id="message-id2">
+              <div>{snackbarSatus.message}</div>
+            </span>
+          }
+        />
+      </Snackbar>
       <DetailsContainer>
         <h1>Bieding</h1>
         <div className="blueDiv">
