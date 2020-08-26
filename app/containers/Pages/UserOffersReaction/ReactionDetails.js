@@ -152,6 +152,7 @@ const ReactionDetails = (props) => {
               className="button"
               size="middle"
               onClick={accept_bid}
+              disabled={bidData && bidData.offer.attend_id ? true : false}
             >
               BOOD ACCEPTEREM
             </Button>

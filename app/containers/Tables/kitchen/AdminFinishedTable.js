@@ -59,14 +59,15 @@ const AdminFinishedTable = (props) => {
         let row_data = [
           element.type,
           element.createdAt.split("T")[0],
-          element.profile.first_name,
-          element.profile.city,
+          element.profile.email,
+          element.city,
           "€ 50",
-          "€ 10.500",
-          element.id
-        ]
+          "",
+          "",
+          element.id,
+        ];
         table_data.push(row_data);
-      })
+      });
       setTableData(table_data);
     });
   }, []);
