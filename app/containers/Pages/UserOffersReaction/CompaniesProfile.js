@@ -14,15 +14,18 @@ const CompaniesProfile = (props) => {
   return (
     <Rectangle>
       <h1>Bedrijsprofiel</h1>
-      <img
-        src={
-          bid_data
-            ? bid_data.profile.photo
+      {bid_data && bid_data.profile ? (
+        <img
+          src={
+            bid_data.profile.photo
               ? config.fetchLinkUrl + bid_data.profile.photo
               : Image
-            : ""
-        }
-      />
+          }
+        />
+      ) : (
+        ""
+      )}
+
       {/* <h1>Over Keukenconcurrent</h1> */}
       <div className="openWorks">
         <span>
