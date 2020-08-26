@@ -109,7 +109,7 @@ const CompanyArrangedTable = (props) => {
           element.createdAt.split("T")[0],
           element.offerDetail ? element.offerDetail.city : "",
           element.reactionCount,
-          element.offerDetail ? element.offerDetail.id : "",
+          element.offer_id,
         ];
         table_data.push(row_data);
       });

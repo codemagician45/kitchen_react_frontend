@@ -125,7 +125,6 @@ const NewOffer = (props) => {
         data.append("files[]", files[i], files[i].name);
       }
       data.append("bid", JSON.stringify(bid_data));
-      console.log(data);
       becomeBidder(data).then((res) => {
         if (res.isError || res.shouldLogin) {
           console.error("errors");

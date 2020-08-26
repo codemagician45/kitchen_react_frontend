@@ -3,6 +3,7 @@ import { Grid, Button } from "@material-ui/core";
 import OffersDetails from "./OffersDetails";
 import CompaniesBids from "./CompaniesBids";
 import NewOffer from "./NewOffer";
+import BidData from "./BidData";
 import BlankPage from "../BlankPage";
 
 import styled from "styled-components";
@@ -64,9 +65,9 @@ const CompanyOffersDetails = (props) => {
       <div>
         <HedearText>
           <span className="text-style-1">Offertedetails: </span>
-          {offerData?offerData.name:""}
+          {offerData ? offerData.name : ""}
         </HedearText>
-        {renderStatus(offerData?offerData.status:"")}
+        {renderStatus(offerData ? offerData.status : "")}
         <Grid container spacing={3}>
           <Grid xs={12} md={4} item>
             <OffersDetails history={props.history} offer_data={offerData} />
@@ -80,7 +81,18 @@ const CompanyOffersDetails = (props) => {
         </HedearText1>
         <Grid container spacing={3}>
           <Grid xs={12} md={5} item>
-            <NewOffer history={props.history} offer_id = {offerData?offerData.id:""} />
+            {offerData ? (
+              offerData.attend_id ? (
+                <BidData bid_data={offerData.bid[0]} />
+              ) : (
+                <NewOffer
+                  history={props.history}
+                  offer_id={offerData ? offerData.id : ""}
+                />
+              )
+            ) : (
+              ""
+            )}
           </Grid>
         </Grid>
       </div>
