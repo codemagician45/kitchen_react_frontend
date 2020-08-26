@@ -4,7 +4,7 @@ import pdfImage from "../../../../images/pdf.svg";
 import MessageIcon from "@material-ui/icons/Message";
 import { Button } from "@material-ui/core";
 import { DetailsContainer } from "./style";
-import { fileDownload } from "../../../data/data";
+import { fileDownload, acceptBid } from "../../../data/data";
 
 const ReactionDetails = (props) => {
   let bidData = props.bid_data ? props.bid_data : null;
@@ -44,6 +44,23 @@ const ReactionDetails = (props) => {
         });
       });
     }
+  };
+
+  const accept_bid = () => {
+    let data = {
+      company_id: bidData.user_id,
+      offer_id: bidData.offer.id,
+    };
+    console.log(data);
+    acceptBid(data).then((res) => {
+      if (res.isError || res.shouldLogin) {
+        console.error("errors");
+      }
+      if (res.error) {
+        console.error("error");
+      }
+      console.log("I am accept bid", res);
+    });
   };
   return (
     <div>
@@ -95,7 +112,8 @@ const ReactionDetails = (props) => {
               variant="contained"
               color="primary"
               className="button"
-              size="large"
+              size="middle"
+              onClick={accept_bid}
             >
               BOOD ACCEPTEREM
             </Button>

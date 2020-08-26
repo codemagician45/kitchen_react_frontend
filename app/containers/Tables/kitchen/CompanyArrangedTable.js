@@ -105,11 +105,11 @@ const CompanyArrangedTable = (props) => {
       let table_data = [];
       res.data.biddedNotPriceOffers.map((element) => {
         let row_data = [
-          element.offerDetail.name,
+          element.offerDetail ? element.offerDetail.name : "",
           element.createdAt.split("T")[0],
-          element.offerDetail.city,
+          element.offerDetail ? element.offerDetail.city : "",
           element.reactionCount,
-          element.offerDetail.id,
+          element.offerDetail ? element.offerDetail.id : "",
         ];
         table_data.push(row_data);
       });

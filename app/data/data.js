@@ -554,6 +554,23 @@ function getBidInfo(data) {
     });
 }
 
+function acceptBid(data) {
+  return axios({
+    method: "POST",
+    headers: { Authorization: "Bearer " + localStorage.getItem("token") },
+    url: `${config.fetchLinkUrl}users/attendOffer`,
+    data: data,
+  })
+    .then((res) => {
+      console.log(res);
+      return res;
+    })
+    .catch((error) => {
+      console.log(error.response.data);
+      return error;
+    });
+}
+
 export {
   login,
   googleLogin,
@@ -587,4 +604,5 @@ export {
   updateStatusOffer,
   becomeBidder,
   getBidInfo,
+  acceptBid,
 };
