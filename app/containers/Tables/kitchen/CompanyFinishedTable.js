@@ -61,13 +61,19 @@ const CompanyFinishedTable = (props) => {
       },
     },
     {
-      name: "Afspraak",
+      name: "Postcode",
       options: {
         filter: true,
       },
     },
     {
-      name: "Beoordeling",
+      name: "Huisnummer",
+      options: {
+        filter: true,
+      },
+    },
+    {
+      name: "Telefoon nummer",
       options: {
         filter: true,
       },
@@ -79,16 +85,6 @@ const CompanyFinishedTable = (props) => {
         customBodyRender: (value) => renderLink(value),
       },
     },
-  ];
-  const data = [
-    [
-      "Modernkeuken 25 Offerte vergelijken",
-      "18-08-2019",
-      "Rotterdam, NL",
-      "1 december 2019",
-      "***",
-      "1",
-    ],
   ];
 
   const [tableData, setTableData] = useState([]);
@@ -103,13 +99,14 @@ const CompanyFinishedTable = (props) => {
       }
       console.log("I am here", res.data);
       let table_data = [];
-      res.data.doneOffers.map((element) => {
+      res.data.attendedOffers.map((element) => {
         let row_data = [
           element.type,
-          element.createAt.split("T"),
+          element.createdAt.split("T")[0],
           element.city,
-          "1 december 2019",
-          "***",
+          element.postcode,
+          element.house_number,
+          element.telephone_number,
           element.id,
         ];
         table_data.push(row_data);

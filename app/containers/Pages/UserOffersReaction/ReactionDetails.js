@@ -14,6 +14,14 @@ const ReactionDetails = (props) => {
     color: "",
     message: "",
   });
+  const [disableButton, setDisableButton] = useState(true);
+  useEffect(() => {
+    if (props.bid_data) {
+      if (props.bid_data.offer.attend_id) setDisableButton(true);
+      else setDisableButton(false);
+    }
+  }, [props.bid_data]);
+
   let bidData = props.bid_data ? props.bid_data : null;
   console.log(bidData);
 
@@ -77,12 +85,14 @@ const ReactionDetails = (props) => {
         console.error("error");
       }
       console.log("I am accept bid", res.data);
-      if (res.data.success)
+      if (res.data.success) {
         setSnackbarStatus({
           open: true,
           color: "green",
           message: "Success",
         });
+        setDisableButton(true);
+      }
     });
   };
   return (
@@ -152,7 +162,7 @@ const ReactionDetails = (props) => {
               className="button"
               size="middle"
               onClick={accept_bid}
-              disabled={bidData && bidData.offer.attend_id ? true : false}
+              disabled={disableButton}
             >
               BOOD ACCEPTEREM
             </Button>
