@@ -10,7 +10,7 @@ import React, { useState, useEffect } from "react";
 import { withStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
 import MUIDataTable from "mui-datatables";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { Button } from "@material-ui/core";
 import css from "dan-styles/Buttons.scss";
 import css2 from "./index.scss";
@@ -33,10 +33,6 @@ const styles = (theme) => ({
       },
     },
   },
-});
-const LinkBtn = React.forwardRef(function LinkBtn(props, ref) {
-  // eslint-disable-line
-  return <Link to={props.to} {...props} innerRef={ref} />; // eslint-disable-line
 });
 /*
   It uses npm mui-datatables. It's easy to use, you just describe columns and data collection.
@@ -64,6 +60,7 @@ const AdminFinishedTable = (props) => {
           "€ 50",
           "",
           "",
+          element.reactionCount,
           element.id,
         ];
         table_data.push(row_data);
@@ -116,6 +113,12 @@ const AdminFinishedTable = (props) => {
       },
     },
     {
+      name: "Reacties",
+      options: {
+        filter: false,
+      },
+    },
+    {
       name: "",
       options: {
         filter: false,
@@ -123,25 +126,23 @@ const AdminFinishedTable = (props) => {
       },
     },
   ];
-  const data = [
-    [
-      "Modernkeuken 23 Offerte vergelijken",
-      "18-08-2019",
-      "Ali Oz",
-      "Amsterdam",
-      "€ 12.500",
-      "€ 50",
-      "€ 10.500",
-      "link",
-    ],
-  ];
 
-  const renderLink = (link) => {
+  const renderLink = (id) => {
     return (
-      <Button variant="contained" color="" className={css.seeButton}>
-        BEKIJKEN &nbsp; &#x279C;
+      <Button
+        variant="contained"
+        color=""
+        className={css.seeButton}
+        onClick={() => viewOffer(id)}
+      >
+        BIJWERKEN &nbsp; &#x279C;
       </Button>
     );
+  };
+
+  const viewOffer = (id) => {
+    console.log(id, props);
+    props.history.push(`/admin/offers/${id}`);
   };
 
   const renderType = (value) => {
@@ -171,4 +172,4 @@ AdminFinishedTable.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(AdminFinishedTable);
+export default withStyles(styles)(withRouter(AdminFinishedTable));
