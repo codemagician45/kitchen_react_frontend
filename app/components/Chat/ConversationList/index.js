@@ -4,22 +4,30 @@ import ConversationSearch from '../ConversationSearch';
 import ConversationListItem from '../ConversationListItem';
 import Toolbar from '../Toolbar';
 import ToolbarButton from '../ToolbarButton';
-
+import config from '../../../actions/config';
 import './ConversationList.css';
 
 export default function ConversationList() {
   const [conversations, setConversations] = useState([]);
 
-  const getConversations = () => {
-    axios.get('https://randomuser.me/api/?results=20').then((response) => {
-      const newConversations = response.data.results.map((result) => ({
-        photo: result.picture.large,
-        name: `${result.name.first} ${result.name.last}`,
-        text: 'Hello world! This is a long message that needs to be truncated.',
+  const getConversations = () => axios({
+    method: 'POST',
+    url: 'https://feestvanverbinding.nl/api/users/getRooms',
+    headers: { Authorization: 'Bearer ' + localStorage.getItem('token') },
+  })
+    .then((res) => {
+      console.log('adasda', res.data);
+      const newConversations = res.data.map((result) => ({
+        photo: config.fetchLinkUrl + result.profilePhoto,
+        id: result.id,
+        name: result.companyNameAndSurname,
       }));
-      setConversations([...conversations, ...newConversations]);
+      setConversations(newConversations);
+    })
+    .catch((error) => {
+      console.log(error.response.data);
+      return error;
     });
-  };
   useEffect(() => {
     getConversations();
   }, []);
