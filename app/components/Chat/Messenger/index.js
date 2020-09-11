@@ -1,36 +1,63 @@
-import React from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import ConversationList from '../ConversationList';
 import MessageList from '../MessageList';
 import './Messenger.css';
+import axios from 'axios';
 
 export default function Messenger() {
+  const [selectedRoomId, setSelectedRoomId] = useState();
+  const [messages, setMessages] = useState();
+
+  const handleClickRoom = useCallback((roomId) => {
+    setSelectedRoomId(roomId);
+  }, []);
+
+  const getConversations = () => axios({
+    method: 'POST',
+    url: 'https://feestvanverbinding.nl/api/users/messages',
+    headers: { Authorization: 'Bearer ' + localStorage.getItem('token') },
+    data: {
+      room_id: selectedRoomId,
+    },
+  })
+    .then((res) => {
+      const formattedMessages = res.data.messages.map((message) => ({
+        id: message.id,
+        message: message.message,
+        isRead: message.isRead,
+        author: message.sender,
+        timestamp: Number(message.date),
+        type: message.type,
+      }));
+      console.log(formattedMessages);
+      setMessages(formattedMessages);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+
+  useEffect(() => {
+    if (selectedRoomId) {
+      getConversations();
+    }
+  }, [selectedRoomId]);
+
   return (
     <div className="messenger">
-      {/* <Toolbar
-          title="Messenger"
-          leftItems={[
-            <ToolbarButton key="cog" icon="ion-ios-cog" />
-          ]}
-          rightItems={[
-            <ToolbarButton key="add" icon="ion-ios-add-circle-outline" />
-          ]}
-        /> */}
-
-      {/* <Toolbar
-          title="Conversation Title"
-          rightItems={[
-            <ToolbarButton key="info" icon="ion-ios-information-circle-outline" />,
-            <ToolbarButton key="video" icon="ion-ios-videocam" />,
-            <ToolbarButton key="phone" icon="ion-ios-call" />
-          ]}
-        /> */}
-
       <div className="scrollable sidebar">
-        <ConversationList />
+        <ConversationList handleClickRoom={handleClickRoom} />
       </div>
 
-      <div className="scrollable content">
-        <MessageList />
+      <div className="scrollable sidebar">
+        {selectedRoomId ? (
+          <MessageList
+            roomId={selectedRoomId}
+            chatMessages={messages}
+            setChatMessages={setMessages}
+          />
+        ) : (
+          <h4>Where is room?</h4>
+        )}
       </div>
     </div>
   );

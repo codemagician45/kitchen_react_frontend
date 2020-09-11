@@ -7,7 +7,7 @@ import ToolbarButton from '../ToolbarButton';
 import config from '../../../actions/config';
 import './ConversationList.css';
 
-export default function ConversationList() {
+export default function ConversationList({ handleClickRoom }) {
   const [conversations, setConversations] = useState([]);
 
   const getConversations = () => axios({
@@ -16,10 +16,9 @@ export default function ConversationList() {
     headers: { Authorization: 'Bearer ' + localStorage.getItem('token') },
   })
     .then((res) => {
-      console.log('adasda', res.data);
       const newConversations = res.data.map((result) => ({
         photo: config.fetchLinkUrl + result.profilePhoto,
-        id: result.id,
+        roomId: result.id,
         name: result.companyNameAndSurname,
       }));
       setConversations(newConversations);
@@ -42,7 +41,11 @@ export default function ConversationList() {
       />
       <ConversationSearch />
       {conversations.map((conversation) => (
-        <ConversationListItem key={conversation.name} data={conversation} />
+        <ConversationListItem
+          handleClickRoom={handleClickRoom}
+          key={conversation.name}
+          data={conversation}
+        />
       ))}
     </div>
   );
