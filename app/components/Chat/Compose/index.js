@@ -4,6 +4,8 @@ import PropTypes from "prop-types";
 import Button from "@material-ui/core/Button";
 import axios from "axios";
 import pluralUserTypeBuilder from "../../../utils/pluralUserTypeBuilder";
+import AttachFileIcon from "@material-ui/icons/AttachFile";
+import IconButton from "@material-ui/core/IconButton";
 
 export default function Compose({ roomId, chatMessages, setChatMessages }) {
   const [message, setMessage] = useState();
@@ -47,7 +49,37 @@ export default function Compose({ roomId, chatMessages, setChatMessages }) {
   useEffect(() => {
     const userInfo = JSON.parse(localStorage.getItem("user"));
     setUserType(userInfo.type);
+    console.log(userInfo);
   }, []);
+
+  const handleFileUpload = useCallback(
+    (event) => {
+      const selectedFile = event.target.files[0];
+      // Create an object of formData
+      const formData = new FormData();
+
+      // Update the formData object
+      formData.append("file", selectedFile, selectedFile.name);
+      formData.append("room_id", roomId);
+
+      // Request made to the backend api
+      // Send formData object
+      const pluralUserType = pluralUserTypeBuilder(userType);
+      axios({
+        method: "POST",
+        url: `https://feestvanverbinding.nl/api/${pluralUserType}/sendFileViaMessage`,
+        headers: { Authorization: "Bearer " + localStorage.getItem("token") },
+        data: formData,
+      })
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    [userType]
+  );
 
   return (
     <div className="compose">
@@ -74,6 +106,22 @@ export default function Compose({ roomId, chatMessages, setChatMessages }) {
       >
         Send
       </Button>
+
+      <label htmlFor="icon-button-file">
+        <IconButton
+          color="primary"
+          aria-label="upload picture"
+          component="span"
+        >
+          <AttachFileIcon />
+        </IconButton>
+        <input
+          id="icon-button-file"
+          style={{ display: "none" }}
+          type="file"
+          onChange={handleFileUpload}
+        />
+      </label>
     </div>
   );
 }
