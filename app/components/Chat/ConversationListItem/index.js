@@ -1,14 +1,14 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import React, { useEffect } from 'react';
-import shave from 'shave';
-import './ConversationListItem.css';
+import React, { useEffect } from "react";
+import shave from "shave";
+import "./ConversationListItem.css";
 
 export default function ConversationListItem({ handleClickRoom, data }) {
   const { photo, name, roomId } = data;
 
   useEffect(() => {
-    shave('.conversation-snippet', 20);
+    shave(".conversation-snippet", 20);
   });
 
   return (

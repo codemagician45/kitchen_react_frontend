@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import ConversationSearch from '../ConversationSearch';
-import ConversationListItem from '../ConversationListItem';
-import Toolbar from '../Toolbar';
-import ToolbarButton from '../ToolbarButton';
-import config from '../../../actions/config';
-import './ConversationList.css';
-import pluralUserTypeBuilder from '../../../utils/pluralUserTypeBuilder';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import ConversationSearch from "../ConversationSearch";
+import ConversationListItem from "../ConversationListItem";
+import Toolbar from "../Toolbar";
+import ToolbarButton from "../ToolbarButton";
+import config from "../../../actions/config";
+import "./ConversationList.css";
+import pluralUserTypeBuilder from "../../../utils/pluralUserTypeBuilder";
 
 export default function ConversationList({ handleClickRoom }) {
   const [conversations, setConversations] = useState([]);
@@ -15,15 +15,16 @@ export default function ConversationList({ handleClickRoom }) {
   const getConversations = () => {
     const pluralUserType = pluralUserTypeBuilder(userType);
     axios({
-      method: 'POST',
+      method: "POST",
       url: `https://feestvanverbinding.nl/api/${pluralUserType}/getRooms`,
-      headers: { Authorization: 'Bearer ' + localStorage.getItem('token') },
+      headers: { Authorization: "Bearer " + localStorage.getItem("token") },
     })
       .then((res) => {
+        console.log(res);
         const newConversations = res.data.map((result) => ({
           photo: config.fetchLinkUrl + result.profilePhoto,
           roomId: result.id,
-          name: result.companyNameAndSurname,
+          name: result.nameAndSurname,
         }));
         setConversations(newConversations);
       })
@@ -34,7 +35,7 @@ export default function ConversationList({ handleClickRoom }) {
   };
 
   useEffect(() => {
-    const userInfo = JSON.parse(localStorage.getItem('user'));
+    const userInfo = JSON.parse(localStorage.getItem("user"));
     setUserType(userInfo.type);
   }, []);
 
@@ -52,7 +53,6 @@ export default function ConversationList({ handleClickRoom }) {
           <ToolbarButton key="add" icon="ion-ios-add-circle-outline" />,
         ]}
       />
-      <ConversationSearch />
       {conversations.map((conversation) => (
         <ConversationListItem
           handleClickRoom={handleClickRoom}

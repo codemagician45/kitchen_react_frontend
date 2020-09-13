@@ -1,11 +1,9 @@
-import React, {
-  useCallback, useState, useRef, useEffect
-} from 'react';
-import './Compose.css';
-import PropTypes from 'prop-types';
-import Button from '@material-ui/core/Button';
-import axios from 'axios';
-import pluralUserTypeBuilder from '../../../utils/pluralUserTypeBuilder';
+import React, { useCallback, useState, useRef, useEffect } from "react";
+import "./Compose.css";
+import PropTypes from "prop-types";
+import Button from "@material-ui/core/Button";
+import axios from "axios";
+import pluralUserTypeBuilder from "../../../utils/pluralUserTypeBuilder";
 
 export default function Compose({ roomId, chatMessages, setChatMessages }) {
   const [message, setMessage] = useState();
@@ -13,12 +11,12 @@ export default function Compose({ roomId, chatMessages, setChatMessages }) {
   const [userType, setUserType] = useState();
 
   const handleSendMessage = useCallback(() => {
-    if (message) {
+    if (message && userType !== "admin") {
       const pluralUserType = pluralUserTypeBuilder(userType);
       axios({
-        method: 'POST',
+        method: "POST",
         url: `https://feestvanverbinding.nl/api/${pluralUserType}/sendMessage`,
-        headers: { Authorization: 'Bearer ' + localStorage.getItem('token') },
+        headers: { Authorization: "Bearer " + localStorage.getItem("token") },
         data: {
           room_id: roomId,
           message,
@@ -31,13 +29,13 @@ export default function Compose({ roomId, chatMessages, setChatMessages }) {
               ...chatMessages,
               {
                 message,
-                author: 'me',
+                author: "me",
                 date: new Date().getTime(),
                 isRead: false,
-                type: 'text',
+                type: "text",
               },
             ]);
-            inputRef.current.value = '';
+            inputRef.current.value = "";
           }
         })
         .catch((error) => {
@@ -47,26 +45,28 @@ export default function Compose({ roomId, chatMessages, setChatMessages }) {
   }, [roomId, message, inputRef]);
 
   useEffect(() => {
-    const userInfo = JSON.parse(localStorage.getItem('user'));
+    const userInfo = JSON.parse(localStorage.getItem("user"));
     setUserType(userInfo.type);
   }, []);
 
   return (
     <div className="compose">
       <input
+        disabled={userType === "admin"}
         ref={inputRef}
         type="text"
         className="compose-input"
         placeholder="Type a message, @name"
         onChange={(e) => setMessage(e.target.value)}
         onKeyDown={(e) => {
-          if (e.key === 'Enter') {
+          if (e.key === "Enter") {
             handleSendMessage();
           }
         }}
       />
 
       <Button
+        disabled={userType === "admin"}
         size="small"
         variant="outlined"
         color="secondary"

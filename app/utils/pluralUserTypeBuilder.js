@@ -1,11 +1,11 @@
 const pluralUserTypeBuilder = (userType) => {
   switch (userType) {
-    case 'company':
-      return 'companies';
-    case 'admin':
-      return 'admin';
+    case "company":
+      return "companies";
+    case "admin":
+      return "admin/dashboard";
     default:
-      return 'users';
+      return "users";
   }
 };
 export default pluralUserTypeBuilder;
