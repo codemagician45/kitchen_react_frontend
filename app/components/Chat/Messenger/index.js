@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import axios from 'axios';
 import ConversationList from '../ConversationList';
 import MessageList from '../MessageList';
 import './Messenger.css';
-import axios from 'axios';
 
 export default function Messenger() {
   const [selectedRoomId, setSelectedRoomId] = useState();
@@ -56,7 +56,7 @@ export default function Messenger() {
             setChatMessages={setMessages}
           />
         ) : (
-          <h4>Where is room?</h4>
+          <h4 className="h4-center">Where is room?</h4>
         )}
       </div>
     </div>
