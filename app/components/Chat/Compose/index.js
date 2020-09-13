@@ -1,18 +1,23 @@
-import React, { useCallback, useState, useRef } from 'react';
+import React, {
+  useCallback, useState, useRef, useEffect
+} from 'react';
 import './Compose.css';
 import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
 import axios from 'axios';
+import pluralUserTypeBuilder from '../../../utils/pluralUserTypeBuilder';
 
 export default function Compose({ roomId, chatMessages, setChatMessages }) {
   const [message, setMessage] = useState();
   const inputRef = useRef();
+  const [userType, setUserType] = useState();
 
   const handleSendMessage = useCallback(() => {
     if (message) {
+      const pluralUserType = pluralUserTypeBuilder(userType);
       axios({
         method: 'POST',
-        url: 'https://feestvanverbinding.nl/api/users/sendMessage',
+        url: `https://feestvanverbinding.nl/api/${pluralUserType}/sendMessage`,
         headers: { Authorization: 'Bearer ' + localStorage.getItem('token') },
         data: {
           room_id: roomId,
@@ -40,6 +45,11 @@ export default function Compose({ roomId, chatMessages, setChatMessages }) {
         });
     }
   }, [roomId, message, inputRef]);
+
+  useEffect(() => {
+    const userInfo = JSON.parse(localStorage.getItem('user'));
+    setUserType(userInfo.type);
+  }, []);
 
   return (
     <div className="compose">

@@ -1,40 +1,50 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import axios from 'axios';
 import ConversationList from '../ConversationList';
 import MessageList from '../MessageList';
 import './Messenger.css';
-import axios from 'axios';
+import pluralUserTypeBuilder from '../../../utils/pluralUserTypeBuilder';
 
 export default function Messenger() {
   const [selectedRoomId, setSelectedRoomId] = useState();
   const [messages, setMessages] = useState();
+  const [userType, setUserType] = useState();
 
   const handleClickRoom = useCallback((roomId) => {
     setSelectedRoomId(roomId);
   }, []);
 
-  const getConversations = () => axios({
-    method: 'POST',
-    url: 'https://feestvanverbinding.nl/api/users/messages',
-    headers: { Authorization: 'Bearer ' + localStorage.getItem('token') },
-    data: {
-      room_id: selectedRoomId,
-    },
-  })
-    .then((res) => {
-      const formattedMessages = res.data.messages.map((message) => ({
-        id: message.id,
-        message: message.message,
-        isRead: message.isRead,
-        author: message.sender,
-        timestamp: Number(message.date),
-        type: message.type,
-      }));
-      console.log(formattedMessages);
-      setMessages(formattedMessages);
+  const getConversations = () => {
+    const pluralUserType = pluralUserTypeBuilder(userType);
+    axios({
+      method: 'POST',
+      url: `https://feestvanverbinding.nl/api/${pluralUserType}/messages`,
+      headers: { Authorization: 'Bearer ' + localStorage.getItem('token') },
+      data: {
+        room_id: selectedRoomId,
+      },
     })
-    .catch((error) => {
-      console.log(error);
-    });
+      .then((res) => {
+        const formattedMessages = res.data.messages.map((message) => ({
+          id: message.id,
+          message: message.message,
+          isRead: message.isRead,
+          author: message.sender,
+          timestamp: Number(message.date),
+          type: message.type,
+        }));
+        console.log(formattedMessages);
+        setMessages(formattedMessages);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    const userInfo = JSON.parse(localStorage.getItem('user'));
+    setUserType(userInfo.type);
+  }, []);
 
   useEffect(() => {
     if (selectedRoomId) {

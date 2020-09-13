@@ -6,34 +6,47 @@ import Toolbar from '../Toolbar';
 import ToolbarButton from '../ToolbarButton';
 import config from '../../../actions/config';
 import './ConversationList.css';
+import pluralUserTypeBuilder from '../../../utils/pluralUserTypeBuilder';
 
 export default function ConversationList({ handleClickRoom }) {
   const [conversations, setConversations] = useState([]);
+  const [userType, setUserType] = useState();
 
-  const getConversations = () => axios({
-    method: 'POST',
-    url: 'https://feestvanverbinding.nl/api/users/getRooms',
-    headers: { Authorization: 'Bearer ' + localStorage.getItem('token') },
-  })
-    .then((res) => {
-      const newConversations = res.data.map((result) => ({
-        photo: config.fetchLinkUrl + result.profilePhoto,
-        roomId: result.id,
-        name: result.companyNameAndSurname,
-      }));
-      setConversations(newConversations);
+  const getConversations = () => {
+    const pluralUserType = pluralUserTypeBuilder(userType);
+    axios({
+      method: 'POST',
+      url: `https://feestvanverbinding.nl/api/${pluralUserType}/getRooms`,
+      headers: { Authorization: 'Bearer ' + localStorage.getItem('token') },
     })
-    .catch((error) => {
-      console.log(error.response.data);
-      return error;
-    });
+      .then((res) => {
+        const newConversations = res.data.map((result) => ({
+          photo: config.fetchLinkUrl + result.profilePhoto,
+          roomId: result.id,
+          name: result.companyNameAndSurname,
+        }));
+        setConversations(newConversations);
+      })
+      .catch((error) => {
+        console.log(error.response.data);
+        return error;
+      });
+  };
+
   useEffect(() => {
-    getConversations();
+    const userInfo = JSON.parse(localStorage.getItem('user'));
+    setUserType(userInfo.type);
   }, []);
+
+  useEffect(() => {
+    if (userType) {
+      getConversations();
+    }
+  }, [userType]);
   return (
     <div className="conversation-list">
       <Toolbar
-        title="Messenger"
+        title=""
         leftItems={[<ToolbarButton key="cog" icon="ion-ios-cog" />]}
         rightItems={[
           <ToolbarButton key="add" icon="ion-ios-add-circle-outline" />,

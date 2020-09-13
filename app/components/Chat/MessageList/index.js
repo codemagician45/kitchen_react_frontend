@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import moment from 'moment';
-import Compose from '../Compose';
-import Toolbar from '../Toolbar';
-import ToolbarButton from '../ToolbarButton';
-import Message from '../Message';
+import React from "react";
+import moment from "moment";
+import PropTypes from "prop-types";
+import Compose from "../Compose";
+import Toolbar from "../Toolbar";
+import ToolbarButton from "../ToolbarButton";
+import Message from "../Message";
 
-import './MessageList.css';
+import "./MessageList.css";
 
-const MY_USER_ID = 'me';
+const MY_USER_ID = "me";
 
 export default function MessageList({ chatMessages, setChatMessages, roomId }) {
   const renderMessages = () => {
@@ -34,11 +35,11 @@ export default function MessageList({ chatMessages, setChatMessages, roomId }) {
         );
         prevBySameAuthor = previous.author === current.author;
 
-        if (prevBySameAuthor && previousDuration.as('hours') < 1) {
+        if (prevBySameAuthor && previousDuration.as("hours") < 1) {
           startsSequence = false;
         }
 
-        if (previousDuration.as('hours') < 1) {
+        if (previousDuration.as("hours") < 1) {
           showTimestamp = false;
         }
       }
@@ -48,7 +49,7 @@ export default function MessageList({ chatMessages, setChatMessages, roomId }) {
         const nextDuration = moment.duration(nextMoment.diff(currentMoment));
         nextBySameAuthor = next.author === current.author;
 
-        if (nextBySameAuthor && nextDuration.as('hours') < 1) {
+        if (nextBySameAuthor && nextDuration.as("hours") < 1) {
           endsSequence = false;
         }
       }
@@ -74,7 +75,7 @@ export default function MessageList({ chatMessages, setChatMessages, roomId }) {
   return (
     <div className="message-list">
       <Toolbar
-        title="Conversation Title"
+        title=""
         rightItems={[
           <ToolbarButton
             key="info"
@@ -105,3 +106,9 @@ export default function MessageList({ chatMessages, setChatMessages, roomId }) {
     </div>
   );
 }
+
+MessageList.propTypes = {
+  chatMessages: PropTypes.array,
+  setChatMessages: PropTypes.func,
+  roomId: PropTypes.number,
+};
