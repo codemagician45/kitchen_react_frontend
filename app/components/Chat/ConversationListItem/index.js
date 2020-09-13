@@ -6,7 +6,6 @@ import "./ConversationListItem.css";
 
 export default function ConversationListItem({ handleClickRoom, data }) {
   const { photo, name, roomId } = data;
-
   useEffect(() => {
     shave(".conversation-snippet", 20);
   });

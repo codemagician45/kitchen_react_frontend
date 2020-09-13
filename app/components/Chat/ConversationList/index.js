@@ -14,15 +14,17 @@ export default function ConversationList({ handleClickRoom }) {
 
   const getConversations = () => {
     const pluralUserType = pluralUserTypeBuilder(userType);
+    const placeholderImagePath = "/images/avatars/pp_boy.svg";
     axios({
       method: "POST",
       url: `https://feestvanverbinding.nl/api/${pluralUserType}/getRooms`,
       headers: { Authorization: "Bearer " + localStorage.getItem("token") },
     })
       .then((res) => {
-        console.log(res);
         const newConversations = res.data.map((result) => ({
-          photo: config.fetchLinkUrl + result.profilePhoto,
+          photo: result.fetchLinkUrl
+            ? `${config.fetchLinkUrl}${result.fetchLinkUrl}`
+            : placeholderImagePath,
           roomId: result.id,
           name: result.nameAndSurname,
         }));
