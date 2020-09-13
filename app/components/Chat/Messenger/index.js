@@ -66,7 +66,7 @@ export default function Messenger() {
             setChatMessages={setMessages}
           />
         ) : (
-          <h4 className="h4-center">Where is room?</h4>
+          <h4 className="h4-center">WVælg et værelse ..</h4>
         )}
       </div>
     </div>
